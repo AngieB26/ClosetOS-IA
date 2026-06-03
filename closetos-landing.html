@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ClosetOS AI · Reinventa tu ropa. Transforma tu estilo.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --purple-deep:#26215C; --purple-main:#534AB7; --purple-light:#EEEDFE;
+      --purple-mid:#AFA9EC; --purple-soft:#CECBF6;
+      --green-main:#9FE1CB; --green-dark:#0F6E56; --green-light:#E6F7F2;
+      --text-dark:#1a1a1a; --text-mid:#444; --text-soft:#777;
+      --white:#ffffff; --bg-off:#FAFAFE; --border:#e8e8e8;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;color:var(--text-dark);background:var(--white);overflow-x:hidden;}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1rem 4rem;background:rgba(255,255,255,0.92);backdrop-filter:blur(12px);border-bottom:0.5px solid var(--border);}
+    .nav-logo{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;color:var(--purple-deep);display:flex;align-items:center;gap:0.5rem;}
+    .nav-logo span{color:var(--purple-main);}
+    .nav-dot{width:8px;height:8px;background:var(--green-main);border-radius:50%;display:inline-block;}
+    .nav-links{display:flex;gap:2rem;align-items:center;}
+    .nav-links a{font-size:0.85rem;color:var(--text-mid);text-decoration:none;transition:color .2s;}
+    .nav-links a:hover{color:var(--purple-main);}
+    .nav-cta{background:var(--purple-main);color:var(--white);padding:.5rem 1.25rem;border-radius:20px;font-size:.82rem;font-weight:500;text-decoration:none;transition:background .2s;}
+    .nav-cta:hover{background:var(--purple-deep);color:var(--white);}
+
+    /* HERO */
+    .hero{min-height:100vh;display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:3rem;padding:8rem 4rem 4rem;position:relative;overflow:hidden;}
+    .hero::before{content:'';position:absolute;top:-100px;right:-100px;width:600px;height:600px;background:radial-gradient(circle,var(--purple-light) 0%,transparent 70%);border-radius:50%;z-index:0;}
+    .hero::after{content:'';position:absolute;bottom:-80px;left:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(159,225,203,.25) 0%,transparent 70%);border-radius:50%;z-index:0;}
+    .hero-content{position:relative;z-index:1;}
+    .hero-tag{display:inline-flex;align-items:center;gap:.5rem;background:var(--purple-light);color:var(--purple-main);font-size:.72rem;font-weight:500;padding:.35rem .9rem;border-radius:20px;margin-bottom:1.5rem;border:.5px solid var(--purple-mid);}
+    .tag-dot{width:6px;height:6px;background:var(--green-main);border-radius:50%;animation:pulse 1.5s infinite;}
+    .hero-title{font-family:'Playfair Display',serif;font-size:3.2rem;line-height:1.15;font-weight:700;margin-bottom:1.25rem;}
+    .hero-title em{font-style:italic;color:var(--purple-main);}
+    .hero-title .green{color:var(--green-dark);}
+    .hero-sub{font-size:1rem;color:var(--text-soft);line-height:1.8;max-width:480px;margin-bottom:2rem;}
+    .hero-form{display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+    .hero-form input{flex:1;min-width:180px;padding:.75rem 1.1rem;border-radius:12px;border:.5px solid var(--purple-mid);font-family:'DM Sans',sans-serif;font-size:.88rem;background:var(--bg-off);color:var(--text-dark);outline:none;transition:border-color .2s;}
+    .hero-form input:focus{border-color:var(--purple-main);}
+    .hero-form input::placeholder{color:#bbb;}
+    .btn-primary{background:var(--purple-main);color:var(--white);padding:.75rem 1.5rem;border-radius:12px;border:none;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:500;cursor:pointer;transition:background .2s,transform .15s;white-space:nowrap;}
+    .btn-primary:hover{background:var(--purple-deep);transform:translateY(-1px);}
+    .hero-trust{display:flex;gap:1.5rem;flex-wrap:wrap;}
+    .trust-item{display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--text-soft);}
+
+    /* HERO VISUAL */
+    .hero-visual{position:relative;z-index:1;}
+    .hero-card-stack{position:relative;height:480px;}
+    .h-card{position:absolute;background:var(--white);border-radius:18px;border:.5px solid var(--purple-mid);padding:1.25rem 1.5rem;box-shadow:0 8px 32px rgba(83,74,183,.1);}
+    .h-card-main{width:320px;top:40px;left:20px;background:linear-gradient(135deg,var(--purple-deep),var(--purple-main));color:var(--white);border:none;}
+    .h-card-main .card-label{font-size:.68rem;opacity:.7;text-transform:uppercase;letter-spacing:.5px;margin-bottom:.5rem;}
+    .h-card-main .card-title{font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;margin-bottom:1rem;}
+    .ai-preview-bar{background:rgba(255,255,255,.15);border-radius:8px;padding:.6rem .8rem;margin-bottom:.75rem;}
+    .ai-preview-bar .bar-label{font-size:.68rem;opacity:.8;margin-bottom:.4rem;}
+    .ai-preview-bar .bar-track{background:rgba(255,255,255,.2);border-radius:4px;height:6px;}
+    .ai-preview-bar .bar-fill{height:6px;border-radius:4px;background:var(--green-main);width:82%;}
+    .ai-badge-hero{display:inline-flex;align-items:center;gap:.5rem;background:rgba(159,225,203,.2);color:var(--green-main);padding:.4rem .8rem;border-radius:8px;font-size:.75rem;}
+    .ai-badge-dot{width:6px;height:6px;background:var(--green-main);border-radius:50%;animation:pulse 1.5s infinite;flex-shrink:0;}
+    .h-card-before{width:200px;bottom:120px;left:0;animation:float 3s ease-in-out infinite;}
+    .h-card-after{width:200px;bottom:60px;right:10px;border-color:var(--green-main);animation:float 3s ease-in-out infinite 1.5s;}
+    .h-card .card-tag{font-size:.65rem;font-weight:500;text-transform:uppercase;letter-spacing:.5px;color:var(--purple-main);margin-bottom:.3rem;}
+    .h-card-after .card-tag{color:var(--green-dark);}
+    .h-card .card-text{font-size:.82rem;font-weight:500;color:var(--text-dark);}
+    .h-card-stat{width:140px;top:20px;right:0;text-align:center;animation:float 3s ease-in-out infinite .75s;}
+    .h-card-stat .stat-num{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:700;color:var(--purple-main);}
+    .h-card-stat .stat-label{font-size:.72rem;color:var(--text-soft);line-height:1.4;}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+    /* SECTIONS */
+    section{padding:6rem 4rem;}
+    .section-tag{display:inline-block;background:var(--purple-light);color:var(--purple-main);font-size:.72rem;font-weight:500;padding:.3rem .85rem;border-radius:20px;margin-bottom:1rem;letter-spacing:.3px;text-transform:uppercase;}
+    .section-title{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;line-height:1.2;margin-bottom:.75rem;}
+    .section-title em{font-style:italic;color:var(--purple-main);}
+    .section-sub{font-size:.95rem;color:var(--text-soft);line-height:1.75;max-width:520px;}
+    .section-header{margin-bottom:3rem;}
+
+    /* CÓMO FUNCIONA */
+    .como-funciona{background:var(--bg-off);}
+    .steps-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;}
+    .step-card{background:var(--white);border-radius:18px;border:.5px solid var(--border);padding:1.75rem 1.5rem;position:relative;transition:border-color .2s,transform .2s;}
+    .step-card:hover{border-color:var(--purple-mid);transform:translateY(-4px);}
+    .step-num{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:var(--purple-soft);line-height:1;margin-bottom:1rem;}
+    .step-icon{font-size:1.5rem;margin-bottom:.75rem;}
+    .step-title{font-size:.95rem;font-weight:600;color:var(--text-dark);margin-bottom:.5rem;}
+    .step-desc{font-size:.82rem;color:var(--text-soft);line-height:1.65;}
+    .step-connector{position:absolute;top:2rem;right:-1rem;width:2rem;height:1px;background:var(--purple-mid);z-index:1;}
+    .step-connector::after{content:'';position:absolute;right:-4px;top:-3px;width:7px;height:7px;border-radius:50%;background:var(--purple-main);}
+
+    /* ANTES Y DESPUÉS */
+    .antes-despues{background:var(--white);}
+    .ad-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+    .ad-card{border-radius:18px;overflow:hidden;border:.5px solid var(--border);transition:transform .2s,box-shadow .2s;}
+    .ad-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(83,74,183,.12);}
+    .ad-before{background:var(--bg-off);padding:1.5rem;border-bottom:.5px solid var(--border);}
+    .ad-label{font-size:.65rem;font-weight:500;text-transform:uppercase;letter-spacing:.5px;color:var(--text-soft);margin-bottom:.5rem;}
+    .ad-prenda{font-size:.9rem;font-weight:500;color:var(--text-dark);margin-bottom:.25rem;}
+    .ad-tiempo{font-size:.75rem;color:#bbb;}
+    .ad-arrow{background:var(--purple-light);padding:.5rem;text-align:center;font-size:.8rem;color:var(--purple-main);font-weight:500;}
+    .ad-after{background:var(--green-light);padding:1.5rem;}
+    .ad-after .ad-label{color:var(--green-dark);}
+    .ad-result{font-size:.9rem;font-weight:500;color:var(--text-dark);margin-bottom:.25rem;}
+    .ad-price{display:inline-block;background:var(--green-light);color:var(--green-dark);font-size:.75rem;font-weight:600;padding:.2rem .6rem;border-radius:20px;margin-top:.4rem;border:.5px solid rgba(15,110,86,.2);}
+
+    /* BENEFICIOS */
+    .beneficios{background:var(--bg-off);}
+    .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;}
+    .feature-card{background:var(--white);border-radius:16px;border:.5px solid var(--border);padding:1.5rem;transition:border-color .2s,transform .2s;}
+    .feature-card:hover{border-color:var(--purple-mid);transform:translateY(-3px);}
+    .feature-icon{width:44px;height:44px;background:var(--purple-light);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;margin-bottom:1rem;}
+    .feature-title{font-size:.92rem;font-weight:600;color:var(--text-dark);margin-bottom:.4rem;}
+    .feature-desc{font-size:.8rem;color:var(--text-soft);line-height:1.65;}
+
+    /* TESTIMONIOS */
+    .testimonios{background:var(--white);}
+    .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;}
+    .testi-card{background:var(--bg-off);border-radius:16px;border:.5px solid var(--border);padding:1.5rem;}
+    .testi-stars{color:#F5A623;font-size:.85rem;margin-bottom:.75rem;}
+    .testi-text{font-family:'Playfair Display',serif;font-style:italic;font-size:.9rem;color:var(--text-mid);line-height:1.7;margin-bottom:1rem;}
+    .testi-author{display:flex;align-items:center;gap:.75rem;}
+    .testi-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--purple-main),var(--green-main));display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:.9rem;color:var(--white);font-weight:700;flex-shrink:0;}
+    .testi-name{font-size:.82rem;font-weight:500;color:var(--text-dark);}
+    .testi-role{font-size:.72rem;color:var(--text-soft);}
+
+    /* PRECIOS */
+    .precios{background:var(--bg-off);}
+    .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;align-items:start;}
+    .pricing-card{background:var(--white);border-radius:20px;border:.5px solid var(--border);padding:2rem;position:relative;transition:transform .2s,box-shadow .2s;}
+    .pricing-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(83,74,183,.1);}
+    .pricing-card.featured{background:linear-gradient(135deg,var(--purple-deep),var(--purple-main));border-color:transparent;color:var(--white);transform:scale(1.04);}
+    .pricing-card.featured:hover{transform:scale(1.04) translateY(-4px);}
+    .pricing-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--green-main);color:var(--green-dark);font-size:.68rem;font-weight:600;padding:.25rem .9rem;border-radius:20px;white-space:nowrap;}
+    .plan-name{font-size:.78rem;font-weight:500;text-transform:uppercase;letter-spacing:.5px;color:var(--text-soft);margin-bottom:.5rem;}
+    .pricing-card.featured .plan-name{color:rgba(255,255,255,.7);}
+    .plan-price{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;line-height:1;color:var(--purple-main);margin-bottom:.2rem;}
+    .pricing-card.featured .plan-price{color:var(--white);}
+    .plan-period{font-size:.78rem;color:var(--text-soft);margin-bottom:1.25rem;}
+    .pricing-card.featured .plan-period{color:rgba(255,255,255,.6);}
+    .plan-features{list-style:none;margin-bottom:1.75rem;}
+    .plan-features li{font-size:.82rem;color:var(--text-mid);padding:.4rem 0;display:flex;align-items:center;gap:.6rem;border-bottom:.5px solid var(--border);}
+    .plan-features li:last-child{border-bottom:none;}
+    .pricing-card.featured .plan-features li{color:rgba(255,255,255,.85);border-bottom-color:rgba(255,255,255,.15);}
+    .check-icon{color:var(--green-dark);font-size:.9rem;flex-shrink:0;}
+    .pricing-card.featured .check-icon{color:var(--green-main);}
+    .btn-plan{width:100%;padding:.75rem;border-radius:12px;font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:500;cursor:pointer;transition:all .2s;border:none;}
+    .btn-plan-outline{background:transparent;color:var(--purple-main);border:.5px solid var(--purple-mid);}
+    .btn-plan-outline:hover{background:var(--purple-light);}
+    .btn-plan-solid{background:var(--white);color:var(--purple-main);font-weight:600;}
+    .btn-plan-solid:hover{background:var(--green-main);}
+
+    /* CHATBOT */
+    .chat-trigger{position:fixed;bottom:2rem;right:2rem;z-index:200;width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,var(--purple-main),var(--purple-deep));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(83,74,183,.4);transition:transform .2s,box-shadow .2s;font-size:1.3rem;color:var(--white);}
+    .chat-trigger:hover{transform:scale(1.1);box-shadow:0 8px 28px rgba(83,74,183,.5);}
+    .chat-status-dot{position:absolute;top:2px;right:2px;width:12px;height:12px;background:var(--green-main);border-radius:50%;border:2px solid var(--white);animation:pulse 1.5s infinite;}
+    .chatbox{position:fixed;bottom:6rem;right:2rem;z-index:200;width:360px;height:500px;background:var(--white);border-radius:20px;border:.5px solid var(--purple-mid);box-shadow:0 20px 60px rgba(83,74,183,.2);display:flex;flex-direction:column;transform:scale(.9) translateY(20px);opacity:0;pointer-events:none;transition:all .3s cubic-bezier(.34,1.56,.64,1);}
+    .chatbox.open{transform:scale(1) translateY(0);opacity:1;pointer-events:all;}
+    .chat-header{background:linear-gradient(135deg,var(--purple-deep),var(--purple-main));padding:1rem 1.25rem;border-radius:20px 20px 0 0;display:flex;align-items:center;gap:.75rem;}
+    .chat-avatar{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+    .chat-header-info{flex:1;}
+    .chat-header-name{font-size:.88rem;font-weight:600;color:var(--white);}
+    .chat-header-status{font-size:.7rem;color:var(--green-main);display:flex;align-items:center;gap:.3rem;}
+    .status-dot{width:5px;height:5px;background:var(--green-main);border-radius:50%;animation:pulse 1.5s infinite;}
+    .chat-close{background:rgba(255,255,255,.15);border:none;color:var(--white);width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:.9rem;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+    .chat-close:hover{background:rgba(255,255,255,.25);}
+    .chat-messages{flex:1;overflow-y:auto;padding:1.25rem;display:flex;flex-direction:column;gap:.75rem;scroll-behavior:smooth;}
+    .chat-messages::-webkit-scrollbar{width:4px;}
+    .chat-messages::-webkit-scrollbar-thumb{background:var(--purple-soft);border-radius:2px;}
+    .msg{max-width:85%;}
+    .msg-bot{align-self:flex-start;}
+    .msg-user{align-self:flex-end;}
+    .msg-bubble{padding:.7rem .9rem;border-radius:14px;font-size:.82rem;line-height:1.55;}
+    .msg-bot .msg-bubble{background:var(--bg-off);color:var(--text-dark);border:.5px solid var(--border);border-radius:4px 14px 14px 14px;}
+    .msg-user .msg-bubble{background:var(--purple-main);color:var(--white);border-radius:14px 4px 14px 14px;}
+    .msg-time{font-size:.62rem;color:#bbb;margin-top:.25rem;padding:0 .25rem;}
+    .msg-user .msg-time{text-align:right;}
+    .chat-options{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.4rem;}
+    .chat-option-btn{background:var(--purple-light);color:var(--purple-main);border:.5px solid var(--purple-mid);border-radius:20px;padding:.3rem .7rem;font-size:.75rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .15s;}
+    .chat-option-btn:hover{background:var(--purple-soft);}
+    .typing-indicator{display:flex;align-items:center;gap:4px;padding:.6rem .9rem;background:var(--bg-off);border:.5px solid var(--border);border-radius:4px 14px 14px 14px;width:fit-content;align-self:flex-start;}
+    .typing-dot{width:6px;height:6px;background:var(--purple-mid);border-radius:50%;animation:typing 1.2s infinite;}
+    .typing-dot:nth-child(2){animation-delay:.2s;}
+    .typing-dot:nth-child(3){animation-delay:.4s;}
+    @keyframes typing{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+    .chat-input-area{padding:.75rem 1rem;border-top:.5px solid var(--border);display:flex;gap:.5rem;align-items:center;}
+    .chat-input{flex:1;padding:.6rem .85rem;border-radius:10px;border:.5px solid var(--border);font-family:'DM Sans',sans-serif;font-size:.82rem;outline:none;color:var(--text-dark);background:var(--bg-off);transition:border-color .2s;}
+    .chat-input:focus{border-color:var(--purple-main);}
+    .chat-send{width:36px;height:36px;border-radius:10px;background:var(--purple-main);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;color:var(--white);font-size:.9rem;flex-shrink:0;}
+    .chat-send:hover{background:var(--purple-deep);}
+
+    /* CTA FINAL */
+    .cta-final{background:linear-gradient(135deg,var(--purple-deep) 0%,var(--purple-main) 100%);padding:6rem 4rem;text-align:center;color:var(--white);}
+    .cta-final .section-title{color:var(--white);}
+    .cta-final .section-title em{color:var(--green-main);}
+    .cta-final .section-sub{color:rgba(255,255,255,.75);margin:0 auto 2rem;}
+    .cta-final-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+    .btn-white{background:var(--white);color:var(--purple-main);padding:.75rem 1.75rem;border-radius:12px;border:none;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .2s;}
+    .btn-white:hover{background:var(--green-main);color:var(--green-dark);}
+    .btn-ghost{background:transparent;color:var(--white);padding:.75rem 1.75rem;border-radius:12px;border:.5px solid rgba(255,255,255,.4);font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:500;cursor:pointer;transition:all .2s;}
+    .btn-ghost:hover{background:rgba(255,255,255,.1);}
+
+    /* RESPONSIVE */
+    @media(max-width:900px){
+      nav{padding:1rem 1.5rem;}
+      .nav-links{display:none;}
+      .hero{grid-template-columns:1fr;padding:7rem 1.5rem 3rem;}
+      .hero-visual{display:none;}
+      .hero-title{font-size:2.2rem;}
+      section{padding:4rem 1.5rem;}
+      .steps-grid,.ad-grid,.features-grid,.testi-grid,.pricing-grid{grid-template-columns:1fr;}
+      .pricing-card.featured{transform:scale(1);}
+      .chatbox{width:calc(100vw - 2rem);right:1rem;}
+      .cta-final{padding:4rem 1.5rem;}
+    }
+
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo">ClosetOS <span>AI</span> <div class="nav-dot"></div></div>
+    <div class="nav-links">
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#beneficios">Beneficios</a>
+      <a href="#antes-despues">Resultados</a>
+      <a href="#precios">Planes</a>
+    </div>
+    <a href="#precios" class="nav-cta">Empezar gratis →</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero-content">
+      <div class="hero-tag"><div class="tag-dot"></div> Moda circular inteligente · Lima</div>
+      <h1 class="hero-title">Reinventa tu ropa.<br><em>Transforma</em> tu estilo.<br><span class="green">Sin comprar más.</span></h1>
+      <p class="hero-sub">ClosetOS AI conecta tu ropa acumulada con diseñadores verificados usando IA. Visualiza el resultado antes de invertir, recojo a domicilio incluido.</p>
+      <div class="hero-form">
+        <input type="text" placeholder="Tu nombre">
+        <input type="email" placeholder="Tu correo">
+        <button class="btn-primary">Probar AI Style Preview gratis →</button>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item">🔒 Sin tarjeta de crédito</div>
+        <div class="trust-item">⚡ Resultado en 72 h</div>
+        <div class="trust-item">📍 Recojo en Lima</div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card-stack">
+        <div class="h-card h-card-main">
+          <div class="card-label">AI Style Preview</div>
+          <div class="card-title">Blazer oversize gris · 2 años sin usar</div>
+          <div class="ai-preview-bar">
+            <div class="bar-label">Potencial de renovación</div>
+            <div class="bar-track"><div class="bar-fill"></div></div>
+          </div>
+          <div class="ai-badge-hero"><div class="ai-badge-dot"></div> Alta — 3 propuestas generadas</div>
+        </div>
+        <div class="h-card h-card-before">
+          <div class="card-tag">Antes</div>
+          <div class="card-text">Blazer sin usar · S/. 0 de valor activo</div>
+        </div>
+        <div class="h-card h-card-after">
+          <div class="card-tag">Después</div>
+          <div class="card-text">Blazer crop estructurado · Pieza favorita</div>
+        </div>
+        <div class="h-card h-card-stat">
+          <div class="stat-num">S/.95</div>
+          <div class="stat-label">costo de transformación promedio</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CÓMO FUNCIONA -->
+  <section class="como-funciona" id="como-funciona">
+    <div class="section-header reveal">
+      <div class="section-tag">⚙️ El proceso</div>
+      <h2 class="section-title">Así funciona <em>ClosetOS AI</em></h2>
+      <p class="section-sub">De tu clóset acumulado a una pieza que vuelves a usar, en 4 pasos simples y sin salir de casa.</p>
+    </div>
+    <div class="steps-grid reveal">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-icon">📸</div>
+        <div class="step-title">Fotografía tu prenda</div>
+        <div class="step-desc">Sube una foto desde tu smartphone. La IA analiza el material, corte y potencial de transformación en segundos.</div>
+        <div class="step-connector"></div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-icon">🤖</div>
+        <div class="step-title">AI Style Preview</div>
+        <div class="step-desc">Recibe 3 propuestas visuales de cómo podría quedar tu prenda rediseñada. Ves el resultado antes de comprometerte.</div>
+        <div class="step-connector"></div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-icon">✂️</div>
+        <div class="step-title">Matching con diseñador</div>
+        <div class="step-desc">Te conectamos con un diseñador verificado especializado en el estilo que elegiste. Recojo a domicilio incluido.</div>
+        <div class="step-connector"></div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <div class="step-icon">📦</div>
+        <div class="step-title">Recibe tu prenda</div>
+        <div class="step-desc">En 72 horas recibes tu prenda transformada en casa. Tracking en tiempo real durante todo el proceso.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANTES Y DESPUÉS -->
+  <section class="antes-despues" id="antes-despues">
+    <div class="section-header reveal">
+      <div class="section-tag">✨ Resultados reales</div>
+      <h2 class="section-title">Prendas que <em>volvieron a la vida</em></h2>
+      <p class="section-sub">Casos reales de usuarios en Lima. Prendas de calidad que llevaban años sin usarse, ahora son sus favoritas.</p>
+    </div>
+    <div class="ad-grid reveal">
+      <div class="ad-card">
+        <div class="ad-before">
+          <div class="ad-label">Antes</div>
+          <div class="ad-prenda">Blazer oversize gris · Lana premium</div>
+          <div class="ad-tiempo">Sin usar desde hace 2 años</div>
+        </div>
+        <div class="ad-arrow">↓ Transformado con ClosetOS AI</div>
+        <div class="ad-after">
+          <div class="ad-label">Después</div>
+          <div class="ad-result">Blazer crop estructurado con costura visible</div>
+          <span class="ad-price">S/. 95 · 3 días</span>
+        </div>
+      </div>
+      <div class="ad-card">
+        <div class="ad-before">
+          <div class="ad-label">Antes</div>
+          <div class="ad-prenda">Jeans straight fit · Denim japonés</div>
+          <div class="ad-tiempo">Sin usar desde hace 18 meses</div>
+        </div>
+        <div class="ad-arrow">↓ Transformado con ClosetOS AI</div>
+        <div class="ad-after">
+          <div class="ad-label">Después</div>
+          <div class="ad-result">Jeans wide leg con parches bordados</div>
+          <span class="ad-price">S/. 75 · 2 días</span>
+        </div>
+      </div>
+      <div class="ad-card">
+        <div class="ad-before">
+          <div class="ad-label">Antes</div>
+          <div class="ad-prenda">Camisa de lino blanca · Talla incorrecta</div>
+          <div class="ad-tiempo">Sin usar desde que la compró</div>
+        </div>
+        <div class="ad-arrow">↓ Transformado con ClosetOS AI</div>
+        <div class="ad-after">
+          <div class="ad-label">Después</div>
+          <div class="ad-result">Camisa oversized con detalle asimétrico</div>
+          <span class="ad-price">S/. 60 · 2 días</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFICIOS -->
+  <section class="beneficios" id="beneficios">
+    <div class="section-header reveal">
+      <div class="section-tag">💡 Por qué ClosetOS AI</div>
+      <h2 class="section-title">Todo lo que necesitas,<br><em>nada de lo que temes</em></h2>
+      <p class="section-sub">Diseñado para eliminar cada fricción que te ha impedido hacer algo con tu ropa acumulada.</p>
+    </div>
+    <div class="features-grid reveal">
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <div class="feature-title">AI Style Preview</div>
+        <div class="feature-desc">Visualiza cómo quedará tu prenda antes de invertir un sol. IA generativa con simulación realista antes/después.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⭐</div>
+        <div class="feature-title">Diseñadores verificados</div>
+        <div class="feature-desc">Red de expertos con portafolio visual, reseñas reales y especialización en estilo urbano moderno.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🚚</div>
+        <div class="feature-title">Recojo a domicilio</div>
+        <div class="feature-desc">Coordinamos el recojo y entrega en Lima. Sin ir a ningún lado ni perder tiempo en procesos presenciales.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📍</div>
+        <div class="feature-title">Tracking en tiempo real</div>
+        <div class="feature-desc">Sigue el estado de tu prenda en cada etapa. Transparencia total para eliminar la ansiedad del proceso.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💰</div>
+        <div class="feature-title">Ahorro real comprobable</div>
+        <div class="feature-desc">Transforma por S/. 60–120 prendas que costarían S/. 300–600 nuevas. El dashboard muestra el ahorro exacto.</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌿</div>
+        <div class="feature-title">Impacto ambiental medible</div>
+        <div class="feature-desc">Cada prenda rescatada genera menos CO₂ y agua consumida. Tu dashboard de impacto lo registra en tiempo real.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section class="testimonios" id="testimonios">
+    <div class="section-header reveal">
+      <div class="section-tag">💬 Comunidad</div>
+      <h2 class="section-title">Lo que dicen los que <em>ya lo hicieron</em></h2>
+      <p class="section-sub">Early adopters en Lima que transformaron su clóset y su relación con la moda.</p>
+    </div>
+    <div class="testi-grid reveal">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"Tenía un blazer de S/. 400 colgado hace dos años. Pensé que estaba perdido. Ahora es la pieza que más me piden de dónde la saqué."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">M</div>
+          <div><div class="testi-name">Mateo R.</div><div class="testi-role">Diseñador · Miraflores</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"Lo que más me sorprendió fue ver el resultado antes de mandarlo. Eliminó completamente el miedo a que arruinaran mi ropa."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">V</div>
+          <div><div class="testi-name">Valeria C.</div><div class="testi-role">Publicista · San Isidro</div></div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-text">"Calculé que gasté S/. 280 transformando 4 prendas. Hubiera gastado más de S/. 1,200 comprándolas nuevas. La diferencia es brutal."</div>
+        <div class="testi-author">
+          <div class="testi-avatar">A</div>
+          <div><div class="testi-name">Andrés P.</div><div class="testi-role">Marketing · Surco</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRECIOS -->
+  <section class="precios" id="precios">
+    <div class="section-header reveal" style="text-align:center;">
+      <div class="section-tag">💳 Planes</div>
+      <h2 class="section-title">Elige tu plan, <em>empieza hoy</em></h2>
+      <p class="section-sub" style="margin:0 auto;">Sin compromisos de permanencia. Cancela cuando quieras.</p>
+    </div>
+    <div class="pricing-grid reveal">
+      <div class="pricing-card">
+        <div class="plan-name">Free</div>
+        <div class="plan-price">S/. 0</div>
+        <div class="plan-period">para siempre</div>
+        <ul class="plan-features">
+          <li><span class="check-icon">✓</span> 1 AI Style Preview por mes</li>
+          <li><span class="check-icon">✓</span> Acceso al marketplace</li>
+          <li><span class="check-icon">✓</span> 1 transformación incluida</li>
+          <li><span class="check-icon">✓</span> Tracking básico</li>
+        </ul>
+        <button class="btn-plan btn-plan-outline">Empezar gratis</button>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-badge">🔥 Más popular</div>
+        <div class="plan-name">Smart</div>
+        <div class="plan-price">S/. 49</div>
+        <div class="plan-period">por mes</div>
+        <ul class="plan-features">
+          <li><span class="check-icon">✓</span> Previews ilimitados con IA</li>
+          <li><span class="check-icon">✓</span> Matching prioritario de diseñador</li>
+          <li><span class="check-icon">✓</span> 3 transformaciones por mes</li>
+          <li><span class="check-icon">✓</span> Tracking en tiempo real</li>
+          <li><span class="check-icon">✓</span> Dashboard de impacto ambiental</li>
+          <li><span class="check-icon">✓</span> Eco-Tokens y gamificación</li>
+        </ul>
+        <button class="btn-plan btn-plan-solid">Activar plan Smart</button>
+      </div>
+      <div class="pricing-card">
+        <div class="plan-name">Pro</div>
+        <div class="plan-price">S/. 89</div>
+        <div class="plan-period">por mes</div>
+        <ul class="plan-features">
+          <li><span class="check-icon">✓</span> Todo lo de Smart</li>
+          <li><span class="check-icon">✓</span> Transformaciones ilimitadas</li>
+          <li><span class="check-icon">✓</span> Stylist AI personal</li>
+          <li><span class="check-icon">✓</span> Acceso anticipado a nuevas IA</li>
+          <li><span class="check-icon">✓</span> Soporte prioritario 24/7</li>
+        </ul>
+        <button class="btn-plan btn-plan-outline">Activar plan Pro</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final">
+    <div class="reveal">
+      <div class="section-tag" style="background:rgba(255,255,255,.15);color:#fff;border:.5px solid rgba(255,255,255,.3);">✨ Empieza ahora</div>
+      <h2 class="section-title">¿Tienes una prenda esperando<br><em>su segunda oportunidad</em>?</h2>
+      <p class="section-sub">El AI Style Preview es gratis y te muestra el resultado antes de comprometerte.</p>
+      <div class="cta-final-btns">
+        <button class="btn-white">Ver el potencial de mi ropa →</button>
+        <button class="btn-ghost">Hablar con un experto</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHATBOT BUTTON -->
+  <button class="chat-trigger" onclick="toggleChat()" id="chatTrigger">
+    💬
+    <div class="chat-status-dot"></div>
+  </button>
+
+  <!-- CHATBOX -->
+  <div class="chatbox" id="chatbox">
+    <div class="chat-header">
+      <div class="chat-avatar">✨</div>
+      <div class="chat-header-info">
+        <div class="chat-header-name">ClosetOS AI</div>
+        <div class="chat-header-status"><div class="status-dot"></div> Asistente de estilo · En línea</div>
+      </div>
+      <button class="chat-close" onclick="toggleChat()">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="msg msg-bot">
+        <div class="msg-bubble">¡Hola! 👋 Soy el asistente de ClosetOS AI. Estoy aquí para ayudarte a descubrir el potencial de tu ropa acumulada.</div>
+        <div class="msg-time">Ahora</div>
+        <div class="chat-options">
+          <button class="chat-option-btn" onclick="sendOption(this,'Quiero transformar una prenda')">Transformar una prenda</button>
+          <button class="chat-option-btn" onclick="sendOption(this,'¿Cómo funciona el AI Preview?')">¿Cómo funciona?</button>
+          <button class="chat-option-btn" onclick="sendOption(this,'Ver los planes')">Ver planes</button>
+        </div>
+      </div>
+    </div>
+    <div class="chat-input-area">
+      <input class="chat-input" id="chatInput" type="text" placeholder="Escribe tu mensaje..." onkeydown="if(event.key==='Enter')sendMessage()">
+      <button class="chat-send" onclick="sendMessage()">➤</button>
+    </div>
+  </div>
+
+  <script>
+    const R = {
+      'quiero transformar una prenda':{text:'¡Perfecto! Para empezar solo necesitas:\n\n1️⃣ Fotografiar la prenda\n2️⃣ Subírla al AI Style Preview\n3️⃣ Elegir tu propuesta favorita\n\n¿Qué tipo de prenda tienes en mente?',options:['Un blazer o saco','Jeans o pantalón','Camisa o blusa','Otro tipo de prenda']},
+      'un blazer o saco':{text:'¡Excelente! Los blazers tienen un potencial de transformación muy alto. Con la IA generamos propuestas como: crop estructurado, versión oversize actualizada, o con detalles de costura visible.\n\n¿Hace cuánto tiempo no lo usas?',options:['Menos de 1 año','Entre 1 y 2 años','Más de 2 años']},
+      'jeans o pantalón':{text:'Los jeans son de las prendas con mayor potencial circular. Podemos transformarlos en wide leg, agregarle parches, o cambiar el largo y corte.\n\n¿Quieres ver ejemplos de transformaciones reales?',options:['Sí, ver ejemplos','Quiero el AI Preview ya']},
+      'camisa o blusa':{text:'Las camisas de buena tela tienen muchísimo potencial. Podemos hacer oversize, crop, cambiar el cuello, o agregar detalles únicos.\n\n¿Cuánto tiempo lleva guardada?',options:['Menos de 1 año','Más de 1 año']},
+      'más de 2 años':{text:'¡Esos son los casos más interesantes! Una prenda de calidad guardada más de 2 años casi siempre tiene una segunda vida increíble esperando.\n\nEl costo promedio es S/. 75–120. ¿Te gustaría agendar tu AI Style Preview gratis?',options:['Sí, quiero el Preview gratis','Primero quiero ver los planes']},
+      'sí, quiero el preview gratis':{text:'¡Genial! El AI Style Preview es completamente gratis. Solo regístrate con tu correo y en menos de 5 minutos tendrás 3 propuestas visuales.\n\n👉 Usa el formulario en la parte superior de esta página para comenzar.',options:['¿Cuánto tarda la transformación?','¿Cuánto cuesta?']},
+      '¿cómo funciona el ai preview?':{text:'El AI Style Preview usa IA generativa para simular cómo quedaría tu prenda rediseñada:\n\n🤖 Analizamos material, corte y estado\n✨ Generamos 3 propuestas visuales\n👀 Tú eliges antes de comprometerte\n\nEs como probarse algo antes de comprarlo, pero al revés.',options:['¿Cuánto cuesta?','¿Quiénes son los diseñadores?','Quiero probarlo']},
+      '¿cuánto cuesta?':{text:'El AI Style Preview es gratis 🎉\n\nLas transformaciones cuestan entre S/. 60 y S/. 120 según el tipo de prenda y el rediseño elegido.\n\nComparado con comprar algo nuevo equivalente (S/. 250–600+), el ahorro es muy real.',options:['Ver los planes','Quiero empezar']},
+      'ver los planes':{text:'Tenemos 3 planes:\n\n🆓 Free · S/. 0 — 1 preview y 1 transformación\n⭐ Smart · S/. 49/mes — Previews ilimitados + 3 transformaciones\n💎 Pro · S/. 89/mes — Todo ilimitado + Stylist AI personal\n\n¿Cuál te interesa conocer mejor?',options:['Plan Free','Plan Smart','Plan Pro']},
+      'plan smart':{text:'El plan Smart es el favorito de nuestra comunidad 🔥\n\nIncluye previews ilimitados, matching prioritario con diseñador, 3 transformaciones al mes, tracking en tiempo real y dashboard de impacto ambiental.\n\nS/. 49 al mes. Sin permanencia mínima.',options:['Activar plan Smart','¿Puedo cancelar cuando quiera?']},
+      '¿puedo cancelar cuando quiera?':{text:'Sí, absolutamente. No hay permanencia mínima ni penalidades. Puedes pausar o cancelar en cualquier momento desde tu perfil.\n\nEmpezar con el plan Free también es válido para probar sin riesgo.',options:['Empezar con Free','Activar Smart ahora']},
+      'default':{text:'Entiendo tu consulta. Para darte la mejor respuesta, te recomiendo explorar el AI Style Preview gratis desde el formulario en esta página, o escríbenos y te conectamos con un experto de estilo. 🙌',options:['Probar AI Preview gratis','Ver los planes']}
+    };
+
+    let chatOpen = false;
+
+    function toggleChat() {
+      chatOpen = !chatOpen;
+      document.getElementById('chatbox').classList.toggle('open', chatOpen);
+      document.getElementById('chatTrigger').innerHTML = chatOpen
+        ? '✕<div class="chat-status-dot"></div>'
+        : '💬<div class="chat-status-dot"></div>';
+    }
+
+    function sendOption(btn, text) {
+      const opts = btn.closest('.chat-options');
+      if (opts) opts.remove();
+      addUser(text);
+      setTimeout(showTyping, 300);
+      setTimeout(() => { removeTyping(); addBot(getResp(text)); }, 1200);
+    }
+
+    function sendMessage() {
+      const el = document.getElementById('chatInput');
+      const t = el.value.trim(); if (!t) return;
+      el.value = '';
+      addUser(t);
+      setTimeout(showTyping, 300);
+      setTimeout(() => { removeTyping(); addBot(getResp(t)); }, 1200);
+    }
+
+    function getResp(text) {
+      const k = text.toLowerCase();
+      for (const key in R) { if (k.includes(key)) return R[key]; }
+      return R['default'];
+    }
+
+    function now() { return new Date().toLocaleTimeString('es',{hour:'2-digit',minute:'2-digit'}); }
+
+    function addUser(text) {
+      const m = document.getElementById('chatMessages');
+      const d = document.createElement('div');
+      d.className = 'msg msg-user';
+      d.innerHTML = `<div class="msg-bubble">${text}</div><div class="msg-time">${now()}</div>`;
+      m.appendChild(d); m.scrollTop = m.scrollHeight;
+    }
+
+    function addBot(resp) {
+      const m = document.getElementById('chatMessages');
+      const opts = (resp.options||[]).map(o=>`<button class="chat-option-btn" onclick="sendOption(this,'${o}')">${o}</button>`).join('');
+      const d = document.createElement('div');
+      d.className = 'msg msg-bot';
+      d.innerHTML = `<div class="msg-bubble">${resp.text.replace(/\n/g,'<br>')}</div><div class="msg-time">${now()}</div>${opts?`<div class="chat-options">${opts}</div>`:''}`;
+      m.appendChild(d); m.scrollTop = m.scrollHeight;
+    }
+
+    function showTyping() {
+      const m = document.getElementById('chatMessages');
+      const d = document.createElement('div');
+      d.id = 'typing'; d.className = 'typing-indicator';
+      d.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+      m.appendChild(d); m.scrollTop = m.scrollHeight;
+    }
+
+    function removeTyping() { const t = document.getElementById('typing'); if(t) t.remove(); }
+
+    // Scroll reveal
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach((e,i) => { if(e.isIntersecting) setTimeout(()=>e.target.classList.add('visible'), i*80); });
+    }, {threshold:.1});
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
