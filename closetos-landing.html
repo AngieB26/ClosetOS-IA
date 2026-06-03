@@ -46,7 +46,7 @@
       overflow-x: hidden;
     }
 
-    /* NAV */
+    /* ── NAV ── */
     nav {
       position: fixed;
       top: 0;
@@ -56,20 +56,21 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1rem 4rem;
-      background: rgba(255, 255, 255, 0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 0.5px solid var(--border);
+      padding: 1rem 5rem;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(16px);
+      border-bottom: 0.5px solid rgba(174, 169, 236, 0.3);
     }
 
     .nav-logo {
       font-family: 'Playfair Display', serif;
-      font-size: 1.3rem;
+      font-size: 1.35rem;
       font-weight: 700;
       color: var(--purple-deep);
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
+      text-decoration: none;
     }
 
     .nav-logo span {
@@ -77,23 +78,26 @@
     }
 
     .nav-dot {
-      width: 8px;
-      height: 8px;
+      width: 7px;
+      height: 7px;
       background: var(--green-main);
       border-radius: 50%;
       display: inline-block;
+      animation: pulse 2s infinite;
     }
 
     .nav-links {
       display: flex;
-      gap: 2rem;
+      gap: 2.5rem;
       align-items: center;
     }
 
     .nav-links a {
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       color: var(--text-mid);
       text-decoration: none;
+      font-weight: 400;
+      letter-spacing: 0.2px;
       transition: color .2s;
     }
 
@@ -101,55 +105,98 @@
       color: var(--purple-main);
     }
 
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-social {
+      display: flex;
+      gap: 0.6rem;
+    }
+
+    .nav-social a {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--purple-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: background .2s, transform .2s;
+      color: var(--purple-main);
+    }
+
+    .nav-social a:hover {
+      background: var(--purple-soft);
+      transform: translateY(-1px);
+    }
+
     .nav-cta {
       background: var(--purple-main);
       color: var(--white);
-      padding: .5rem 1.25rem;
-      border-radius: 20px;
+      padding: .55rem 1.3rem;
+      border-radius: 22px;
       font-size: .82rem;
       font-weight: 500;
       text-decoration: none;
-      transition: background .2s;
+      transition: all .2s;
+      border: none;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
     }
 
     .nav-cta:hover {
       background: var(--purple-deep);
-      color: var(--white);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(83, 74, 183, .3);
     }
 
-    /* HERO */
+    /* ── HERO ── */
     .hero {
       min-height: 100vh;
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.1fr 0.9fr;
       align-items: center;
-      gap: 3rem;
-      padding: 8rem 4rem 4rem;
+      gap: 4rem;
+      padding: 9rem 5rem 5rem;
       position: relative;
       overflow: hidden;
+      background: var(--white);
     }
 
-    .hero::before {
-      content: '';
+    .hero-bg-blob {
       position: absolute;
-      top: -100px;
-      right: -100px;
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(circle, var(--purple-light) 0%, transparent 70%);
-      border-radius: 50%;
+      top: -120px;
+      right: -150px;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(ellipse, var(--purple-light) 0%, transparent 68%);
       z-index: 0;
+      pointer-events: none;
     }
 
-    .hero::after {
-      content: '';
+    .hero-bg-blob2 {
       position: absolute;
-      bottom: -80px;
-      left: -80px;
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(circle, rgba(159, 225, 203, .25) 0%, transparent 70%);
-      border-radius: 50%;
+      bottom: -100px;
+      left: -100px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(ellipse, rgba(159, 225, 203, .2) 0%, transparent 68%);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-grain {
+      position: absolute;
+      inset: 0;
+      opacity: .025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 200px;
+      pointer-events: none;
       z-index: 0;
     }
 
@@ -158,197 +205,23 @@
       z-index: 1;
     }
 
-    .hero-tag {
+    .hero-eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: .5rem;
-      background: var(--purple-light);
+      gap: .6rem;
+      background: linear-gradient(135deg, var(--purple-light), rgba(159, 225, 203, .3));
       color: var(--purple-main);
       font-size: .72rem;
-      font-weight: 500;
-      padding: .35rem .9rem;
-      border-radius: 20px;
-      margin-bottom: 1.5rem;
+      font-weight: 600;
+      padding: .4rem 1rem;
+      border-radius: 22px;
+      margin-bottom: 1.75rem;
       border: .5px solid var(--purple-mid);
-    }
-
-    .tag-dot {
-      width: 6px;
-      height: 6px;
-      background: var(--green-main);
-      border-radius: 50%;
-      animation: pulse 1.5s infinite;
-    }
-
-    .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 3.2rem;
-      line-height: 1.15;
-      font-weight: 700;
-      margin-bottom: 1.25rem;
-    }
-
-    .hero-title em {
-      font-style: italic;
-      color: var(--purple-main);
-    }
-
-    .hero-title .green {
-      color: var(--green-dark);
-    }
-
-    .hero-sub {
-      font-size: 1rem;
-      color: var(--text-soft);
-      line-height: 1.8;
-      max-width: 480px;
-      margin-bottom: 2rem;
-    }
-
-    .hero-form {
-      display: flex;
-      gap: .75rem;
-      flex-wrap: wrap;
-      margin-bottom: 1.5rem;
-    }
-
-    .hero-form input {
-      flex: 1;
-      min-width: 180px;
-      padding: .75rem 1.1rem;
-      border-radius: 12px;
-      border: .5px solid var(--purple-mid);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .88rem;
-      background: var(--bg-off);
-      color: var(--text-dark);
-      outline: none;
-      transition: border-color .2s;
-    }
-
-    .hero-form input:focus {
-      border-color: var(--purple-main);
-    }
-
-    .hero-form input::placeholder {
-      color: #bbb;
-    }
-
-    .btn-primary {
-      background: var(--purple-main);
-      color: var(--white);
-      padding: .75rem 1.5rem;
-      border-radius: 12px;
-      border: none;
-      font-family: 'DM Sans', sans-serif;
-      font-size: .88rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: background .2s, transform .15s;
-      white-space: nowrap;
-    }
-
-    .btn-primary:hover {
-      background: var(--purple-deep);
-      transform: translateY(-1px);
-    }
-
-    .hero-trust {
-      display: flex;
-      gap: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .trust-item {
-      display: flex;
-      align-items: center;
-      gap: .4rem;
-      font-size: .78rem;
-      color: var(--text-soft);
-    }
-
-    /* HERO VISUAL */
-    .hero-visual {
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero-card-stack {
-      position: relative;
-      height: 480px;
-    }
-
-    .h-card {
-      position: absolute;
-      background: var(--white);
-      border-radius: 18px;
-      border: .5px solid var(--purple-mid);
-      padding: 1.25rem 1.5rem;
-      box-shadow: 0 8px 32px rgba(83, 74, 183, .1);
-    }
-
-    .h-card-main {
-      width: 320px;
-      top: 40px;
-      left: 20px;
-      background: linear-gradient(135deg, var(--purple-deep), var(--purple-main));
-      color: var(--white);
-      border: none;
-    }
-
-    .h-card-main .card-label {
-      font-size: .68rem;
-      opacity: .7;
-      text-transform: uppercase;
       letter-spacing: .5px;
-      margin-bottom: .5rem;
+      text-transform: uppercase;
     }
 
-    .h-card-main .card-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-
-    .ai-preview-bar {
-      background: rgba(255, 255, 255, .15);
-      border-radius: 8px;
-      padding: .6rem .8rem;
-      margin-bottom: .75rem;
-    }
-
-    .ai-preview-bar .bar-label {
-      font-size: .68rem;
-      opacity: .8;
-      margin-bottom: .4rem;
-    }
-
-    .ai-preview-bar .bar-track {
-      background: rgba(255, 255, 255, .2);
-      border-radius: 4px;
-      height: 6px;
-    }
-
-    .ai-preview-bar .bar-fill {
-      height: 6px;
-      border-radius: 4px;
-      background: var(--green-main);
-      width: 82%;
-    }
-
-    .ai-badge-hero {
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      background: rgba(159, 225, 203, .2);
-      color: var(--green-main);
-      padding: .4rem .8rem;
-      border-radius: 8px;
-      font-size: .75rem;
-    }
-
-    .ai-badge-dot {
+    .eyebrow-dot {
       width: 6px;
       height: 6px;
       background: var(--green-main);
@@ -357,59 +230,325 @@
       flex-shrink: 0;
     }
 
-    .h-card-before {
-      width: 200px;
-      bottom: 120px;
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.6rem;
+      line-height: 1.1;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--text-dark);
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--purple-main);
+    }
+
+    .hero-title .accent {
+      color: var(--green-dark);
+      position: relative;
+    }
+
+    .hero-title .accent::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
       left: 0;
-      animation: float 3s ease-in-out infinite;
+      right: 0;
+      height: 3px;
+      background: var(--green-main);
+      border-radius: 2px;
+      opacity: .6;
     }
 
-    .h-card-after {
-      width: 200px;
-      bottom: 60px;
-      right: 10px;
-      border-color: var(--green-main);
-      animation: float 3s ease-in-out infinite 1.5s;
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--text-soft);
+      line-height: 1.85;
+      max-width: 500px;
+      margin-bottom: 2.25rem;
+      font-weight: 300;
     }
 
-    .h-card .card-tag {
+    .hero-form {
+      display: flex;
+      gap: .6rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-form input {
+      flex: 1;
+      min-width: 170px;
+      padding: .8rem 1.2rem;
+      border-radius: 14px;
+      border: .5px solid var(--purple-mid);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .88rem;
+      background: var(--bg-off);
+      color: var(--text-dark);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .hero-form input:focus {
+      border-color: var(--purple-main);
+      box-shadow: 0 0 0 3px rgba(83, 74, 183, .1);
+    }
+
+    .hero-form input::placeholder {
+      color: #c0c0c0;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--purple-main), var(--purple-deep));
+      color: var(--white);
+      padding: .8rem 1.6rem;
+      border-radius: 14px;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .25s;
+      white-space: nowrap;
+      letter-spacing: .2px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(83, 74, 183, .35);
+    }
+
+    .hero-trust {
+      display: flex;
+      gap: 1.75rem;
+      flex-wrap: wrap;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      font-size: .78rem;
+      color: var(--text-soft);
+    }
+
+    /* HERO VISUAL */
+    .hero-visual {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+    }
+
+    .hero-mockup {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .mockup-main {
+      background: linear-gradient(145deg, var(--purple-deep), #3d3490);
+      border-radius: 24px;
+      padding: 1.75rem;
+      box-shadow: 0 24px 64px rgba(38, 33, 92, .35);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .mockup-main::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 160px;
+      height: 160px;
+      background: rgba(159, 225, 203, .15);
+      border-radius: 50%;
+    }
+
+    .mockup-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .mockup-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--white);
+      opacity: .9;
+    }
+
+    .mockup-badge {
+      background: rgba(159, 225, 203, .2);
+      color: var(--green-main);
+      font-size: .68rem;
+      padding: .25rem .6rem;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: .3rem;
+    }
+
+    .mockup-badge-dot {
+      width: 5px;
+      height: 5px;
+      background: var(--green-main);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+
+    .mockup-prenda {
+      background: rgba(255, 255, 255, .08);
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      margin-bottom: 1rem;
+      border: .5px solid rgba(255, 255, 255, .12);
+    }
+
+    .mockup-prenda-label {
       font-size: .65rem;
-      font-weight: 500;
+      color: rgba(255, 255, 255, .5);
       text-transform: uppercase;
       letter-spacing: .5px;
-      color: var(--purple-main);
       margin-bottom: .3rem;
     }
 
-    .h-card-after .card-tag {
+    .mockup-prenda-name {
+      font-size: .9rem;
+      color: var(--white);
+      font-weight: 500;
+    }
+
+    .mockup-bar-wrap {
+      margin-bottom: 1.25rem;
+    }
+
+    .mockup-bar-label {
+      font-size: .68rem;
+      color: rgba(255, 255, 255, .6);
+      margin-bottom: .4rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .mockup-bar-track {
+      background: rgba(255, 255, 255, .12);
+      border-radius: 6px;
+      height: 7px;
+    }
+
+    .mockup-bar-fill {
+      height: 7px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, var(--green-main), #5DCAA5);
+      width: 84%;
+      transition: width 1.5s ease;
+    }
+
+    .mockup-proposals {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .5rem;
+    }
+
+    .mockup-proposal {
+      background: rgba(255, 255, 255, .1);
+      border-radius: 10px;
+      padding: .6rem .5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: background .2s;
+      border: .5px solid rgba(255, 255, 255, .08);
+    }
+
+    .mockup-proposal:hover {
+      background: rgba(255, 255, 255, .18);
+    }
+
+    .mockup-proposal.active {
+      background: rgba(159, 225, 203, .2);
+      border-color: var(--green-main);
+    }
+
+    .mockup-proposal-icon {
+      font-size: 1.1rem;
+      display: block;
+      margin-bottom: .2rem;
+    }
+
+    .mockup-proposal-label {
+      font-size: .62rem;
+      color: rgba(255, 255, 255, .75);
+    }
+
+    .float-card {
+      position: absolute;
+      background: var(--white);
+      border-radius: 14px;
+      padding: .85rem 1rem;
+      box-shadow: 0 8px 32px rgba(38, 33, 92, .15);
+      border: .5px solid rgba(174, 169, 236, .4);
+    }
+
+    .float-card-before {
+      bottom: -20px;
+      left: -30px;
+      animation: float 3.5s ease-in-out infinite;
+    }
+
+    .float-card-after {
+      top: 20px;
+      right: -35px;
+      animation: float 3.5s ease-in-out infinite 1.75s;
+      border-color: rgba(93, 202, 165, .5);
+    }
+
+    .float-card-stat {
+      top: -20px;
+      left: 50%;
+      transform: translateX(-50%);
+      animation: float 3.5s ease-in-out infinite .87s;
+      white-space: nowrap;
+    }
+
+    .float-tag {
+      font-size: .62rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: .2rem;
+    }
+
+    .float-tag.before {
+      color: var(--text-soft);
+    }
+
+    .float-tag.after {
       color: var(--green-dark);
     }
 
-    .h-card .card-text {
-      font-size: .82rem;
+    .float-text {
+      font-size: .8rem;
       font-weight: 500;
       color: var(--text-dark);
     }
 
-    .h-card-stat {
-      width: 140px;
-      top: 20px;
-      right: 0;
-      text-align: center;
-      animation: float 3s ease-in-out infinite .75s;
-    }
-
-    .h-card-stat .stat-num {
+    .float-stat-num {
       font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       font-weight: 700;
       color: var(--purple-main);
+      display: block;
     }
 
-    .h-card-stat .stat-label {
-      font-size: .72rem;
+    .float-stat-label {
+      font-size: .68rem;
       color: var(--text-soft);
-      line-height: 1.4;
     }
 
     @keyframes float {
@@ -420,8 +559,24 @@
       }
 
       50% {
-        transform: translateY(-8px)
+        transform: translateY(-9px)
       }
+    }
+
+    @keyframes float-center {
+
+      0%,
+      100% {
+        transform: translateX(-50%) translateY(0)
+      }
+
+      50% {
+        transform: translateX(-50%) translateY(-9px)
+      }
+    }
+
+    .float-card-stat {
+      animation: float-center 3.5s ease-in-out infinite .87s;
     }
 
     @keyframes pulse {
@@ -432,34 +587,37 @@
       }
 
       50% {
-        opacity: .4
+        opacity: .35
       }
     }
 
-    /* SECTIONS */
+    /* ── SECTIONS ── */
     section {
-      padding: 6rem 4rem;
+      padding: 6rem 5rem;
     }
 
-    .section-tag {
-      display: inline-block;
+    .section-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
       background: var(--purple-light);
       color: var(--purple-main);
-      font-size: .72rem;
-      font-weight: 500;
-      padding: .3rem .85rem;
-      border-radius: 20px;
+      font-size: .7rem;
+      font-weight: 600;
+      padding: .32rem .9rem;
+      border-radius: 22px;
       margin-bottom: 1rem;
-      letter-spacing: .3px;
+      letter-spacing: .5px;
       text-transform: uppercase;
+      border: .5px solid rgba(174, 169, 236, .5);
     }
 
     .section-title {
       font-family: 'Playfair Display', serif;
-      font-size: 2.2rem;
+      font-size: 2.4rem;
       font-weight: 700;
-      line-height: 1.2;
-      margin-bottom: .75rem;
+      line-height: 1.18;
+      margin-bottom: .85rem;
     }
 
     .section-title em {
@@ -470,12 +628,50 @@
     .section-sub {
       font-size: .95rem;
       color: var(--text-soft);
-      line-height: 1.75;
+      line-height: 1.8;
       max-width: 520px;
+      font-weight: 300;
     }
 
     .section-header {
-      margin-bottom: 3rem;
+      margin-bottom: 3.5rem;
+    }
+
+    /* STATS BAR */
+    .stats-bar {
+      background: linear-gradient(135deg, var(--purple-deep), var(--purple-main));
+      padding: 2.5rem 5rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+    }
+
+    .stat-block {
+      text-align: center;
+      padding: 1rem;
+      border-right: .5px solid rgba(255, 255, 255, .15);
+    }
+
+    .stat-block:last-child {
+      border-right: none;
+    }
+
+    .stat-block .num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--white);
+      display: block;
+    }
+
+    .stat-block .num span {
+      color: var(--green-main);
+    }
+
+    .stat-block .label {
+      font-size: .78rem;
+      color: rgba(255, 255, 255, .65);
+      margin-top: .2rem;
     }
 
     /* CÓMO FUNCIONA */
@@ -483,38 +679,73 @@
       background: var(--bg-off);
     }
 
-    .steps-grid {
+    .steps-wrap {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 1.5rem;
-    }
-
-    .step-card {
-      background: var(--white);
-      border-radius: 18px;
-      border: .5px solid var(--border);
-      padding: 1.75rem 1.5rem;
       position: relative;
-      transition: border-color .2s, transform .2s;
     }
 
-    .step-card:hover {
+    .steps-wrap::before {
+      content: '';
+      position: absolute;
+      top: 3rem;
+      left: calc(12.5% + 1rem);
+      right: calc(12.5% + 1rem);
+      height: 1px;
+      background: linear-gradient(90deg, var(--purple-soft), var(--purple-mid), var(--purple-soft));
+      z-index: 0;
+    }
+
+    .step {
+      background: var(--white);
+      border-radius: 20px;
+      border: .5px solid var(--border);
+      padding: 2rem 1.5rem;
+      position: relative;
+      z-index: 1;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
+      text-align: center;
+    }
+
+    .step:hover {
       border-color: var(--purple-mid);
-      transform: translateY(-4px);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 48px rgba(83, 74, 183, .1);
     }
 
-    .step-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
+    .step-bubble {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--purple-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      font-size: 1.3rem;
+      border: .5px solid var(--purple-mid);
+      transition: background .25s;
+    }
+
+    .step:hover .step-bubble {
+      background: var(--purple-soft);
+    }
+
+    .step-num-badge {
+      position: absolute;
+      top: -10px;
+      right: 16px;
+      background: var(--purple-main);
+      color: var(--white);
+      font-size: .62rem;
       font-weight: 700;
-      color: var(--purple-soft);
-      line-height: 1;
-      margin-bottom: 1rem;
-    }
-
-    .step-icon {
-      font-size: 1.5rem;
-      margin-bottom: .75rem;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .step-title {
@@ -525,35 +756,515 @@
     }
 
     .step-desc {
+      font-size: .8rem;
+      color: var(--text-soft);
+      line-height: 1.7;
+    }
+
+    /* STORYTELLING */
+    .storytelling {
+      background: var(--white);
+      padding: 6rem 5rem;
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .story-label {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: .7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--purple-main);
+      margin-bottom: 1rem;
+    }
+
+    .story-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 1.25rem;
+    }
+
+    .story-title em {
+      font-style: italic;
+      color: var(--purple-main);
+    }
+
+    .story-body {
+      font-size: .95rem;
+      color: var(--text-soft);
+      line-height: 1.9;
+      font-weight: 300;
+    }
+
+    .story-body p {
+      margin-bottom: 1.1rem;
+    }
+
+    .story-quote {
+      background: var(--purple-light);
+      border-left: 3px solid var(--purple-main);
+      border-radius: 0 14px 14px 0;
+      padding: 1.25rem 1.5rem;
+      margin: 1.75rem 0;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1.05rem;
+      color: var(--purple-deep);
+      line-height: 1.7;
+    }
+
+    .story-visual {
+      position: relative;
+    }
+
+    .story-card-stack {
+      position: relative;
+      height: 420px;
+    }
+
+    .story-card {
+      background: var(--white);
+      border-radius: 18px;
+      border: .5px solid var(--border);
+      padding: 1.25rem 1.5rem;
+      position: absolute;
+      box-shadow: 0 8px 32px rgba(83, 74, 183, .1);
+    }
+
+    .story-card-main {
+      width: 100%;
+      top: 0;
+      left: 0;
+      background: linear-gradient(145deg, #1a1540, var(--purple-deep));
+      color: var(--white);
+      border: none;
+    }
+
+    .story-card-main .sc-label {
+      font-size: .65rem;
+      opacity: .6;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: .4rem;
+    }
+
+    .story-card-main .sc-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      line-height: 1.4;
+    }
+
+    .story-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+      background: rgba(255, 255, 255, .08);
+      border-radius: 10px;
+      padding: .6rem .8rem;
+    }
+
+    .timeline-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .timeline-dot.past {
+      background: rgba(255, 255, 255, .3);
+    }
+
+    .timeline-dot.now {
+      background: var(--green-main);
+      animation: pulse 1.5s infinite;
+    }
+
+    .timeline-dot.future {
+      background: rgba(255, 255, 255, .15);
+      border: .5px solid rgba(255, 255, 255, .3);
+    }
+
+    .timeline-text {
+      font-size: .78rem;
+      color: rgba(255, 255, 255, .8);
+    }
+
+    .timeline-text .tl-year {
+      font-size: .65rem;
+      opacity: .5;
+      display: block;
+    }
+
+    .story-result-card {
+      width: 220px;
+      bottom: -15px;
+      right: -15px;
+      animation: float 4s ease-in-out infinite;
+      border-color: rgba(93, 202, 165, .5);
+    }
+
+    .src-tag {
+      font-size: .62rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--green-dark);
+      margin-bottom: .3rem;
+    }
+
+    .src-title {
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      margin-bottom: .6rem;
+    }
+
+    .src-price {
+      display: inline-block;
+      background: var(--green-light);
+      color: var(--green-dark);
+      font-size: .75rem;
+      font-weight: 600;
+      padding: .2rem .65rem;
+      border-radius: 20px;
+      border: .5px solid rgba(15, 110, 86, .2);
+    }
+
+    /* AI PREVIEW / ANTES-DESPUÉS */
+    .ai-preview-section {
+      background: linear-gradient(180deg, var(--bg-off) 0%, var(--white) 100%);
+      padding: 6rem 5rem;
+    }
+
+    .preview-container {
+      background: var(--white);
+      border-radius: 28px;
+      border: .5px solid var(--purple-mid);
+      box-shadow: 0 24px 80px rgba(83, 74, 183, .1);
+      overflow: hidden;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .preview-header {
+      background: linear-gradient(135deg, var(--purple-deep), var(--purple-main));
+      padding: 1.5rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .preview-header-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      color: var(--white);
+      font-weight: 700;
+    }
+
+    .preview-header-sub {
+      font-size: .75rem;
+      color: rgba(255, 255, 255, .65);
+      margin-top: .15rem;
+    }
+
+    .preview-status {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(159, 225, 203, .2);
+      color: var(--green-main);
+      padding: .4rem .85rem;
+      border-radius: 20px;
+      font-size: .75rem;
+    }
+
+    .preview-status-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--green-main);
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+      flex-shrink: 0;
+    }
+
+    .preview-body {
+      padding: 2rem;
+    }
+
+    .preview-upload-area {
+      border: 1.5px dashed var(--purple-mid);
+      border-radius: 18px;
+      padding: 2.5rem;
+      text-align: center;
+      background: var(--purple-light);
+      margin-bottom: 2rem;
+      cursor: pointer;
+      transition: background .2s, border-color .2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .preview-upload-area:hover {
+      background: var(--purple-soft);
+      border-color: var(--purple-main);
+    }
+
+    .preview-upload-icon {
+      font-size: 2.5rem;
+      margin-bottom: .75rem;
+      display: block;
+    }
+
+    .preview-upload-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--purple-deep);
+      margin-bottom: .35rem;
+    }
+
+    .preview-upload-sub {
       font-size: .82rem;
       color: var(--text-soft);
-      line-height: 1.65;
     }
 
-    .step-connector {
-      position: absolute;
-      top: 2rem;
-      right: -1rem;
-      width: 2rem;
-      height: 1px;
-      background: var(--purple-mid);
-      z-index: 1;
-    }
-
-    .step-connector::after {
-      content: '';
-      position: absolute;
-      right: -4px;
-      top: -3px;
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
+    .preview-upload-btn {
+      display: inline-block;
       background: var(--purple-main);
+      color: var(--white);
+      padding: .55rem 1.25rem;
+      border-radius: 22px;
+      font-size: .8rem;
+      font-weight: 500;
+      margin-top: 1rem;
+      transition: all .2s;
+      cursor: pointer;
+    }
+
+    .preview-upload-btn:hover {
+      background: var(--purple-deep);
+      transform: translateY(-1px);
+    }
+
+    .preview-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .preview-divider-line {
+      flex: 1;
+      height: .5px;
+      background: var(--border);
+    }
+
+    .preview-divider-text {
+      font-size: .75rem;
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+
+    .preview-demo {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .preview-side {
+      border-radius: 16px;
+      overflow: hidden;
+      border: .5px solid var(--border);
+    }
+
+    .preview-side-header {
+      padding: .75rem 1rem;
+      font-size: .7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+
+    .preview-side.before .preview-side-header {
+      background: var(--bg-off);
+      color: var(--text-soft);
+    }
+
+    .preview-side.after .preview-side-header {
+      background: var(--green-light);
+      color: var(--green-dark);
+    }
+
+    .preview-side-content {
+      padding: 1.25rem;
+      background: var(--white);
+    }
+
+    .preview-prenda-visual {
+      background: var(--bg-off);
+      border-radius: 10px;
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      margin-bottom: .75rem;
+      border: .5px solid var(--border);
+    }
+
+    .preview-side.after .preview-prenda-visual {
+      background: var(--green-light);
+      border-color: rgba(93, 202, 165, .3);
+    }
+
+    .preview-prenda-name {
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      margin-bottom: .2rem;
+    }
+
+    .preview-prenda-detail {
+      font-size: .75rem;
+      color: var(--text-soft);
+    }
+
+    .preview-arrow {
+      text-align: center;
+    }
+
+    .preview-arrow-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--purple-main);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-size: 1rem;
+      margin: 0 auto .4rem;
+      box-shadow: 0 4px 16px rgba(83, 74, 183, .3);
+    }
+
+    .preview-arrow-label {
+      font-size: .65rem;
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+
+    .preview-proposals {
+      margin-top: 2rem;
+    }
+
+    .preview-proposals-title {
+      font-size: .78rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: 1rem;
+    }
+
+    .proposals-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: .75rem;
+    }
+
+    .proposal-chip {
+      background: var(--bg-off);
+      border: .5px solid var(--border);
+      border-radius: 14px;
+      padding: .85rem 1rem;
+      cursor: pointer;
+      transition: all .2s;
+      text-align: center;
+    }
+
+    .proposal-chip:hover {
+      border-color: var(--purple-mid);
+      background: var(--purple-light);
+    }
+
+    .proposal-chip.selected {
+      border-color: var(--purple-main);
+      background: var(--purple-light);
+    }
+
+    .proposal-chip-icon {
+      font-size: 1.4rem;
+      display: block;
+      margin-bottom: .3rem;
+    }
+
+    .proposal-chip-name {
+      font-size: .78rem;
+      font-weight: 500;
+      color: var(--text-dark);
+    }
+
+    .proposal-chip-price {
+      font-size: .7rem;
+      color: var(--green-dark);
+      font-weight: 600;
+      margin-top: .15rem;
+    }
+
+    .preview-cta-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 1.75rem;
+      padding-top: 1.5rem;
+      border-top: .5px solid var(--border);
+    }
+
+    .preview-cta-note {
+      font-size: .78rem;
+      color: var(--text-soft);
+    }
+
+    .btn-preview-cta {
+      background: linear-gradient(135deg, var(--purple-main), var(--purple-deep));
+      color: var(--white);
+      padding: .7rem 1.5rem;
+      border-radius: 14px;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .25s;
+    }
+
+    .btn-preview-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(83, 74, 183, .3);
     }
 
     /* ANTES Y DESPUÉS */
     .antes-despues {
-      background: var(--white);
+      background: var(--bg-off);
     }
 
     .ad-grid {
@@ -563,84 +1274,93 @@
     }
 
     .ad-card {
-      border-radius: 18px;
+      border-radius: 20px;
       overflow: hidden;
       border: .5px solid var(--border);
-      transition: transform .2s, box-shadow .2s;
+      background: var(--white);
+      transition: transform .25s, box-shadow .25s;
     }
 
     .ad-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 40px rgba(83, 74, 183, .12);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 48px rgba(83, 74, 183, .12);
     }
 
-    .ad-before {
+    .ad-before-block {
       background: var(--bg-off);
       padding: 1.5rem;
       border-bottom: .5px solid var(--border);
     }
 
-    .ad-label {
-      font-size: .65rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: .5px;
-      color: var(--text-soft);
-      margin-bottom: .5rem;
-    }
-
-    .ad-prenda {
-      font-size: .9rem;
-      font-weight: 500;
-      color: var(--text-dark);
-      margin-bottom: .25rem;
-    }
-
-    .ad-tiempo {
-      font-size: .75rem;
-      color: #bbb;
-    }
-
-    .ad-arrow {
-      background: var(--purple-light);
-      padding: .5rem;
-      text-align: center;
-      font-size: .8rem;
-      color: var(--purple-main);
-      font-weight: 500;
-    }
-
-    .ad-after {
+    .ad-after-block {
       background: var(--green-light);
       padding: 1.5rem;
     }
 
-    .ad-after .ad-label {
+    .ad-connector {
+      background: var(--purple-light);
+      padding: .5rem 1rem;
+      text-align: center;
+      font-size: .75rem;
+      color: var(--purple-main);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .4rem;
+    }
+
+    .ad-label-tag {
+      font-size: .62rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      margin-bottom: .4rem;
+    }
+
+    .ad-label-tag.before {
+      color: var(--text-soft);
+    }
+
+    .ad-label-tag.after {
       color: var(--green-dark);
     }
 
-    .ad-result {
-      font-size: .9rem;
+    .ad-prenda-name {
+      font-size: .92rem;
       font-weight: 500;
       color: var(--text-dark);
-      margin-bottom: .25rem;
+      margin-bottom: .2rem;
     }
 
-    .ad-price {
-      display: inline-block;
-      background: var(--green-light);
+    .ad-prenda-sub {
+      font-size: .75rem;
+      color: #bbb;
+    }
+
+    .ad-result-name {
+      font-size: .92rem;
+      font-weight: 500;
+      color: var(--text-dark);
+      margin-bottom: .5rem;
+    }
+
+    .ad-price-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      background: var(--white);
       color: var(--green-dark);
       font-size: .75rem;
       font-weight: 600;
-      padding: .2rem .6rem;
+      padding: .25rem .7rem;
       border-radius: 20px;
-      margin-top: .4rem;
-      border: .5px solid rgba(15, 110, 86, .2);
+      border: .5px solid rgba(15, 110, 86, .25);
     }
 
     /* BENEFICIOS */
     .beneficios {
-      background: var(--bg-off);
+      background: var(--white);
     }
 
     .features-grid {
@@ -650,28 +1370,30 @@
     }
 
     .feature-card {
-      background: var(--white);
-      border-radius: 16px;
+      background: var(--bg-off);
+      border-radius: 18px;
       border: .5px solid var(--border);
-      padding: 1.5rem;
-      transition: border-color .2s, transform .2s;
+      padding: 1.75rem;
+      transition: border-color .25s, transform .25s, box-shadow .25s;
     }
 
     .feature-card:hover {
       border-color: var(--purple-mid);
-      transform: translateY(-3px);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(83, 74, 183, .08);
     }
 
-    .feature-icon {
-      width: 44px;
-      height: 44px;
+    .feature-icon-wrap {
+      width: 46px;
+      height: 46px;
       background: var(--purple-light);
-      border-radius: 12px;
+      border-radius: 13px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
-      margin-bottom: 1rem;
+      font-size: 1.3rem;
+      margin-bottom: 1.1rem;
+      border: .5px solid rgba(174, 169, 236, .5);
     }
 
     .feature-title {
@@ -684,12 +1406,12 @@
     .feature-desc {
       font-size: .8rem;
       color: var(--text-soft);
-      line-height: 1.65;
+      line-height: 1.7;
     }
 
     /* TESTIMONIOS */
     .testimonios {
-      background: var(--white);
+      background: var(--bg-off);
     }
 
     .testi-grid {
@@ -699,16 +1421,22 @@
     }
 
     .testi-card {
-      background: var(--bg-off);
-      border-radius: 16px;
+      background: var(--white);
+      border-radius: 18px;
       border: .5px solid var(--border);
-      padding: 1.5rem;
+      padding: 1.75rem;
+      transition: transform .2s;
+    }
+
+    .testi-card:hover {
+      transform: translateY(-3px);
     }
 
     .testi-stars {
       color: #F5A623;
-      font-size: .85rem;
-      margin-bottom: .75rem;
+      font-size: .82rem;
+      margin-bottom: .9rem;
+      letter-spacing: 1px;
     }
 
     .testi-text {
@@ -716,8 +1444,8 @@
       font-style: italic;
       font-size: .9rem;
       color: var(--text-mid);
-      line-height: 1.7;
-      margin-bottom: 1rem;
+      line-height: 1.75;
+      margin-bottom: 1.1rem;
     }
 
     .testi-author {
@@ -727,8 +1455,8 @@
     }
 
     .testi-avatar {
-      width: 36px;
-      height: 36px;
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--purple-main), var(--green-main));
       display: flex;
@@ -743,18 +1471,18 @@
 
     .testi-name {
       font-size: .82rem;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text-dark);
     }
 
     .testi-role {
-      font-size: .72rem;
+      font-size: .7rem;
       color: var(--text-soft);
     }
 
     /* PRECIOS */
     .precios {
-      background: var(--bg-off);
+      background: var(--white);
     }
 
     .pricing-grid {
@@ -765,60 +1493,61 @@
     }
 
     .pricing-card {
-      background: var(--white);
-      border-radius: 20px;
+      background: var(--bg-off);
+      border-radius: 22px;
       border: .5px solid var(--border);
-      padding: 2rem;
+      padding: 2.25rem;
       position: relative;
-      transition: transform .2s, box-shadow .2s;
+      transition: transform .25s, box-shadow .25s;
     }
 
     .pricing-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 40px rgba(83, 74, 183, .1);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 52px rgba(83, 74, 183, .1);
     }
 
     .pricing-card.featured {
-      background: linear-gradient(135deg, var(--purple-deep), var(--purple-main));
+      background: linear-gradient(145deg, var(--purple-deep), #3d3490);
       border-color: transparent;
-      color: var(--white);
       transform: scale(1.04);
     }
 
     .pricing-card.featured:hover {
-      transform: scale(1.04) translateY(-4px);
+      transform: scale(1.04) translateY(-5px);
+      box-shadow: 0 24px 60px rgba(38, 33, 92, .3);
     }
 
     .pricing-badge {
       position: absolute;
-      top: -12px;
+      top: -13px;
       left: 50%;
       transform: translateX(-50%);
       background: var(--green-main);
       color: var(--green-dark);
       font-size: .68rem;
-      font-weight: 600;
-      padding: .25rem .9rem;
+      font-weight: 700;
+      padding: .28rem .9rem;
       border-radius: 20px;
       white-space: nowrap;
+      letter-spacing: .3px;
     }
 
     .plan-name {
-      font-size: .78rem;
-      font-weight: 500;
+      font-size: .72rem;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: .5px;
+      letter-spacing: .8px;
       color: var(--text-soft);
       margin-bottom: .5rem;
     }
 
     .pricing-card.featured .plan-name {
-      color: rgba(255, 255, 255, .7);
+      color: rgba(255, 255, 255, .6);
     }
 
     .plan-price {
       font-family: 'Playfair Display', serif;
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       font-weight: 700;
       line-height: 1;
       color: var(--purple-main);
@@ -832,24 +1561,24 @@
     .plan-period {
       font-size: .78rem;
       color: var(--text-soft);
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
     }
 
     .pricing-card.featured .plan-period {
-      color: rgba(255, 255, 255, .6);
+      color: rgba(255, 255, 255, .55);
     }
 
     .plan-features {
       list-style: none;
-      margin-bottom: 1.75rem;
+      margin-bottom: 2rem;
     }
 
     .plan-features li {
       font-size: .82rem;
       color: var(--text-mid);
-      padding: .4rem 0;
+      padding: .45rem 0;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       gap: .6rem;
       border-bottom: .5px solid var(--border);
     }
@@ -859,50 +1588,253 @@
     }
 
     .pricing-card.featured .plan-features li {
-      color: rgba(255, 255, 255, .85);
-      border-bottom-color: rgba(255, 255, 255, .15);
+      color: rgba(255, 255, 255, .82);
+      border-bottom-color: rgba(255, 255, 255, .12);
     }
 
-    .check-icon {
+    .check-i {
       color: var(--green-dark);
-      font-size: .9rem;
+      font-size: .85rem;
       flex-shrink: 0;
+      margin-top: .05rem;
     }
 
-    .pricing-card.featured .check-icon {
+    .pricing-card.featured .check-i {
       color: var(--green-main);
     }
 
     .btn-plan {
       width: 100%;
-      padding: .75rem;
-      border-radius: 12px;
+      padding: .8rem;
+      border-radius: 14px;
       font-family: 'DM Sans', sans-serif;
       font-size: .85rem;
-      font-weight: 500;
+      font-weight: 600;
       cursor: pointer;
       transition: all .2s;
       border: none;
+      letter-spacing: .2px;
     }
 
-    .btn-plan-outline {
+    .btn-outline-plan {
       background: transparent;
       color: var(--purple-main);
       border: .5px solid var(--purple-mid);
     }
 
-    .btn-plan-outline:hover {
+    .btn-outline-plan:hover {
       background: var(--purple-light);
     }
 
-    .btn-plan-solid {
+    .btn-solid-plan {
       background: var(--white);
-      color: var(--purple-main);
-      font-weight: 600;
+      color: var(--purple-deep);
+      font-weight: 700;
     }
 
-    .btn-plan-solid:hover {
+    .btn-solid-plan:hover {
       background: var(--green-main);
+      color: var(--green-dark);
+    }
+
+    /* REDES SOCIALES */
+    .redes-section {
+      background: var(--purple-deep);
+      padding: 5rem;
+      text-align: center;
+    }
+
+    .redes-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: .6rem;
+    }
+
+    .redes-title em {
+      font-style: italic;
+      color: var(--green-main);
+    }
+
+    .redes-sub {
+      font-size: .92rem;
+      color: rgba(255, 255, 255, .6);
+      margin-bottom: 2.5rem;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.75;
+    }
+
+    .redes-grid {
+      display: flex;
+      justify-content: center;
+      gap: 1.25rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .red-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .65rem;
+      background: rgba(255, 255, 255, .06);
+      border: .5px solid rgba(255, 255, 255, .12);
+      border-radius: 20px;
+      padding: 1.5rem 2rem;
+      text-decoration: none;
+      transition: all .25s;
+      min-width: 130px;
+    }
+
+    .red-card:hover {
+      background: rgba(255, 255, 255, .12);
+      transform: translateY(-4px);
+      border-color: rgba(255, 255, 255, .25);
+    }
+
+    .red-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .red-icon.ig {
+      background: linear-gradient(135deg, #833AB4, #FD1D1D, #F77737);
+    }
+
+    .red-icon.tiktok {
+      background: #000;
+      border: .5px solid rgba(255, 255, 255, .2);
+    }
+
+    .red-icon.yt {
+      background: #FF0000;
+    }
+
+    .red-icon.wa {
+      background: #25D366;
+    }
+
+    .red-name {
+      font-size: .82rem;
+      font-weight: 600;
+      color: var(--white);
+    }
+
+    .red-handle {
+      font-size: .7rem;
+      color: rgba(255, 255, 255, .5);
+    }
+
+    .red-followers {
+      display: inline-block;
+      background: rgba(159, 225, 203, .15);
+      color: var(--green-main);
+      font-size: .65rem;
+      font-weight: 600;
+      padding: .15rem .55rem;
+      border-radius: 20px;
+      margin-top: .1rem;
+    }
+
+    .redes-note {
+      font-size: .75rem;
+      color: rgba(255, 255, 255, .35);
+    }
+
+    /* CTA FINAL */
+    .cta-final {
+      background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple-main) 60%, #7B6FD4 100%);
+      padding: 7rem 5rem;
+      text-align: center;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-final::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(159, 225, 203, .1) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .cta-final .section-title {
+      color: var(--white);
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-final .section-title em {
+      color: var(--green-main);
+    }
+
+    .cta-sub-final {
+      font-size: .95rem;
+      color: rgba(255, 255, 255, .7);
+      max-width: 440px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.8;
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-btns {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .btn-white {
+      background: var(--white);
+      color: var(--purple-deep);
+      padding: .8rem 2rem;
+      border-radius: 14px;
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: .88rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all .25s;
+    }
+
+    .btn-white:hover {
+      background: var(--green-main);
+      color: var(--green-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(255, 255, 255, .2);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--white);
+      padding: .8rem 2rem;
+      border-radius: 14px;
+      border: .5px solid rgba(255, 255, 255, .35);
+      font-family: 'DM Sans', sans-serif;
+      font-size: .88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .25s;
+    }
+
+    .btn-ghost:hover {
+      background: rgba(255, 255, 255, .1);
     }
 
     /* CHATBOT */
@@ -911,8 +1843,8 @@
       bottom: 2rem;
       right: 2rem;
       z-index: 200;
-      width: 56px;
-      height: 56px;
+      width: 58px;
+      height: 58px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--purple-main), var(--purple-deep));
       border: none;
@@ -920,23 +1852,23 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 20px rgba(83, 74, 183, .4);
+      box-shadow: 0 6px 24px rgba(83, 74, 183, .45);
       transition: transform .2s, box-shadow .2s;
-      font-size: 1.3rem;
+      font-size: 1.4rem;
       color: var(--white);
     }
 
     .chat-trigger:hover {
       transform: scale(1.1);
-      box-shadow: 0 8px 28px rgba(83, 74, 183, .5);
+      box-shadow: 0 10px 32px rgba(83, 74, 183, .55);
     }
 
-    .chat-status-dot {
+    .chat-status {
       position: absolute;
       top: 2px;
       right: 2px;
-      width: 12px;
-      height: 12px;
+      width: 13px;
+      height: 13px;
       background: var(--green-main);
       border-radius: 50%;
       border: 2px solid var(--white);
@@ -945,21 +1877,21 @@
 
     .chatbox {
       position: fixed;
-      bottom: 6rem;
+      bottom: 6.5rem;
       right: 2rem;
       z-index: 200;
-      width: 360px;
-      height: 500px;
+      width: 370px;
+      height: 510px;
       background: var(--white);
-      border-radius: 20px;
+      border-radius: 22px;
       border: .5px solid var(--purple-mid);
-      box-shadow: 0 20px 60px rgba(83, 74, 183, .2);
+      box-shadow: 0 24px 72px rgba(83, 74, 183, .22);
       display: flex;
       flex-direction: column;
-      transform: scale(.9) translateY(20px);
+      transform: scale(.88) translateY(24px);
       opacity: 0;
       pointer-events: none;
-      transition: all .3s cubic-bezier(.34, 1.56, .64, 1);
+      transition: all .32s cubic-bezier(.34, 1.56, .64, 1);
     }
 
     .chatbox.open {
@@ -970,44 +1902,41 @@
 
     .chat-header {
       background: linear-gradient(135deg, var(--purple-deep), var(--purple-main));
-      padding: 1rem 1.25rem;
-      border-radius: 20px 20px 0 0;
+      padding: 1.1rem 1.35rem;
+      border-radius: 22px 22px 0 0;
       display: flex;
       align-items: center;
-      gap: .75rem;
+      gap: .8rem;
     }
 
     .chat-avatar {
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
       border-radius: 50%;
-      background: rgba(255, 255, 255, .2);
+      background: rgba(255, 255, 255, .18);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       flex-shrink: 0;
     }
 
-    .chat-header-info {
-      flex: 1;
-    }
-
-    .chat-header-name {
-      font-size: .88rem;
+    .chat-hname {
+      font-size: .9rem;
       font-weight: 600;
       color: var(--white);
     }
 
-    .chat-header-status {
+    .chat-hstatus {
       font-size: .7rem;
       color: var(--green-main);
       display: flex;
       align-items: center;
       gap: .3rem;
+      margin-top: .1rem;
     }
 
-    .status-dot {
+    .chat-sdot {
       width: 5px;
       height: 5px;
       background: var(--green-main);
@@ -1015,46 +1944,47 @@
       animation: pulse 1.5s infinite;
     }
 
-    .chat-close {
-      background: rgba(255, 255, 255, .15);
+    .chat-close-btn {
+      background: rgba(255, 255, 255, .12);
       border: none;
       color: var(--white);
       width: 28px;
       height: 28px;
       border-radius: 50%;
       cursor: pointer;
-      font-size: .9rem;
+      font-size: .85rem;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: background .2s;
+      margin-left: auto;
     }
 
-    .chat-close:hover {
-      background: rgba(255, 255, 255, .25);
+    .chat-close-btn:hover {
+      background: rgba(255, 255, 255, .22);
     }
 
-    .chat-messages {
+    .chat-msgs {
       flex: 1;
       overflow-y: auto;
       padding: 1.25rem;
       display: flex;
       flex-direction: column;
-      gap: .75rem;
+      gap: .8rem;
       scroll-behavior: smooth;
     }
 
-    .chat-messages::-webkit-scrollbar {
-      width: 4px;
+    .chat-msgs::-webkit-scrollbar {
+      width: 3px;
     }
 
-    .chat-messages::-webkit-scrollbar-thumb {
+    .chat-msgs::-webkit-scrollbar-thumb {
       background: var(--purple-soft);
       border-radius: 2px;
     }
 
     .msg {
-      max-width: 85%;
+      max-width: 86%;
     }
 
     .msg-bot {
@@ -1066,67 +1996,67 @@
     }
 
     .msg-bubble {
-      padding: .7rem .9rem;
-      border-radius: 14px;
+      padding: .75rem .95rem;
+      border-radius: 15px;
       font-size: .82rem;
-      line-height: 1.55;
+      line-height: 1.6;
     }
 
     .msg-bot .msg-bubble {
       background: var(--bg-off);
       color: var(--text-dark);
       border: .5px solid var(--border);
-      border-radius: 4px 14px 14px 14px;
+      border-radius: 4px 15px 15px 15px;
     }
 
     .msg-user .msg-bubble {
-      background: var(--purple-main);
+      background: linear-gradient(135deg, var(--purple-main), var(--purple-deep));
       color: var(--white);
-      border-radius: 14px 4px 14px 14px;
+      border-radius: 15px 4px 15px 15px;
     }
 
     .msg-time {
-      font-size: .62rem;
-      color: #bbb;
-      margin-top: .25rem;
-      padding: 0 .25rem;
+      font-size: .6rem;
+      color: #c0c0c0;
+      margin-top: .2rem;
+      padding: 0 .2rem;
     }
 
     .msg-user .msg-time {
       text-align: right;
     }
 
-    .chat-options {
+    .chat-opts {
       display: flex;
       flex-wrap: wrap;
       gap: .4rem;
-      margin-top: .4rem;
+      margin-top: .45rem;
     }
 
-    .chat-option-btn {
+    .chat-opt {
       background: var(--purple-light);
       color: var(--purple-main);
       border: .5px solid var(--purple-mid);
-      border-radius: 20px;
-      padding: .3rem .7rem;
-      font-size: .75rem;
+      border-radius: 22px;
+      padding: .32rem .75rem;
+      font-size: .74rem;
       cursor: pointer;
       font-family: 'DM Sans', sans-serif;
       transition: background .15s;
     }
 
-    .chat-option-btn:hover {
+    .chat-opt:hover {
       background: var(--purple-soft);
     }
 
-    .typing-indicator {
+    .typing {
       display: flex;
       align-items: center;
       gap: 4px;
-      padding: .6rem .9rem;
+      padding: .65rem .95rem;
       background: var(--bg-off);
       border: .5px solid var(--border);
-      border-radius: 4px 14px 14px 14px;
+      border-radius: 4px 15px 15px 15px;
       width: fit-content;
       align-self: flex-start;
     }
@@ -1160,127 +2090,63 @@
       }
     }
 
-    .chat-input-area {
-      padding: .75rem 1rem;
+    .chat-input-wrap {
+      padding: .8rem 1.1rem;
       border-top: .5px solid var(--border);
       display: flex;
       gap: .5rem;
-      align-items: center;
     }
 
-    .chat-input {
+    .chat-inp {
       flex: 1;
-      padding: .6rem .85rem;
-      border-radius: 10px;
+      padding: .65rem .95rem;
+      border-radius: 12px;
       border: .5px solid var(--border);
       font-family: 'DM Sans', sans-serif;
       font-size: .82rem;
       outline: none;
-      color: var(--text-dark);
       background: var(--bg-off);
       transition: border-color .2s;
     }
 
-    .chat-input:focus {
+    .chat-inp:focus {
       border-color: var(--purple-main);
     }
 
-    .chat-send {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
+    .chat-send-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
       background: var(--purple-main);
       border: none;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background .2s;
       color: var(--white);
       font-size: .9rem;
       flex-shrink: 0;
+      transition: background .2s;
     }
 
-    .chat-send:hover {
+    .chat-send-btn:hover {
       background: var(--purple-deep);
     }
 
-    /* CTA FINAL */
-    .cta-final {
-      background: linear-gradient(135deg, var(--purple-deep) 0%, var(--purple-main) 100%);
-      padding: 6rem 4rem;
-      text-align: center;
-      color: var(--white);
-    }
-
-    .cta-final .section-title {
-      color: var(--white);
-    }
-
-    .cta-final .section-title em {
-      color: var(--green-main);
-    }
-
-    .cta-final .section-sub {
-      color: rgba(255, 255, 255, .75);
-      margin: 0 auto 2rem;
-    }
-
-    .cta-final-btns {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .btn-white {
-      background: var(--white);
-      color: var(--purple-main);
-      padding: .75rem 1.75rem;
-      border-radius: 12px;
-      border: none;
-      font-family: 'DM Sans', sans-serif;
-      font-size: .88rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all .2s;
-    }
-
-    .btn-white:hover {
-      background: var(--green-main);
-      color: var(--green-dark);
-    }
-
-    .btn-ghost {
-      background: transparent;
-      color: var(--white);
-      padding: .75rem 1.75rem;
-      border-radius: 12px;
-      border: .5px solid rgba(255, 255, 255, .4);
-      font-family: 'DM Sans', sans-serif;
-      font-size: .88rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all .2s;
-    }
-
-    .btn-ghost:hover {
-      background: rgba(255, 255, 255, .1);
-    }
-
     /* RESPONSIVE */
-    @media(max-width:900px) {
+    @media(max-width:960px) {
       nav {
         padding: 1rem 1.5rem;
       }
 
-      .nav-links {
+      .nav-links,
+      .nav-social {
         display: none;
       }
 
       .hero {
         grid-template-columns: 1fr;
-        padding: 7rem 1.5rem 3rem;
+        padding: 7.5rem 1.5rem 4rem;
       }
 
       .hero-visual {
@@ -1288,14 +2154,23 @@
       }
 
       .hero-title {
-        font-size: 2.2rem;
+        font-size: 2.4rem;
       }
 
-      section {
+      section,
+      .storytelling,
+      .ai-preview-section,
+      .redes-section,
+      .cta-final {
         padding: 4rem 1.5rem;
       }
 
-      .steps-grid,
+      .stats-bar {
+        padding: 2rem 1.5rem;
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .steps-wrap,
       .ad-grid,
       .features-grid,
       .testi-grid,
@@ -1303,8 +2178,33 @@
         grid-template-columns: 1fr;
       }
 
+      .story-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .story-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .steps-wrap::before {
+        display: none;
+      }
+
       .pricing-card.featured {
         transform: scale(1);
+      }
+
+      .preview-demo {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .preview-arrow {
+        transform: rotate(90deg);
+      }
+
+      .proposals-grid {
+        grid-template-columns: repeat(3, 1fr);
       }
 
       .chatbox {
@@ -1312,16 +2212,15 @@
         right: 1rem;
       }
 
-      .cta-final {
-        padding: 4rem 1.5rem;
+      .redes-grid {
+        gap: .75rem;
       }
     }
 
-    /* REVEAL */
     .reveal {
       opacity: 0;
-      transform: translateY(24px);
-      transition: opacity .6s ease, transform .6s ease;
+      transform: translateY(28px);
+      transition: opacity .65s ease, transform .65s ease;
     }
 
     .reveal.visible {
@@ -1333,29 +2232,44 @@
 
 <body>
 
+  <!-- NAV -->
   <nav>
-    <div class="nav-logo">ClosetOS <span>AI</span>
+    <a href="#inicio" class="nav-logo">ClosetOS <span>AI</span>
       <div class="nav-dot"></div>
-    </div>
+    </a>
     <div class="nav-links">
       <a href="#como-funciona">Cómo funciona</a>
+      <a href="#preview">AI Preview</a>
       <a href="#beneficios">Beneficios</a>
-      <a href="#antes-despues">Resultados</a>
       <a href="#precios">Planes</a>
+      <a href="#redes">Comunidad</a>
     </div>
-    <a href="#precios" class="nav-cta">Empezar gratis →</a>
+    <div class="nav-right">
+      <div class="nav-social">
+        <a href="https://tr.ee/8Ygqr5OmLI" target="_blank" title="Instagram">📸</a>
+        <a href="https://tr.ee/GxiM2byHip" target="_blank" title="TikTok">🎵</a>
+        <a href="https://www.youtube.com/@ClosetOSLab" target="_blank" title="YouTube">▶️</a>
+      </div>
+      <a href="#precios" class="nav-cta">Empezar gratis →</a>
+    </div>
   </nav>
 
   <!-- HERO -->
   <section class="hero" id="inicio">
+    <div class="hero-bg-blob"></div>
+    <div class="hero-bg-blob2"></div>
+    <div class="hero-grain"></div>
     <div class="hero-content">
-      <div class="hero-tag">
-        <div class="tag-dot"></div> Moda circular inteligente · Lima
+      <div class="hero-eyebrow">
+        <div class="eyebrow-dot"></div> Moda circular con IA · Lima, Perú
       </div>
-      <h1 class="hero-title">Reinventa tu ropa.<br><em>Transforma</em> tu estilo.<br><span class="green">Sin comprar
-          más.</span></h1>
-      <p class="hero-sub">ClosetOS AI conecta tu ropa acumulada con diseñadores verificados usando IA. Visualiza el
-        resultado antes de invertir, recojo a domicilio incluido.</p>
+      <h1 class="hero-title">
+        Reinventa tu ropa.<br>
+        <em>Transforma</em> tu estilo.<br>
+        <span class="accent">Sin comprar más.</span>
+      </h1>
+      <p class="hero-sub">ClosetOS AI conecta tu ropa acumulada con diseñadores verificados usando inteligencia
+        artificial. Visualiza el resultado antes de invertir un sol.</p>
       <div class="hero-form">
         <input type="text" placeholder="Tu nombre">
         <input type="email" placeholder="Tu correo">
@@ -1368,125 +2282,284 @@
       </div>
     </div>
     <div class="hero-visual">
-      <div class="hero-card-stack">
-        <div class="h-card h-card-main">
-          <div class="card-label">AI Style Preview</div>
-          <div class="card-title">Blazer oversize gris · 2 años sin usar</div>
-          <div class="ai-preview-bar">
-            <div class="bar-label">Potencial de renovación</div>
-            <div class="bar-track">
-              <div class="bar-fill"></div>
+      <div class="hero-mockup">
+        <div class="mockup-main">
+          <div class="mockup-header">
+            <div class="mockup-logo">ClosetOS AI</div>
+            <div class="mockup-badge">
+              <div class="mockup-badge-dot"></div> IA activa
             </div>
           </div>
-          <div class="ai-badge-hero">
-            <div class="ai-badge-dot"></div> Alta — 3 propuestas generadas
+          <div class="mockup-prenda">
+            <div class="mockup-prenda-label">Prenda analizada</div>
+            <div class="mockup-prenda-name">Blazer oversize gris · 2 años sin usar</div>
+          </div>
+          <div class="mockup-bar-wrap">
+            <div class="mockup-bar-label"><span>Potencial de renovación</span><span
+                style="color:var(--green-main);font-weight:600;">84%</span></div>
+            <div class="mockup-bar-track">
+              <div class="mockup-bar-fill"></div>
+            </div>
+          </div>
+          <div class="mockup-proposals">
+            <div class="mockup-proposal active"><span class="mockup-proposal-icon">✂️</span>
+              <div class="mockup-proposal-label">Crop</div>
+            </div>
+            <div class="mockup-proposal"><span class="mockup-proposal-icon">🧵</span>
+              <div class="mockup-proposal-label">Slim fit</div>
+            </div>
+            <div class="mockup-proposal"><span class="mockup-proposal-icon">🎨</span>
+              <div class="mockup-proposal-label">Custom</div>
+            </div>
           </div>
         </div>
-        <div class="h-card h-card-before">
-          <div class="card-tag">Antes</div>
-          <div class="card-text">Blazer sin usar · S/. 0 de valor activo</div>
+        <div class="float-card float-card-before">
+          <div class="float-tag before">Antes</div>
+          <div class="float-text">Sin usar · S/. 0 activo</div>
         </div>
-        <div class="h-card h-card-after">
-          <div class="card-tag">Después</div>
-          <div class="card-text">Blazer crop estructurado · Pieza favorita</div>
+        <div class="float-card float-card-after">
+          <div class="float-tag after">Después</div>
+          <div class="float-text">Pieza favorita ✨</div>
         </div>
-        <div class="h-card h-card-stat">
-          <div class="stat-num">S/.95</div>
-          <div class="stat-label">costo de transformación promedio</div>
+        <div class="float-card float-card-stat">
+          <span class="float-stat-num">S/.95</span>
+          <span class="float-stat-label">transformación promedio</span>
         </div>
       </div>
     </div>
   </section>
 
+  <!-- STATS BAR -->
+  <div class="stats-bar">
+    <div class="stat-block"><span class="num">+<span>1,200</span></span>
+      <div class="label">prendas transformadas en Lima</div>
+    </div>
+    <div class="stat-block"><span class="num"><span>S/.95</span></span>
+      <div class="label">costo promedio de transformación</div>
+    </div>
+    <div class="stat-block"><span class="num"><span>72h</span></span>
+      <div class="label">de clóset al resultado final</div>
+    </div>
+    <div class="stat-block"><span class="num"><span>98%</span></span>
+      <div class="label">de usuarios satisfechos</div>
+    </div>
+  </div>
+
   <!-- CÓMO FUNCIONA -->
   <section class="como-funciona" id="como-funciona">
-    <div class="section-header reveal">
-      <div class="section-tag">⚙️ El proceso</div>
-      <h2 class="section-title">Así funciona <em>ClosetOS AI</em></h2>
-      <p class="section-sub">De tu clóset acumulado a una pieza que vuelves a usar, en 4 pasos simples y sin salir de
-        casa.</p>
+    <div class="section-header reveal" style="text-align:center;">
+      <div class="section-pill">⚙️ El proceso</div>
+      <h2 class="section-title">4 pasos. <em>Sin complicaciones.</em></h2>
+      <p class="section-sub" style="margin:0 auto;">De tu clóset acumulado a una pieza que vuelves a usar. Sin salir de
+        casa, sin saber coser, sin riesgos.</p>
     </div>
-    <div class="steps-grid reveal">
-      <div class="step-card">
-        <div class="step-num">01</div>
-        <div class="step-icon">📸</div>
+    <div class="steps-wrap reveal">
+      <div class="step">
+        <div class="step-num-badge">1</div>
+        <div class="step-bubble">📸</div>
         <div class="step-title">Fotografía tu prenda</div>
-        <div class="step-desc">Sube una foto desde tu smartphone. La IA analiza el material, corte y potencial de
-          transformación en segundos.</div>
-        <div class="step-connector"></div>
+        <div class="step-desc">Sube una foto desde tu smartphone. La IA analiza material, corte y potencial en segundos.
+        </div>
       </div>
-      <div class="step-card">
-        <div class="step-num">02</div>
-        <div class="step-icon">🤖</div>
+      <div class="step">
+        <div class="step-num-badge">2</div>
+        <div class="step-bubble">🤖</div>
         <div class="step-title">AI Style Preview</div>
-        <div class="step-desc">Recibe 3 propuestas visuales de cómo podría quedar tu prenda rediseñada. Ves el resultado
-          antes de comprometerte.</div>
-        <div class="step-connector"></div>
+        <div class="step-desc">Recibe 3 propuestas visuales de cómo podría quedar rediseñada. Ves el resultado antes de
+          comprometerte.</div>
       </div>
-      <div class="step-card">
-        <div class="step-num">03</div>
-        <div class="step-icon">✂️</div>
+      <div class="step">
+        <div class="step-num-badge">3</div>
+        <div class="step-bubble">✂️</div>
         <div class="step-title">Matching con diseñador</div>
-        <div class="step-desc">Te conectamos con un diseñador verificado especializado en el estilo que elegiste. Recojo
-          a domicilio incluido.</div>
-        <div class="step-connector"></div>
+        <div class="step-desc">Te conectamos con un experto verificado. Recojo a domicilio incluido en Lima
+          Metropolitana.</div>
       </div>
-      <div class="step-card">
-        <div class="step-num">04</div>
-        <div class="step-icon">📦</div>
+      <div class="step">
+        <div class="step-num-badge">4</div>
+        <div class="step-bubble">📦</div>
         <div class="step-title">Recibe tu prenda</div>
-        <div class="step-desc">En 72 horas recibes tu prenda transformada en casa. Tracking en tiempo real durante todo
-          el proceso.</div>
+        <div class="step-desc">En 72 horas la recibes transformada en casa. Tracking en tiempo real durante todo el
+          proceso.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORYTELLING -->
+  <section class="storytelling" id="historia">
+    <div class="story-grid">
+      <div class="reveal">
+        <div class="story-label">💬 Historia real</div>
+        <h2 class="story-title">El clóset lleno<br>que <em>cambió todo</em></h2>
+        <div class="story-body">
+          <p>Había un blazer gris colgado en el fondo de mi clóset desde hacía casi tres años. No era feo. Era de buena
+            lana, tenía peso real. Pero ahí estaba, intocable, invisible.</p>
+          <p>No lo botaba porque costó caro. No lo usaba porque ya no me representaba. Esa tensión, ese objeto que ocupa
+            espacio físico y mental al mismo tiempo, fue lo que nos llevó a construir ClosetOS AI.</p>
+        </div>
+        <div class="story-quote">"La ropa que no usas no es basura silenciosa. Es identidad pendiente de resolver."
+        </div>
+        <div class="story-body">
+          <p>Vivimos en Lima con una presión constante por renovar imagen. Las redes sociales aceleran ese ciclo de
+            forma brutal. Pero nadie habla de lo que pasa cuando tienes prendas de valor real acumuladas y no sabes qué
+            hacer con ellas.</p>
+          <p>ClosetOS AI nació para eso. No para hacerte sentir culpa ambiental, sino para mostrarte que hay una salida
+            inteligente, económica y estéticamente poderosa.</p>
+        </div>
+      </div>
+      <div class="story-visual reveal">
+        <div
+          style="position:relative;border-radius:20px;overflow:hidden;box-shadow:0 24px 64px rgba(38,33,92,.25);border:.5px solid var(--purple-mid);">
+          <div
+            style="background:linear-gradient(135deg,var(--purple-deep),var(--purple-main));padding:.75rem 1.25rem;display:flex;align-items:center;justify-content:space-between;">
+            <div style="font-family:'Playfair Display',serif;font-size:.9rem;color:var(--white);font-weight:700;">
+              Nuestra historia · ClosetOS AI</div>
+            <div
+              style="display:flex;align-items:center;gap:.4rem;background:rgba(159,225,203,.2);color:var(--green-main);padding:.3rem .7rem;border-radius:20px;font-size:.68rem;">
+              <span
+                style="width:5px;height:5px;background:var(--green-main);border-radius:50%;display:inline-block;animation:pulse 1.5s infinite;"></span>YouTube
+            </div>
+          </div>
+          <div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;">
+            <iframe src="https://www.youtube.com/embed/lcsVxMpsPzs" title="ClosetOS AI · Storytelling" frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;">
+            </iframe>
+          </div>
+          <div
+            style="padding:1rem 1.25rem;background:var(--bg-off);display:flex;align-items:center;justify-content:space-between;">
+            <div style="font-size:.78rem;color:var(--text-soft);">🎬 Mira cómo nació ClosetOS AI</div>
+            <a href="https://www.youtube.com/@ClosetOSLab" target="_blank"
+              style="font-size:.75rem;color:var(--purple-main);font-weight:500;text-decoration:none;">Ver canal →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI PREVIEW -->
+  <section class="ai-preview-section" id="preview">
+    <div class="section-header reveal" style="text-align:center;">
+      <div class="section-pill">🤖 AI Style Preview</div>
+      <h2 class="section-title">Ve el resultado <em>antes</em> de comprometerte</h2>
+      <p class="section-sub" style="margin:0 auto;">Sube tu prenda, elige una propuesta y confirma solo cuando estés
+        seguro. Sin riesgos, sin sorpresas.</p>
+    </div>
+    <div class="preview-container reveal">
+      <div class="preview-header">
+        <div>
+          <div class="preview-header-title">AI Style Preview · ClosetOS AI</div>
+          <div class="preview-header-sub">Motor de simulación de rediseño textil</div>
+        </div>
+        <div class="preview-status">
+          <div class="preview-status-dot"></div> IA activa · Lima
+        </div>
+      </div>
+      <div class="preview-body">
+        <div class="preview-upload-area" onclick="showPreviewDemo()">
+          <span class="preview-upload-icon">👗</span>
+          <div class="preview-upload-title">Sube una foto de tu prenda</div>
+          <div class="preview-upload-sub">JPG, PNG o HEIC · Máx. 10 MB · Cualquier ángulo</div>
+          <div class="preview-upload-btn">Seleccionar foto →</div>
+        </div>
+        <div class="preview-divider">
+          <div class="preview-divider-line"></div>
+          <div class="preview-divider-text">o mira este ejemplo en vivo</div>
+          <div class="preview-divider-line"></div>
+        </div>
+        <div class="preview-demo">
+          <div class="preview-side before">
+            <div class="preview-side-header">📷 Prenda original</div>
+            <div class="preview-side-content">
+              <div class="preview-prenda-visual">🧥</div>
+              <div class="preview-prenda-name">Blazer oversize gris</div>
+              <div class="preview-prenda-detail">Lana premium · Sin usar 2 años · NSE A/B</div>
+            </div>
+          </div>
+          <div class="preview-arrow">
+            <div class="preview-arrow-icon">→</div>
+            <div class="preview-arrow-label">IA analiza</div>
+          </div>
+          <div class="preview-side after">
+            <div class="preview-side-header">✨ Propuesta seleccionada</div>
+            <div class="preview-side-content">
+              <div class="preview-prenda-visual">✂️</div>
+              <div class="preview-prenda-name">Blazer crop estructurado</div>
+              <div class="preview-prenda-detail">Costura visible · Botonadura asimétrica · Urbano</div>
+            </div>
+          </div>
+        </div>
+        <div class="preview-proposals">
+          <div class="preview-proposals-title">Elige una propuesta de transformación</div>
+          <div class="proposals-grid">
+            <div class="proposal-chip selected" onclick="selectProp(this)"><span class="proposal-chip-icon">✂️</span>
+              <div class="proposal-chip-name">Crop estructurado</div>
+              <div class="proposal-chip-price">S/. 95</div>
+            </div>
+            <div class="proposal-chip" onclick="selectProp(this)"><span class="proposal-chip-icon">🧵</span>
+              <div class="proposal-chip-name">Slim fit moderno</div>
+              <div class="proposal-chip-price">S/. 80</div>
+            </div>
+            <div class="proposal-chip" onclick="selectProp(this)"><span class="proposal-chip-icon">🎨</span>
+              <div class="proposal-chip-name">Custom urbano</div>
+              <div class="proposal-chip-price">S/. 110</div>
+            </div>
+          </div>
+        </div>
+        <div class="preview-cta-row">
+          <div class="preview-cta-note">🔒 Sin cobro hasta confirmar · Recojo gratis en Lima</div>
+          <button class="btn-preview-cta">Confirmar y agendar recojo →</button>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ANTES Y DESPUÉS -->
-  <section class="antes-despues" id="antes-despues">
+  <section class="antes-despues" id="resultados">
     <div class="section-header reveal">
-      <div class="section-tag">✨ Resultados reales</div>
+      <div class="section-pill">✨ Resultados reales</div>
       <h2 class="section-title">Prendas que <em>volvieron a la vida</em></h2>
-      <p class="section-sub">Casos reales de usuarios en Lima. Prendas de calidad que llevaban años sin usarse, ahora
-        son sus favoritas.</p>
+      <p class="section-sub">Casos reales de usuarios en Lima. Prendas de calidad que llevaban años guardadas, ahora son
+        sus favoritas.</p>
     </div>
     <div class="ad-grid reveal">
       <div class="ad-card">
-        <div class="ad-before">
-          <div class="ad-label">Antes</div>
-          <div class="ad-prenda">Blazer oversize gris · Lana premium</div>
-          <div class="ad-tiempo">Sin usar desde hace 2 años</div>
+        <div class="ad-before-block">
+          <div class="ad-label-tag before">Antes</div>
+          <div class="ad-prenda-name">Blazer oversize gris · Lana premium</div>
+          <div class="ad-prenda-sub">Sin usar desde hace 2 años</div>
         </div>
-        <div class="ad-arrow">↓ Transformado con ClosetOS AI</div>
-        <div class="ad-after">
-          <div class="ad-label">Después</div>
-          <div class="ad-result">Blazer crop estructurado con costura visible</div>
-          <span class="ad-price">S/. 95 · 3 días</span>
-        </div>
-      </div>
-      <div class="ad-card">
-        <div class="ad-before">
-          <div class="ad-label">Antes</div>
-          <div class="ad-prenda">Jeans straight fit · Denim japonés</div>
-          <div class="ad-tiempo">Sin usar desde hace 18 meses</div>
-        </div>
-        <div class="ad-arrow">↓ Transformado con ClosetOS AI</div>
-        <div class="ad-after">
-          <div class="ad-label">Después</div>
-          <div class="ad-result">Jeans wide leg con parches bordados</div>
-          <span class="ad-price">S/. 75 · 2 días</span>
+        <div class="ad-connector">↓ Transformado con ClosetOS AI ↓</div>
+        <div class="ad-after-block">
+          <div class="ad-label-tag after">Después</div>
+          <div class="ad-result-name">Blazer crop estructurado con costura visible</div><span class="ad-price-tag">✓ S/.
+            95 · 3 días</span>
         </div>
       </div>
       <div class="ad-card">
-        <div class="ad-before">
-          <div class="ad-label">Antes</div>
-          <div class="ad-prenda">Camisa de lino blanca · Talla incorrecta</div>
-          <div class="ad-tiempo">Sin usar desde que la compró</div>
+        <div class="ad-before-block">
+          <div class="ad-label-tag before">Antes</div>
+          <div class="ad-prenda-name">Jeans straight fit · Denim japonés</div>
+          <div class="ad-prenda-sub">Sin usar desde hace 18 meses</div>
         </div>
-        <div class="ad-arrow">↓ Transformado con ClosetOS AI</div>
-        <div class="ad-after">
-          <div class="ad-label">Después</div>
-          <div class="ad-result">Camisa oversized con detalle asimétrico</div>
-          <span class="ad-price">S/. 60 · 2 días</span>
+        <div class="ad-connector">↓ Transformado con ClosetOS AI ↓</div>
+        <div class="ad-after-block">
+          <div class="ad-label-tag after">Después</div>
+          <div class="ad-result-name">Jeans wide leg con parches bordados</div><span class="ad-price-tag">✓ S/. 75 · 2
+            días</span>
+        </div>
+      </div>
+      <div class="ad-card">
+        <div class="ad-before-block">
+          <div class="ad-label-tag before">Antes</div>
+          <div class="ad-prenda-name">Camisa de lino blanca · Talla incorrecta</div>
+          <div class="ad-prenda-sub">Sin usar desde que la compró</div>
+        </div>
+        <div class="ad-connector">↓ Transformado con ClosetOS AI ↓</div>
+        <div class="ad-after-block">
+          <div class="ad-label-tag after">Después</div>
+          <div class="ad-result-name">Camisa oversized con detalle asimétrico</div><span class="ad-price-tag">✓ S/. 60 ·
+            2 días</span>
         </div>
       </div>
     </div>
@@ -1495,57 +2568,58 @@
   <!-- BENEFICIOS -->
   <section class="beneficios" id="beneficios">
     <div class="section-header reveal">
-      <div class="section-tag">💡 Por qué ClosetOS AI</div>
+      <div class="section-pill">💡 Por qué ClosetOS AI</div>
       <h2 class="section-title">Todo lo que necesitas,<br><em>nada de lo que temes</em></h2>
       <p class="section-sub">Diseñado para eliminar cada fricción que te ha impedido hacer algo con tu ropa acumulada.
       </p>
     </div>
     <div class="features-grid reveal">
       <div class="feature-card">
-        <div class="feature-icon">🤖</div>
+        <div class="feature-icon-wrap">🤖</div>
         <div class="feature-title">AI Style Preview</div>
         <div class="feature-desc">Visualiza cómo quedará tu prenda antes de invertir un sol. IA generativa con
           simulación realista antes/después.</div>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">⭐</div>
+        <div class="feature-icon-wrap">⭐</div>
         <div class="feature-title">Diseñadores verificados</div>
         <div class="feature-desc">Red de expertos con portafolio visual, reseñas reales y especialización en estilo
-          urbano moderno.</div>
+          urbano moderno limeño.</div>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🚚</div>
+        <div class="feature-icon-wrap">🚚</div>
         <div class="feature-title">Recojo a domicilio</div>
-        <div class="feature-desc">Coordinamos el recojo y entrega en Lima. Sin ir a ningún lado ni perder tiempo en
+        <div class="feature-desc">Coordinamos recojo y entrega en Lima. Sin ir a ningún lado ni perder tiempo en
           procesos presenciales.</div>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">📍</div>
+        <div class="feature-icon-wrap">📍</div>
         <div class="feature-title">Tracking en tiempo real</div>
         <div class="feature-desc">Sigue el estado de tu prenda en cada etapa. Transparencia total para eliminar la
           ansiedad del proceso.</div>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">💰</div>
+        <div class="feature-icon-wrap">💰</div>
         <div class="feature-title">Ahorro real comprobable</div>
         <div class="feature-desc">Transforma por S/. 60–120 prendas que costarían S/. 300–600 nuevas. El dashboard
           muestra el ahorro exacto.</div>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🌿</div>
+        <div class="feature-icon-wrap">🌿</div>
         <div class="feature-title">Impacto ambiental medible</div>
-        <div class="feature-desc">Cada prenda rescatada genera menos CO₂ y agua consumida. Tu dashboard de impacto lo
-          registra en tiempo real.</div>
+        <div class="feature-desc">Cada prenda rescatada genera menos CO₂. Tu dashboard de impacto lo registra con datos
+          reales.</div>
       </div>
     </div>
   </section>
 
   <!-- TESTIMONIOS -->
   <section class="testimonios" id="testimonios">
-    <div class="section-header reveal">
-      <div class="section-tag">💬 Comunidad</div>
+    <div class="section-header reveal" style="text-align:center;">
+      <div class="section-pill">💬 Comunidad</div>
       <h2 class="section-title">Lo que dicen los que <em>ya lo hicieron</em></h2>
-      <p class="section-sub">Early adopters en Lima que transformaron su clóset y su relación con la moda.</p>
+      <p class="section-sub" style="margin:0 auto;">Early adopters en Lima que transformaron su clóset y su relación con
+        la moda.</p>
     </div>
     <div class="testi-grid reveal">
       <div class="testi-card">
@@ -1574,8 +2648,8 @@
       </div>
       <div class="testi-card">
         <div class="testi-stars">★★★★★</div>
-        <div class="testi-text">"Calculé que gasté S/. 280 transformando 4 prendas. Hubiera gastado más de S/. 1,200
-          comprándolas nuevas. La diferencia es brutal."</div>
+        <div class="testi-text">"Gasté S/. 280 transformando 4 prendas. Hubiera gastado más de S/. 1,200 comprándolas
+          nuevas. La diferencia es brutal."</div>
         <div class="testi-author">
           <div class="testi-avatar">A</div>
           <div>
@@ -1590,9 +2664,9 @@
   <!-- PRECIOS -->
   <section class="precios" id="precios">
     <div class="section-header reveal" style="text-align:center;">
-      <div class="section-tag">💳 Planes</div>
+      <div class="section-pill">💳 Planes</div>
       <h2 class="section-title">Elige tu plan, <em>empieza hoy</em></h2>
-      <p class="section-sub" style="margin:0 auto;">Sin compromisos de permanencia. Cancela cuando quieras.</p>
+      <p class="section-sub" style="margin:0 auto;">Sin permanencia mínima. Cancela cuando quieras.</p>
     </div>
     <div class="pricing-grid reveal">
       <div class="pricing-card">
@@ -1600,12 +2674,12 @@
         <div class="plan-price">S/. 0</div>
         <div class="plan-period">para siempre</div>
         <ul class="plan-features">
-          <li><span class="check-icon">✓</span> 1 AI Style Preview por mes</li>
-          <li><span class="check-icon">✓</span> Acceso al marketplace</li>
-          <li><span class="check-icon">✓</span> 1 transformación incluida</li>
-          <li><span class="check-icon">✓</span> Tracking básico</li>
+          <li><span class="check-i">✓</span>1 AI Style Preview por mes</li>
+          <li><span class="check-i">✓</span>Acceso al marketplace</li>
+          <li><span class="check-i">✓</span>1 transformación incluida</li>
+          <li><span class="check-i">✓</span>Tracking básico</li>
         </ul>
-        <button class="btn-plan btn-plan-outline">Empezar gratis</button>
+        <button class="btn-plan btn-outline-plan">Empezar gratis</button>
       </div>
       <div class="pricing-card featured">
         <div class="pricing-badge">🔥 Más popular</div>
@@ -1613,167 +2687,145 @@
         <div class="plan-price">S/. 49</div>
         <div class="plan-period">por mes</div>
         <ul class="plan-features">
-          <li><span class="check-icon">✓</span> Previews ilimitados con IA</li>
-          <li><span class="check-icon">✓</span> Matching prioritario de diseñador</li>
-          <li><span class="check-icon">✓</span> 3 transformaciones por mes</li>
-          <li><span class="check-icon">✓</span> Tracking en tiempo real</li>
-          <li><span class="check-icon">✓</span> Dashboard de impacto ambiental</li>
-          <li><span class="check-icon">✓</span> Eco-Tokens y gamificación</li>
+          <li><span class="check-i">✓</span>Previews ilimitados con IA</li>
+          <li><span class="check-i">✓</span>Matching prioritario</li>
+          <li><span class="check-i">✓</span>3 transformaciones al mes</li>
+          <li><span class="check-i">✓</span>Tracking en tiempo real</li>
+          <li><span class="check-i">✓</span>Dashboard de impacto</li>
+          <li><span class="check-i">✓</span>Eco-Tokens y gamificación</li>
         </ul>
-        <button class="btn-plan btn-plan-solid">Activar plan Smart</button>
+        <button class="btn-plan btn-solid-plan">Activar plan Smart</button>
       </div>
       <div class="pricing-card">
         <div class="plan-name">Pro</div>
         <div class="plan-price">S/. 89</div>
         <div class="plan-period">por mes</div>
         <ul class="plan-features">
-          <li><span class="check-icon">✓</span> Todo lo de Smart</li>
-          <li><span class="check-icon">✓</span> Transformaciones ilimitadas</li>
-          <li><span class="check-icon">✓</span> Stylist AI personal</li>
-          <li><span class="check-icon">✓</span> Acceso anticipado a nuevas IA</li>
-          <li><span class="check-icon">✓</span> Soporte prioritario 24/7</li>
+          <li><span class="check-i">✓</span>Todo lo de Smart</li>
+          <li><span class="check-i">✓</span>Transformaciones ilimitadas</li>
+          <li><span class="check-i">✓</span>Stylist AI personal</li>
+          <li><span class="check-i">✓</span>Acceso anticipado a IA</li>
+          <li><span class="check-i">✓</span>Soporte prioritario 24/7</li>
         </ul>
-        <button class="btn-plan btn-plan-outline">Activar plan Pro</button>
+        <button class="btn-plan btn-outline-plan">Activar plan Pro</button>
       </div>
     </div>
   </section>
 
+  <!-- REDES SOCIALES -->
+  <div class="redes-section" id="redes">
+    <div class="reveal">
+      <div class="section-pill"
+        style="background:rgba(255,255,255,.12);color:var(--green-main);border-color:rgba(159,225,203,.3);">📱 Comunidad
+        digital</div>
+      <h2 class="redes-title">Síguenos y únete a la<br><em>revolución circular</em></h2>
+      <p class="redes-sub">Contenido diario de transformaciones reales, tips de moda circular y la comunidad que está
+        cambiando cómo Lima se viste.</p>
+      <div class="redes-grid">
+        <a href="https://tr.ee/8Ygqr5OmLI" target="_blank" class="red-card">
+          <div class="red-icon ig">📸</div>
+          <div class="red-name">Instagram</div>
+          <div class="red-handle">@ClosetOS AI</div>
+          <span class="red-followers">Síguenos</span>
+        </a>
+        <a href="https://tr.ee/GxiM2byHip" target="_blank" class="red-card">
+          <div class="red-icon tiktok">🎵</div>
+          <div class="red-name">TikTok</div>
+          <div class="red-handle">@ClosetOS AI</div>
+          <span class="red-followers">Síguenos</span>
+        </a>
+        <a href="https://www.youtube.com/@ClosetOSLab" target="_blank" class="red-card">
+          <div class="red-icon yt">▶️</div>
+          <div class="red-name">YouTube</div>
+          <div class="red-handle">@ClosetOSLab</div>
+          <span class="red-followers">Suscríbete</span>
+        </a>
+        <a href="https://tr.ee/h3_nNl1UDg" target="_blank" class="red-card">
+          <div class="red-icon" style="background:linear-gradient(135deg,var(--purple-main),var(--purple-deep));">✍️
+          </div>
+          <div class="red-name">Blog</div>
+          <div class="red-handle">ClosetOS AI</div>
+          <span class="red-followers">Leer artículos</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
   <!-- CTA FINAL -->
   <section class="cta-final">
     <div class="reveal">
-      <div class="section-tag"
-        style="background:rgba(255,255,255,.15);color:#fff;border:.5px solid rgba(255,255,255,.3);">✨ Empieza ahora
+      <div class="section-pill"
+        style="background:rgba(255,255,255,.12);color:var(--white);border-color:rgba(255,255,255,.25);">✨ Empieza ahora
       </div>
-      <h2 class="section-title">¿Tienes una prenda esperando<br><em>su segunda oportunidad</em>?</h2>
-      <p class="section-sub">El AI Style Preview es gratis y te muestra el resultado antes de comprometerte.</p>
-      <div class="cta-final-btns">
+      <h2 class="section-title">¿Tienes una prenda esperando<br><em>su segunda oportunidad?</em></h2>
+      <p class="cta-sub-final">El AI Style Preview es gratis. Ve el resultado antes de comprometerte. Sin tarjeta, sin
+        riesgo.</p>
+      <div class="cta-btns">
         <button class="btn-white">Ver el potencial de mi ropa →</button>
         <button class="btn-ghost">Hablar con un experto</button>
       </div>
     </div>
   </section>
 
-  <!-- CHATBOT BUTTON -->
-  <button class="chat-trigger" onclick="toggleChat()" id="chatTrigger">
-    💬
-    <div class="chat-status-dot"></div>
-  </button>
-
-  <!-- CHATBOX -->
+  <!-- CHATBOT -->
+  <button class="chat-trigger" onclick="toggleChat()" id="chatTrigger">💬<div class="chat-status"></div></button>
   <div class="chatbox" id="chatbox">
     <div class="chat-header">
       <div class="chat-avatar">✨</div>
-      <div class="chat-header-info">
-        <div class="chat-header-name">ClosetOS AI</div>
-        <div class="chat-header-status">
-          <div class="status-dot"></div> Asistente de estilo · En línea
+      <div>
+        <div class="chat-hname">ClosetOS AI</div>
+        <div class="chat-hstatus">
+          <div class="chat-sdot"></div> Asistente de estilo · En línea
         </div>
       </div>
-      <button class="chat-close" onclick="toggleChat()">✕</button>
+      <button class="chat-close-btn" onclick="toggleChat()">✕</button>
     </div>
-    <div class="chat-messages" id="chatMessages">
+    <div class="chat-msgs" id="chatMsgs">
       <div class="msg msg-bot">
         <div class="msg-bubble">¡Hola! 👋 Soy el asistente de ClosetOS AI. Estoy aquí para ayudarte a descubrir el
           potencial de tu ropa acumulada.</div>
         <div class="msg-time">Ahora</div>
-        <div class="chat-options">
-          <button class="chat-option-btn" onclick="sendOption(this,'Quiero transformar una prenda')">Transformar una
+        <div class="chat-opts">
+          <button class="chat-opt" onclick="sendOpt(this,'Quiero transformar una prenda')">Transformar una
             prenda</button>
-          <button class="chat-option-btn" onclick="sendOption(this,'¿Cómo funciona el AI Preview?')">¿Cómo
-            funciona?</button>
-          <button class="chat-option-btn" onclick="sendOption(this,'Ver los planes')">Ver planes</button>
+          <button class="chat-opt" onclick="sendOpt(this,'¿Cómo funciona el AI Preview?')">¿Cómo funciona?</button>
+          <button class="chat-opt" onclick="sendOpt(this,'Ver los planes')">Ver planes</button>
         </div>
       </div>
     </div>
-    <div class="chat-input-area">
-      <input class="chat-input" id="chatInput" type="text" placeholder="Escribe tu mensaje..."
-        onkeydown="if(event.key==='Enter')sendMessage()">
-      <button class="chat-send" onclick="sendMessage()">➤</button>
+    <div class="chat-input-wrap">
+      <input class="chat-inp" id="chatInp" type="text" placeholder="Escribe tu mensaje..."
+        onkeydown="if(event.key==='Enter')sendMsg()">
+      <button class="chat-send-btn" onclick="sendMsg()">➤</button>
     </div>
   </div>
 
   <script>
     const R = {
-      'quiero transformar una prenda': { text: '¡Perfecto! Para empezar solo necesitas:\n\n1️⃣ Fotografiar la prenda\n2️⃣ Subírla al AI Style Preview\n3️⃣ Elegir tu propuesta favorita\n\n¿Qué tipo de prenda tienes en mente?', options: ['Un blazer o saco', 'Jeans o pantalón', 'Camisa o blusa', 'Otro tipo de prenda'] },
-      'un blazer o saco': { text: '¡Excelente! Los blazers tienen un potencial de transformación muy alto. Con la IA generamos propuestas como: crop estructurado, versión oversize actualizada, o con detalles de costura visible.\n\n¿Hace cuánto tiempo no lo usas?', options: ['Menos de 1 año', 'Entre 1 y 2 años', 'Más de 2 años'] },
-      'jeans o pantalón': { text: 'Los jeans son de las prendas con mayor potencial circular. Podemos transformarlos en wide leg, agregarle parches, o cambiar el largo y corte.\n\n¿Quieres ver ejemplos de transformaciones reales?', options: ['Sí, ver ejemplos', 'Quiero el AI Preview ya'] },
-      'camisa o blusa': { text: 'Las camisas de buena tela tienen muchísimo potencial. Podemos hacer oversize, crop, cambiar el cuello, o agregar detalles únicos.\n\n¿Cuánto tiempo lleva guardada?', options: ['Menos de 1 año', 'Más de 1 año'] },
-      'más de 2 años': { text: '¡Esos son los casos más interesantes! Una prenda de calidad guardada más de 2 años casi siempre tiene una segunda vida increíble esperando.\n\nEl costo promedio es S/. 75–120. ¿Te gustaría agendar tu AI Style Preview gratis?', options: ['Sí, quiero el Preview gratis', 'Primero quiero ver los planes'] },
-      'sí, quiero el preview gratis': { text: '¡Genial! El AI Style Preview es completamente gratis. Solo regístrate con tu correo y en menos de 5 minutos tendrás 3 propuestas visuales.\n\n👉 Usa el formulario en la parte superior de esta página para comenzar.', options: ['¿Cuánto tarda la transformación?', '¿Cuánto cuesta?'] },
-      '¿cómo funciona el ai preview?': { text: 'El AI Style Preview usa IA generativa para simular cómo quedaría tu prenda rediseñada:\n\n🤖 Analizamos material, corte y estado\n✨ Generamos 3 propuestas visuales\n👀 Tú eliges antes de comprometerte\n\nEs como probarse algo antes de comprarlo, pero al revés.', options: ['¿Cuánto cuesta?', '¿Quiénes son los diseñadores?', 'Quiero probarlo'] },
-      '¿cuánto cuesta?': { text: 'El AI Style Preview es gratis 🎉\n\nLas transformaciones cuestan entre S/. 60 y S/. 120 según el tipo de prenda y el rediseño elegido.\n\nComparado con comprar algo nuevo equivalente (S/. 250–600+), el ahorro es muy real.', options: ['Ver los planes', 'Quiero empezar'] },
-      'ver los planes': { text: 'Tenemos 3 planes:\n\n🆓 Free · S/. 0 — 1 preview y 1 transformación\n⭐ Smart · S/. 49/mes — Previews ilimitados + 3 transformaciones\n💎 Pro · S/. 89/mes — Todo ilimitado + Stylist AI personal\n\n¿Cuál te interesa conocer mejor?', options: ['Plan Free', 'Plan Smart', 'Plan Pro'] },
-      'plan smart': { text: 'El plan Smart es el favorito de nuestra comunidad 🔥\n\nIncluye previews ilimitados, matching prioritario con diseñador, 3 transformaciones al mes, tracking en tiempo real y dashboard de impacto ambiental.\n\nS/. 49 al mes. Sin permanencia mínima.', options: ['Activar plan Smart', '¿Puedo cancelar cuando quiera?'] },
-      '¿puedo cancelar cuando quiera?': { text: 'Sí, absolutamente. No hay permanencia mínima ni penalidades. Puedes pausar o cancelar en cualquier momento desde tu perfil.\n\nEmpezar con el plan Free también es válido para probar sin riesgo.', options: ['Empezar con Free', 'Activar Smart ahora'] },
-      'default': { text: 'Entiendo tu consulta. Para darte la mejor respuesta, te recomiendo explorar el AI Style Preview gratis desde el formulario en esta página, o escríbenos y te conectamos con un experto de estilo. 🙌', options: ['Probar AI Preview gratis', 'Ver los planes'] }
+      'quiero transformar una prenda': { text: '¡Perfecto! Para empezar solo necesitas:\n\n1️⃣ Fotografiar la prenda\n2️⃣ Subírla al AI Style Preview\n3️⃣ Elegir tu propuesta favorita\n\n¿Qué tipo de prenda tienes en mente?', opts: ['Un blazer o saco', 'Jeans o pantalón', 'Camisa o blusa', 'Otro tipo'] },
+      'un blazer o saco': { text: '¡Excelente! Los blazers tienen un potencial muy alto. Podemos hacer: crop estructurado, slim fit moderno, o custom urbano con detalles únicos.\n\n¿Hace cuánto no lo usas?', opts: ['Menos de 1 año', '1 a 2 años', 'Más de 2 años'] },
+      'más de 2 años': { text: '¡Esos son los casos más interesantes! Una prenda de calidad guardada más de 2 años casi siempre tiene una segunda vida increíble.\n\nCosto promedio: S/. 75–120. ¿Agendamos tu AI Preview gratis?', opts: ['Sí, quiero el Preview gratis', 'Ver los planes primero'] },
+      'sí, quiero el preview gratis': { text: '¡Genial! Solo regístrate con tu correo y en minutos tendrás 3 propuestas visuales.\n\n👉 Usa el formulario arriba para comenzar.', opts: ['¿Cuánto tarda?', '¿Cuánto cuesta?'] },
+      '¿cómo funciona el ai preview?': { text: 'El AI Style Preview usa IA generativa para simular cómo quedaría tu prenda:\n\n🤖 Analizamos material y corte\n✨ Generamos 3 propuestas visuales\n👀 Tú eliges antes de comprometerte\n\nEs ver el resultado antes de pagar.', opts: ['¿Cuánto cuesta?', 'Quiero probarlo', 'Ver los planes'] },
+      '¿cuánto cuesta?': { text: 'El AI Preview es gratis 🎉\n\nLas transformaciones cuestan entre S/. 60 y S/. 120 según la prenda.\n\nVs. comprar nuevo (S/. 250–600+), el ahorro es muy real.', opts: ['Ver los planes', 'Quiero empezar'] },
+      'ver los planes': { text: 'Tenemos 3 planes:\n\n🆓 Free · S/. 0 — 1 preview + 1 transformación\n⭐ Smart · S/. 49/mes — Ilimitados + 3 transf.\n💎 Pro · S/. 89/mes — Todo + Stylist AI personal', opts: ['Plan Smart', 'Plan Pro', 'Empezar gratis'] },
+      'plan smart': { text: 'El plan Smart es el favorito 🔥\n\nPreviews ilimitados, matching prioritario, 3 transformaciones al mes, tracking y dashboard de impacto ambiental.\n\nS/. 49/mes sin permanencia.', opts: ['Activar Smart', '¿Puedo cancelar?'] },
+      '¿puedo cancelar?': { text: 'Sí, absolutamente. Sin permanencia ni penalidades. Cancelas cuando quieras desde tu perfil.\n\nEmpezar con Free también es una opción válida.', opts: ['Empezar con Free', 'Activar Smart'] },
+      'default': { text: 'Entiendo tu consulta 🙌 Para la mejor respuesta, te recomiendo probar el AI Preview gratis desde el formulario arriba, o escríbenos directamente por WhatsApp.', opts: ['Ir al preview', 'Ver planes', 'WhatsApp'] }
     };
-
-    let chatOpen = false;
-
-    function toggleChat() {
-      chatOpen = !chatOpen;
-      document.getElementById('chatbox').classList.toggle('open', chatOpen);
-      document.getElementById('chatTrigger').innerHTML = chatOpen
-        ? '✕<div class="chat-status-dot"></div>'
-        : '💬<div class="chat-status-dot"></div>';
-    }
-
-    function sendOption(btn, text) {
-      const opts = btn.closest('.chat-options');
-      if (opts) opts.remove();
-      addUser(text);
-      setTimeout(showTyping, 300);
-      setTimeout(() => { removeTyping(); addBot(getResp(text)); }, 1200);
-    }
-
-    function sendMessage() {
-      const el = document.getElementById('chatInput');
-      const t = el.value.trim(); if (!t) return;
-      el.value = '';
-      addUser(t);
-      setTimeout(showTyping, 300);
-      setTimeout(() => { removeTyping(); addBot(getResp(t)); }, 1200);
-    }
-
-    function getResp(text) {
-      const k = text.toLowerCase();
-      for (const key in R) { if (k.includes(key)) return R[key]; }
-      return R['default'];
-    }
-
+    let open = false;
+    function toggleChat() { open = !open; document.getElementById('chatbox').classList.toggle('open', open); document.getElementById('chatTrigger').innerHTML = open ? '✕<div class="chat-status"></div>' : '💬<div class="chat-status"></div>'; }
+    function sendOpt(btn, text) { const o = btn.closest('.chat-opts'); if (o) o.remove(); addUser(text); setTimeout(showTyping, 350); setTimeout(() => { removeTyping(); addBot(getR(text)); }, 1300); }
+    function sendMsg() { const el = document.getElementById('chatInp'); const t = el.value.trim(); if (!t) return; el.value = ''; addUser(t); setTimeout(showTyping, 350); setTimeout(() => { removeTyping(); addBot(getR(t)); }, 1300); }
+    function getR(t) { const k = t.toLowerCase(); for (const key in R) { if (k.includes(key)) return R[key]; } return R['default']; }
     function now() { return new Date().toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' }); }
-
-    function addUser(text) {
-      const m = document.getElementById('chatMessages');
-      const d = document.createElement('div');
-      d.className = 'msg msg-user';
-      d.innerHTML = `<div class="msg-bubble">${text}</div><div class="msg-time">${now()}</div>`;
-      m.appendChild(d); m.scrollTop = m.scrollHeight;
-    }
-
-    function addBot(resp) {
-      const m = document.getElementById('chatMessages');
-      const opts = (resp.options || []).map(o => `<button class="chat-option-btn" onclick="sendOption(this,'${o}')">${o}</button>`).join('');
-      const d = document.createElement('div');
-      d.className = 'msg msg-bot';
-      d.innerHTML = `<div class="msg-bubble">${resp.text.replace(/\n/g, '<br>')}</div><div class="msg-time">${now()}</div>${opts ? `<div class="chat-options">${opts}</div>` : ''}`;
-      m.appendChild(d); m.scrollTop = m.scrollHeight;
-    }
-
-    function showTyping() {
-      const m = document.getElementById('chatMessages');
-      const d = document.createElement('div');
-      d.id = 'typing'; d.className = 'typing-indicator';
-      d.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
-      m.appendChild(d); m.scrollTop = m.scrollHeight;
-    }
-
+    function addUser(t) { const m = document.getElementById('chatMsgs'); const d = document.createElement('div'); d.className = 'msg msg-user'; d.innerHTML = `<div class="msg-bubble">${t}</div><div class="msg-time">${now()}</div>`; m.appendChild(d); m.scrollTop = m.scrollHeight; }
+    function addBot(r) { const m = document.getElementById('chatMsgs'); const opts = (r.opts || []).map(o => `<button class="chat-opt" onclick="sendOpt(this,'${o}')">${o}</button>`).join(''); const d = document.createElement('div'); d.className = 'msg msg-bot'; d.innerHTML = `<div class="msg-bubble">${r.text.replace(/\n/g, '<br>')}</div><div class="msg-time">${now()}</div>${opts ? `<div class="chat-opts">${opts}</div>` : ''}`; m.appendChild(d); m.scrollTop = m.scrollHeight; }
+    function showTyping() { const m = document.getElementById('chatMsgs'); const d = document.createElement('div'); d.id = 'typing'; d.className = 'typing'; d.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>'; m.appendChild(d); m.scrollTop = m.scrollHeight; }
     function removeTyping() { const t = document.getElementById('typing'); if (t) t.remove(); }
-
-    // Scroll reveal
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach((e, i) => { if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 80); });
-    }, { threshold: .1 });
+    function selectProp(el) { document.querySelectorAll('.proposal-chip').forEach(c => c.classList.remove('selected')); el.classList.add('selected'); }
+    function showPreviewDemo() { }
+    const obs = new IntersectionObserver(entries => { entries.forEach((e, i) => { if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 90); }); }, { threshold: .08 });
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
   </script>
 </body>
