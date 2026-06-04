@@ -2490,6 +2490,11 @@
         </div>
       </div>
       <div class="preview-body">
+        <!-- API KEY INPUT (LOCAL STORAGE) -->
+        <div style="background:var(--purple-light);border:.5px solid var(--purple-mid);border-radius:14px;padding:1rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
+          <div style="font-size:.78rem;color:var(--purple-deep);font-weight:600;">🔑 Conectar Gemini API (Detección real)</div>
+          <input type="password" id="geminiKeyInput" placeholder="Pega tu API Key de Gemini..." onchange="saveApiKey(this.value)" style="flex:1;min-width:200px;padding:.5rem .8rem;border-radius:10px;border:.5px solid var(--purple-mid);font-size:.78rem;outline:none;background:var(--white);">
+        </div>
         <input type="file" id="previewUpload" accept="image/*" style="display:none;" onchange="handleUpload(event)">
         <div class="preview-upload-area" onclick="triggerUpload()">
           <span class="preview-upload-icon">👗</span>
@@ -2867,22 +2872,25 @@
     function addBot(r) { const m = document.getElementById('chatMsgs'); const opts = (r.opts || []).map(o => `<button class="chat-opt" onclick="sendOpt(this,'${o}')">${o}</button>`).join(''); const d = document.createElement('div'); d.className = 'msg msg-bot'; d.innerHTML = `<div class="msg-bubble">${r.text.replace(/\n/g, '<br>')}</div><div class="msg-time">${now()}</div>${opts ? `<div class="chat-opts">${opts}</div>` : ''}`; m.appendChild(d); m.scrollTop = m.scrollHeight; }
     function showTyping() { const m = document.getElementById('chatMsgs'); const d = document.createElement('div'); d.id = 'typing'; d.className = 'typing'; d.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>'; m.appendChild(d); m.scrollTop = m.scrollHeight; }
     function removeTyping() { const t = document.getElementById('typing'); if (t) t.remove(); }
+    let uploadedImgURL = null;
+
     const GARMENTS = {
       blazer: [
-        { icon: '✂️', label: 'Crop estructurado', price: 'S/. 95', name: 'Blazer crop estructurado', detail: 'Costura visible · Botonadura asimétrica · Urbano' },
-        { icon: '🧵', label: 'Slim fit moderno', price: 'S/. 80', name: 'Blazer slim fit moderno', detail: 'Corte entallado · Ajuste de hombros y mangas · Casual' },
-        { icon: '🎨', label: 'Custom urbano', price: 'S/. 110', name: 'Blazer custom urbano', detail: 'Parches de denim · Bordado en espalda · Diseño único' }
+        { icon: '✂️', label: 'Crop estructurado', price: 'S/. 95', name: 'Blazer crop estructurado', detail: 'Costura visible · Botonadura asimétrica · Urbano', beforeImg: 'assets/blazer_before.png', afterImg: 'assets/blazer_after.png', type: 'crop' },
+        { icon: '🧵', label: 'Slim fit moderno', price: 'S/. 80', name: 'Blazer slim fit moderno', detail: 'Corte entallado · Ajuste de hombros y mangas · Casual', beforeImg: 'assets/blazer_before.png', afterImg: 'assets/blazer_after.png', type: 'slim' },
+        { icon: '🎨', label: 'Custom urbano', price: 'S/. 110', name: 'Blazer custom urbano', detail: 'Parches de denim · Bordado en espalda · Diseño único', beforeImg: 'assets/blazer_before.png', afterImg: 'assets/blazer_after.png', type: 'custom' }
       ],
       jeans: [
-        { icon: '👖', label: 'Wide leg moderno', price: 'S/. 75', name: 'Jeans wide leg moderno', detail: 'Apertura lateral · Bajo deshilachado · Urbano' },
-        { icon: '✂️', label: 'Shorts deshilachados', price: 'S/. 50', name: 'Shorts denim deshilachados', detail: 'Corte veraniego · Flecos finos · Casual' },
-        { icon: '🎨', label: 'Custom parches', price: 'S/. 90', name: 'Jeans con parches Sashiko', detail: 'Parches decorativos · Costuras a mano · Estilo artesanal' }
+        { icon: '👖', label: 'Wide leg moderno', price: 'S/. 75', name: 'Jeans wide leg moderno', detail: 'Apertura lateral · Bajo deshilachado · Urbano', beforeImg: 'assets/jeans_before.png', afterImg: 'assets/jeans_after.png', type: 'crop' },
+        { icon: '✂️', label: 'Shorts deshilachados', price: 'S/. 50', name: 'Shorts denim deshilachados', detail: 'Corte veraniego · Flecos finos · Casual', beforeImg: 'assets/jeans_before.png', afterImg: 'assets/jeans_after.png', type: 'slim' },
+        { icon: '🎨', label: 'Custom parches', price: 'S/. 90', name: 'Jeans con parches Sashiko', detail: 'Parches decorativos · Costuras a mano · Estilo artesanal', beforeImg: 'assets/jeans_before.png', afterImg: 'assets/jeans_after.png', type: 'custom' }
       ],
       camisa: [
-        { icon: '✂️', label: 'Crop anudado', price: 'S/. 65', name: 'Camisa crop anudada', detail: 'Largo reducido · Bajo con lazo ajustable · Casual' },
-        { icon: '🧵', label: 'Slim cuello mao', price: 'S/. 55', name: 'Camisa mao slim fit', detail: 'Ajuste con pinzas traseras · Cuello mao · Estilo fresco' },
-        { icon: '👗', label: 'Vestido camisero', price: 'S/. 90', name: 'Vestido camisero de lino', detail: 'Alargue con retazos de algodón · Cinturón · Elegante' }
-      ]
+        { icon: '✂️', label: 'Crop anudado', price: 'S/. 65', name: 'Camisa crop anudada', detail: 'Largo reducido · Bajo con lazo ajustable · Casual', type: 'crop', beforeEmoji: '👔', afterEmoji: '✂️' },
+        { icon: '🧵', label: 'Slim cuello mao', price: 'S/. 55', name: 'Camisa mao slim fit', detail: 'Ajuste con pinzas traseras · Cuello mao · Estilo fresco', type: 'slim', beforeEmoji: '👔', afterEmoji: '🧵' },
+        { icon: '👗', label: 'Vestido camisero', price: 'S/. 90', name: 'Vestido camisero de lino', detail: 'Alargue con retazos de algodón · Cinturón · Elegante', type: 'custom', beforeEmoji: '👔', afterEmoji: '👗' }
+      ],
+      custom: []
     };
 
     function renderProposals(key) {
@@ -2893,7 +2901,12 @@
              onclick="selectProp(this)" 
              data-icon="${p.icon}" 
              data-name="${p.name}" 
-             data-detail="${p.detail}">
+             data-detail="${p.detail}"
+             data-type="${p.type}"
+             data-before-img="${p.beforeImg || ''}"
+             data-after-img="${p.afterImg || ''}"
+             data-before-emoji="${p.beforeEmoji || ''}"
+             data-after-emoji="${p.afterEmoji || ''}">
           <span class="proposal-chip-icon">${p.icon}</span>
           <div class="proposal-chip-name">${p.label}</div>
           <div class="proposal-chip-price">${p.price}</div>
@@ -2908,12 +2921,121 @@
       document.querySelectorAll('.proposal-chip').forEach(c => c.classList.remove('selected'));
       el.classList.add('selected');
       
-      document.getElementById('afterVisual').innerText = el.dataset.icon || '✂️';
-      document.getElementById('afterName').innerText = el.dataset.name || '';
-      document.getElementById('afterDetail').innerText = el.dataset.detail || '';
+      const type = el.dataset.type;
+      const icon = el.dataset.icon || '✂️';
+      const name = el.dataset.name || '';
+      const detail = el.dataset.detail || '';
+      
+      document.getElementById('afterName').innerText = name;
+      document.getElementById('afterDetail').innerText = detail;
+      
+      if (uploadedImgURL) {
+        generateAfterCanvas(type, uploadedImgURL);
+      } else {
+        const beforeImg = el.dataset.beforeImg;
+        const afterImg = el.dataset.afterImg;
+        
+        if (beforeImg && afterImg) {
+          document.getElementById('beforeVisual').innerHTML = `<img src="${beforeImg}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">`;
+          document.getElementById('afterVisual').innerHTML = `<img src="${afterImg}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">`;
+        } else {
+          const beforeEmoji = el.dataset.beforeEmoji || '🧥';
+          const afterEmoji = el.dataset.afterEmoji || '✂️';
+          
+          document.getElementById('beforeVisual').innerHTML = `<div style="font-size:3rem;display:flex;align-items:center;justify-content:center;height:100%;">${beforeEmoji}</div>`;
+          document.getElementById('afterVisual').innerHTML = `<div style="font-size:3rem;display:flex;align-items:center;justify-content:center;height:100%;">${afterEmoji}</div>`;
+        }
+      }
+    }
+
+    function generateAfterCanvas(type, imgURL) {
+      const afterVisual = document.getElementById('afterVisual');
+      afterVisual.innerHTML = `<canvas id="afterCanvas" style="width:100%;height:100%;border-radius:10px;object-fit:cover;"></canvas>`;
+      const canvas = document.getElementById('afterCanvas');
+      const ctx = canvas.getContext('2d');
+      
+      const img = new Image();
+      img.src = imgURL;
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        
+        if (type === 'crop') {
+          ctx.drawImage(img, 0, 0, img.width, img.height * 0.6, 0, 0, canvas.width, canvas.height * 0.6);
+          
+          ctx.strokeStyle = '#9FE1CB';
+          ctx.lineWidth = Math.max(6, img.width * 0.012);
+          ctx.setLineDash([Math.max(12, img.width * 0.025), Math.max(12, img.width * 0.025)]);
+          ctx.beginPath();
+          ctx.moveTo(0, canvas.height * 0.6);
+          ctx.lineTo(canvas.width, canvas.height * 0.6);
+          ctx.stroke();
+          
+          ctx.fillStyle = 'rgba(38, 33, 92, 0.9)';
+          ctx.fillRect(0, canvas.height * 0.6, canvas.width, canvas.height * 0.4);
+          
+          ctx.fillStyle = '#9FE1CB';
+          ctx.font = `bold ${Math.max(14, img.width * 0.045)}px 'DM Sans', sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('DISEÑO CROP CON IA', canvas.width / 2, canvas.height * 0.8);
+        } 
+        else if (type === 'slim') {
+          ctx.fillStyle = '#26215C';
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          
+          const margin = canvas.width * 0.08;
+          ctx.drawImage(img, 0, 0, img.width, img.height, margin, 0, canvas.width - (margin * 2), canvas.height);
+          
+          ctx.strokeStyle = '#9FE1CB';
+          ctx.lineWidth = Math.max(4, img.width * 0.008);
+          ctx.setLineDash([8, 8]);
+          
+          ctx.beginPath();
+          ctx.moveTo(margin, 0);
+          ctx.quadraticCurveTo(margin * 2.5, canvas.height / 2, margin, canvas.height);
+          ctx.stroke();
+          
+          ctx.beginPath();
+          ctx.moveTo(canvas.width - margin, 0);
+          ctx.quadraticCurveTo(canvas.width - (margin * 2.5), canvas.height / 2, canvas.width - margin, canvas.height);
+          ctx.stroke();
+          
+          ctx.fillStyle = 'rgba(38, 33, 92, 0.85)';
+          ctx.fillRect(0, canvas.height * 0.82, canvas.width, canvas.height * 0.18);
+          ctx.fillStyle = '#9FE1CB';
+          ctx.font = `bold ${Math.max(14, img.width * 0.045)}px 'DM Sans', sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('DISEÑO SLIM FIT CON IA', canvas.width / 2, canvas.height * 0.91);
+        } 
+        else {
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          
+          ctx.strokeStyle = '#9FE1CB';
+          ctx.lineWidth = Math.max(6, img.width * 0.012);
+          ctx.setLineDash([10, 10]);
+          ctx.strokeRect(img.width * 0.1, img.height * 0.1, img.width * 0.8, img.height * 0.8);
+          
+          ctx.strokeStyle = '#AFA9EC';
+          ctx.beginPath();
+          ctx.arc(canvas.width * 0.35, canvas.height * 0.4, canvas.width * 0.12, 0, 2 * Math.PI);
+          ctx.stroke();
+          
+          ctx.fillStyle = 'rgba(38, 33, 92, 0.9)';
+          ctx.fillRect(0, canvas.height * 0.82, canvas.width, canvas.height * 0.18);
+          ctx.fillStyle = '#9FE1CB';
+          ctx.font = `bold ${Math.max(14, img.width * 0.045)}px 'DM Sans', sans-serif`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText('REDISEÑO CUSTOM IA', canvas.width / 2, canvas.height * 0.91);
+        }
+      };
     }
 
     function loadDemoGarment(key, btn) {
+      uploadedImgURL = null;
+      
       const buttons = document.querySelectorAll('#demoSelector .demo-btn');
       buttons.forEach(b => b.classList.remove('active'));
       
@@ -2925,15 +3047,12 @@
       }
       
       if (key === 'blazer') {
-        document.getElementById('beforeVisual').innerText = '🧥';
         document.getElementById('beforeName').innerText = 'Blazer oversize gris';
         document.getElementById('beforeDetail').innerText = 'Lana premium · Sin usar 2 años · Lima';
       } else if (key === 'jeans') {
-        document.getElementById('beforeVisual').innerText = '👖';
         document.getElementById('beforeName').innerText = 'Jeans Denim Clásico';
         document.getElementById('beforeDetail').innerText = 'Denim japonés · Sin usar 18 meses · Lima';
       } else if (key === 'camisa') {
-        document.getElementById('beforeVisual').innerText = '👔';
         document.getElementById('beforeName').innerText = 'Camisa de Lino Blanca';
         document.getElementById('beforeDetail').innerText = 'Lino premium · Talla incorrecta · Lima';
       }
@@ -2945,28 +3064,71 @@
       document.getElementById('previewUpload').click();
     }
 
-    function handleUpload(event) {
+    async function handleUpload(event) {
       const file = event.target.files[0];
       if (!file) return;
       
       const area = document.querySelector('.preview-upload-area');
       
+      uploadedImgURL = URL.createObjectURL(file);
+      document.getElementById('beforeVisual').innerHTML = `<img src="${uploadedImgURL}" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">`;
+      document.getElementById('beforeName').innerText = 'Analizando prenda...';
+      document.getElementById('beforeDetail').innerText = file.name;
+      
       area.style.pointerEvents = 'none';
       area.innerHTML = `
         <span class="preview-upload-icon">⏳</span>
-        <div class="preview-upload-title">Analizando prenda con IA...</div>
+        <div class="preview-upload-title">Analizando con Gemini IA...</div>
         <div class="preview-upload-sub">Identificando material y corte en segundos...</div>
       `;
       
-      setTimeout(() => {
+      const apiKey = localStorage.getItem('gemini_api_key');
+      if (!apiKey) {
+        alert('Por favor, ingresa tu Gemini API Key en el campo superior "🔑 Conectar Gemini API" antes de subir una foto.');
+        area.style.pointerEvents = 'auto';
         area.innerHTML = `
-          <span class="preview-upload-icon">🤖</span>
-          <div class="preview-upload-title">Generando propuestas de estilo...</div>
-          <div class="preview-upload-sub">Buscando matching con diseñadores en Lima...</div>
+          <span class="preview-upload-icon">👗</span>
+          <div class="preview-upload-title">Sube una foto de tu prenda</div>
+          <div class="preview-upload-sub">Ingresa tu API Key arriba para habilitar la detección</div>
         `;
-      }, 1000);
+        return;
+      }
       
-      setTimeout(() => {
+      try {
+        const base64 = await fileToBase64(file);
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+        
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [
+                  { text: "Analyze this garment image. Identify the garment type (e.g., shirt, dress, jacket, pants) and return a JSON object with: 1) 'detectedGarment': { 'name': 'Garment name in Spanish (e.g. Jeans denim clásico)', 'detail': 'Short material details in Spanish (e.g. Algodón premium · Usado)' }, 2) 'proposals': an array of exactly 3 redesign proposals in Spanish. Each proposal must have: 'label' (short title, e.g. Crop estructurado), 'price' (format S/. XX, between 60 and 120), 'name' (descriptive name), 'detail' (2-3 tags separated by middots, e.g. Costuras vistas · Estilo urbano), and 'transformationType' (one of: 'crop', 'slim', 'custom'). Keep values in Spanish. Return ONLY the JSON object." },
+                  {
+                    inlineData: {
+                      mimeType: file.type,
+                      data: base64
+                    }
+                  }
+                ]
+              }
+            ],
+            generationConfig: {
+              responseMimeType: "application/json"
+            }
+          })
+        });
+        
+        if (!response.ok) throw new Error('API Error');
+        
+        const data = await response.json();
+        const textResponse = data.candidates[0].content.parts[0].text;
+        const parsedData = JSON.parse(textResponse);
+        
         area.style.pointerEvents = 'auto';
         area.innerHTML = `
           <span class="preview-upload-icon">✓</span>
@@ -2974,11 +3136,57 @@
           <div class="preview-upload-sub">${file.name} (Subido) · Haz clic para cambiar</div>
         `;
         
-        loadDemoGarment('jeans');
-        document.getElementById('beforeName').innerText = 'Jeans Denim (Subido)';
-        document.getElementById('beforeDetail').innerText = `Denim premium · Archivo: ${file.name} · Talla estándar`;
-      }, 2200);
+        const buttons = document.querySelectorAll('#demoSelector .demo-btn');
+        buttons.forEach(b => b.classList.remove('active'));
+        
+        document.getElementById('beforeName').innerText = parsedData.detectedGarment.name;
+        document.getElementById('beforeDetail').innerText = parsedData.detectedGarment.detail;
+        
+        GARMENTS.custom = parsedData.proposals.map(p => ({
+          icon: p.transformationType === 'crop' ? '✂️' : (p.transformationType === 'slim' ? '🧵' : '🎨'),
+          label: p.label,
+          price: p.price,
+          name: p.name,
+          detail: p.detail,
+          type: p.transformationType
+        }));
+        
+        renderProposals('custom');
+        
+      } catch (err) {
+        console.error(err);
+        area.style.pointerEvents = 'auto';
+        area.innerHTML = `
+          <span class="preview-upload-icon">❌</span>
+          <div class="preview-upload-title">Error al analizar la prenda</div>
+          <div class="preview-upload-sub">Intenta de nuevo con otra imagen</div>
+        `;
+      }
     }
+
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          const base64 = reader.result.split(',')[1];
+          resolve(base64);
+        };
+        reader.onerror = error => reject(error);
+      });
+    }
+
+    function saveApiKey(val) {
+      localStorage.setItem('gemini_api_key', val.trim());
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const key = localStorage.getItem('gemini_api_key');
+      if (key) {
+        const input = document.getElementById('geminiKeyInput');
+        if (input) input.value = key;
+      }
+    });
 
     // Inicializar propuestas del blazer por defecto al cargar
     renderProposals('blazer');
