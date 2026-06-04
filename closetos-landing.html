@@ -2439,7 +2439,7 @@
       <div class="hero-form">
         <input type="text" placeholder="Tu nombre">
         <input type="email" placeholder="Tu correo">
-        <button class="btn-primary">Probar AI Style Preview gratis →</button>
+        <button class="btn-primary" onclick="document.getElementById('preview').scrollIntoView({behavior: 'smooth'})">Probar AI Style Preview gratis →</button>
       </div>
       <div class="hero-trust">
         <div class="trust-item">🔒 Sin tarjeta de crédito</div>
@@ -2937,8 +2937,8 @@
       <p class="cta-sub-final">El AI Style Preview es gratis. Ve el resultado antes de comprometerte. Sin tarjeta, sin
         riesgo.</p>
       <div class="cta-btns">
-        <button class="btn-white">Ver el potencial de mi ropa →</button>
-        <button class="btn-ghost">Hablar con un experto</button>
+        <button class="btn-white" onclick="document.getElementById('preview').scrollIntoView({behavior: 'smooth'})">Ver el potencial de mi ropa →</button>
+        <button class="btn-ghost" onclick="hablarConExperto()">Hablar con un experto</button>
       </div>
     </div>
   </section>
@@ -3628,6 +3628,19 @@
       closePickupModal();
       
       alert('¡Tu solicitud de recojo ha sido enviada! Te redirigiremos a WhatsApp para confirmar los detalles finales de la ruta de recojo gratis en Lima.');
+    }
+    
+    function hablarConExperto() {
+      if (!open) {
+        toggleChat();
+      }
+      document.getElementById('chatbox').scrollIntoView({behavior: 'smooth'});
+      setTimeout(() => {
+        addBot({
+          text: '¡Hola! Qué chévere que quieras hablar con un experto de ClosetOS AI. 🚀 Estamos listos para ayudarte a transformar tu clóset. ¿Cómo prefieres coordinar?',
+          opts: ['Escribir por WhatsApp', 'Agendar una llamada', 'Preguntar por recojo']
+        });
+      }, 400);
     }
   </script>
 
