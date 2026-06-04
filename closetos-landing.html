@@ -2227,6 +2227,28 @@
       opacity: 1;
       transform: translateY(0);
     }
+
+    /* DEMO SELECTOR */
+    .demo-btn {
+      background: var(--purple-light);
+      color: var(--purple-main);
+      border: .5px solid var(--purple-mid);
+      border-radius: 22px;
+      padding: .45rem 1.25rem;
+      font-size: .8rem;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      transition: all .2s;
+    }
+    .demo-btn:hover {
+      background: var(--purple-soft);
+    }
+    .demo-btn.active {
+      background: var(--purple-main);
+      color: var(--white);
+      border-color: var(--purple-main);
+    }
   </style>
 </head>
 
@@ -2477,8 +2499,13 @@
         </div>
         <div class="preview-divider">
           <div class="preview-divider-line"></div>
-          <div class="preview-divider-text">o mira este ejemplo en vivo</div>
+          <div class="preview-divider-text">o elige una prenda de demostración</div>
           <div class="preview-divider-line"></div>
+        </div>
+        <div style="display:flex;justify-content:center;gap:.6rem;margin-bottom:2rem;flex-wrap:wrap;" id="demoSelector">
+          <button class="demo-btn active" onclick="loadDemoGarment('blazer', this)">🧥 Blazer</button>
+          <button class="demo-btn" onclick="loadDemoGarment('jeans', this)">👖 Jeans</button>
+          <button class="demo-btn" onclick="loadDemoGarment('camisa', this)">👔 Camisa</button>
         </div>
         <div class="preview-demo">
           <div class="preview-side before">
@@ -2850,6 +2877,11 @@
         { icon: '👖', label: 'Wide leg moderno', price: 'S/. 75', name: 'Jeans wide leg moderno', detail: 'Apertura lateral · Bajo deshilachado · Urbano' },
         { icon: '✂️', label: 'Shorts deshilachados', price: 'S/. 50', name: 'Shorts denim deshilachados', detail: 'Corte veraniego · Flecos finos · Casual' },
         { icon: '🎨', label: 'Custom parches', price: 'S/. 90', name: 'Jeans con parches Sashiko', detail: 'Parches decorativos · Costuras a mano · Estilo artesanal' }
+      ],
+      camisa: [
+        { icon: '✂️', label: 'Crop anudado', price: 'S/. 65', name: 'Camisa crop anudada', detail: 'Largo reducido · Bajo con lazo ajustable · Casual' },
+        { icon: '🧵', label: 'Slim cuello mao', price: 'S/. 55', name: 'Camisa mao slim fit', detail: 'Ajuste con pinzas traseras · Cuello mao · Estilo fresco' },
+        { icon: '👗', label: 'Vestido camisero', price: 'S/. 90', name: 'Vestido camisero de lino', detail: 'Alargue con retazos de algodón · Cinturón · Elegante' }
       ]
     };
 
@@ -2881,6 +2913,34 @@
       document.getElementById('afterDetail').innerText = el.dataset.detail || '';
     }
 
+    function loadDemoGarment(key, btn) {
+      const buttons = document.querySelectorAll('#demoSelector .demo-btn');
+      buttons.forEach(b => b.classList.remove('active'));
+      
+      if (btn) {
+        btn.classList.add('active');
+      } else {
+        const matchingBtn = Array.from(buttons).find(b => b.getAttribute('onclick').includes(key));
+        if (matchingBtn) matchingBtn.classList.add('active');
+      }
+      
+      if (key === 'blazer') {
+        document.getElementById('beforeVisual').innerText = '🧥';
+        document.getElementById('beforeName').innerText = 'Blazer oversize gris';
+        document.getElementById('beforeDetail').innerText = 'Lana premium · Sin usar 2 años · Lima';
+      } else if (key === 'jeans') {
+        document.getElementById('beforeVisual').innerText = '👖';
+        document.getElementById('beforeName').innerText = 'Jeans Denim Clásico';
+        document.getElementById('beforeDetail').innerText = 'Denim japonés · Sin usar 18 meses · Lima';
+      } else if (key === 'camisa') {
+        document.getElementById('beforeVisual').innerText = '👔';
+        document.getElementById('beforeName').innerText = 'Camisa de Lino Blanca';
+        document.getElementById('beforeDetail').innerText = 'Lino premium · Talla incorrecta · Lima';
+      }
+      
+      renderProposals(key);
+    }
+
     function triggerUpload() {
       document.getElementById('previewUpload').click();
     }
@@ -2890,7 +2950,6 @@
       if (!file) return;
       
       const area = document.querySelector('.preview-upload-area');
-      const originalHTML = area.innerHTML;
       
       area.style.pointerEvents = 'none';
       area.innerHTML = `
@@ -2915,11 +2974,9 @@
           <div class="preview-upload-sub">${file.name} (Subido) · Haz clic para cambiar</div>
         `;
         
-        document.getElementById('beforeVisual').innerText = '👖';
+        loadDemoGarment('jeans');
         document.getElementById('beforeName').innerText = 'Jeans Denim (Subido)';
         document.getElementById('beforeDetail').innerText = `Denim premium · Archivo: ${file.name} · Talla estándar`;
-        
-        renderProposals('jeans');
       }, 2200);
     }
 
