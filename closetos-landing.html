@@ -2437,9 +2437,9 @@
       <p class="hero-sub">ClosetOS AI conecta tu ropa acumulada con diseñadores verificados usando inteligencia
         artificial. Visualiza el resultado antes de invertir un sol.</p>
       <div class="hero-form">
-        <input type="text" placeholder="Tu nombre">
-        <input type="email" placeholder="Tu correo">
-        <button class="btn-primary" onclick="document.getElementById('preview').scrollIntoView({behavior: 'smooth'})">Probar AI Style Preview gratis →</button>
+        <input type="text" id="heroName" placeholder="Tu nombre">
+        <input type="email" id="heroEmail" placeholder="Tu correo">
+        <button class="btn-primary" onclick="probarPreviewHero()">Probar AI Style Preview gratis →</button>
       </div>
       <div class="hero-trust">
         <div class="trust-item">🔒 Sin tarjeta de crédito</div>
@@ -2468,13 +2468,13 @@
             </div>
           </div>
           <div class="mockup-proposals">
-            <div class="mockup-proposal active"><span class="mockup-proposal-icon">✂️</span>
+            <div class="mockup-proposal active" onclick="selectHeroMockupProp('crop', this)"><span class="mockup-proposal-icon">✂️</span>
               <div class="mockup-proposal-label">Crop</div>
             </div>
-            <div class="mockup-proposal"><span class="mockup-proposal-icon">🧵</span>
+            <div class="mockup-proposal" onclick="selectHeroMockupProp('slim', this)"><span class="mockup-proposal-icon">🧵</span>
               <div class="mockup-proposal-label">Slim fit</div>
             </div>
-            <div class="mockup-proposal"><span class="mockup-proposal-icon">🎨</span>
+            <div class="mockup-proposal" onclick="selectHeroMockupProp('custom', this)"><span class="mockup-proposal-icon">🎨</span>
               <div class="mockup-proposal-label">Custom</div>
             </div>
           </div>
@@ -3641,6 +3641,49 @@
           opts: ['Escribir por WhatsApp', 'Agendar una llamada', 'Preguntar por recojo']
         });
       }, 400);
+    }
+    
+    function probarPreviewHero() {
+      const nameInp = document.getElementById('heroName');
+      const name = nameInp ? nameInp.value.trim() : '';
+      
+      if (name) {
+        // Pre-fill the modal name input
+        const pickupNameEl = document.getElementById('pickupName');
+        if (pickupNameEl) {
+          pickupNameEl.value = name;
+        }
+        
+        // Personalize the welcome message of the chatbot
+        const firstBubble = document.querySelector('#chatMsgs .msg-bubble');
+        if (firstBubble) {
+          firstBubble.innerHTML = `¡Hola, ${name}! 👋 Soy el asistente de ClosetOS AI. Estoy aquí para ayudarte a descubrir el potencial de tu ropa acumulada.`;
+        }
+      }
+      
+      document.getElementById('preview').scrollIntoView({behavior: 'smooth'});
+    }
+    
+    function selectHeroMockupProp(type, el) {
+      const parent = el.closest('.mockup-proposals');
+      if (parent) {
+        parent.querySelectorAll('.mockup-proposal').forEach(p => p.classList.remove('active'));
+      }
+      el.classList.add('active');
+      
+      const afterCard = document.querySelector('.hero-mockup .float-card-after .float-text');
+      const statCard = document.querySelector('.hero-mockup .float-card-stat .float-stat-num');
+      
+      if (type === 'crop') {
+        if (afterCard) afterCard.innerText = 'Crop estructurado ✨';
+        if (statCard) statCard.innerText = 'S/.95';
+      } else if (type === 'slim') {
+        if (afterCard) afterCard.innerText = 'Slim fit moderno ✨';
+        if (statCard) statCard.innerText = 'S/.80';
+      } else if (type === 'custom') {
+        if (afterCard) afterCard.innerText = 'Custom de diseño ✨';
+        if (statCard) statCard.innerText = 'S/.110';
+      }
     }
   </script>
 
