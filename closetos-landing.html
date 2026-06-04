@@ -3104,7 +3104,38 @@
               }
             ],
             generationConfig: {
-              responseMimeType: "application/json"
+              responseMimeType: "application/json",
+              responseSchema: {
+                type: "OBJECT",
+                properties: {
+                  detectedGarment: {
+                    type: "OBJECT",
+                    properties: {
+                      name: { type: "STRING" },
+                      detail: { type: "STRING" }
+                    },
+                    required: ["name", "detail"]
+                  },
+                  proposals: {
+                    type: "ARRAY",
+                    items: {
+                      type: "OBJECT",
+                      properties: {
+                        label: { type: "STRING" },
+                        price: { type: "STRING" },
+                        name: { type: "STRING" },
+                        detail: { type: "STRING" },
+                        transformationType: {
+                          type: "STRING",
+                          enum: ["crop", "slim", "custom"]
+                        }
+                      },
+                      required: ["label", "price", "name", "detail", "transformationType"]
+                    }
+                  }
+                },
+                required: ["detectedGarment", "proposals"]
+              }
             }
           })
         });
