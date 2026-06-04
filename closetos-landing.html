@@ -2468,7 +2468,8 @@
         </div>
       </div>
       <div class="preview-body">
-        <div class="preview-upload-area" onclick="showPreviewDemo()">
+        <input type="file" id="previewUpload" accept="image/*" style="display:none;" onchange="handleUpload(event)">
+        <div class="preview-upload-area" onclick="triggerUpload()">
           <span class="preview-upload-icon">👗</span>
           <div class="preview-upload-title">Sube una foto de tu prenda</div>
           <div class="preview-upload-sub">JPG, PNG o HEIC · Máx. 10 MB · Cualquier ángulo</div>
@@ -2483,9 +2484,9 @@
           <div class="preview-side before">
             <div class="preview-side-header">📷 Prenda original</div>
             <div class="preview-side-content">
-              <div class="preview-prenda-visual">🧥</div>
-              <div class="preview-prenda-name">Blazer oversize gris</div>
-              <div class="preview-prenda-detail">Lana premium · Sin usar 2 años · NSE A/B</div>
+              <div class="preview-prenda-visual" id="beforeVisual">🧥</div>
+              <div class="preview-prenda-name" id="beforeName">Blazer oversize gris</div>
+              <div class="preview-prenda-detail" id="beforeDetail">Lana premium · Sin usar 2 años · Lima</div>
             </div>
           </div>
           <div class="preview-arrow">
@@ -2495,27 +2496,16 @@
           <div class="preview-side after">
             <div class="preview-side-header">✨ Propuesta seleccionada</div>
             <div class="preview-side-content">
-              <div class="preview-prenda-visual">✂️</div>
-              <div class="preview-prenda-name">Blazer crop estructurado</div>
-              <div class="preview-prenda-detail">Costura visible · Botonadura asimétrica · Urbano</div>
+              <div class="preview-prenda-visual" id="afterVisual">✂️</div>
+              <div class="preview-prenda-name" id="afterName">Blazer crop estructurado</div>
+              <div class="preview-prenda-detail" id="afterDetail">Costura visible · Botonadura asimétrica · Urbano</div>
             </div>
           </div>
         </div>
         <div class="preview-proposals">
           <div class="preview-proposals-title">Elige una propuesta de transformación</div>
-          <div class="proposals-grid">
-            <div class="proposal-chip selected" onclick="selectProp(this)"><span class="proposal-chip-icon">✂️</span>
-              <div class="proposal-chip-name">Crop estructurado</div>
-              <div class="proposal-chip-price">S/. 95</div>
-            </div>
-            <div class="proposal-chip" onclick="selectProp(this)"><span class="proposal-chip-icon">🧵</span>
-              <div class="proposal-chip-name">Slim fit moderno</div>
-              <div class="proposal-chip-price">S/. 80</div>
-            </div>
-            <div class="proposal-chip" onclick="selectProp(this)"><span class="proposal-chip-icon">🎨</span>
-              <div class="proposal-chip-name">Custom urbano</div>
-              <div class="proposal-chip-price">S/. 110</div>
-            </div>
+          <div class="proposals-grid" id="proposalsGrid">
+            <!-- Cargado dinámicamente por JS -->
           </div>
         </div>
         <div class="preview-cta-row">
@@ -2850,8 +2840,91 @@
     function addBot(r) { const m = document.getElementById('chatMsgs'); const opts = (r.opts || []).map(o => `<button class="chat-opt" onclick="sendOpt(this,'${o}')">${o}</button>`).join(''); const d = document.createElement('div'); d.className = 'msg msg-bot'; d.innerHTML = `<div class="msg-bubble">${r.text.replace(/\n/g, '<br>')}</div><div class="msg-time">${now()}</div>${opts ? `<div class="chat-opts">${opts}</div>` : ''}`; m.appendChild(d); m.scrollTop = m.scrollHeight; }
     function showTyping() { const m = document.getElementById('chatMsgs'); const d = document.createElement('div'); d.id = 'typing'; d.className = 'typing'; d.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>'; m.appendChild(d); m.scrollTop = m.scrollHeight; }
     function removeTyping() { const t = document.getElementById('typing'); if (t) t.remove(); }
-    function selectProp(el) { document.querySelectorAll('.proposal-chip').forEach(c => c.classList.remove('selected')); el.classList.add('selected'); }
-    function showPreviewDemo() { }
+    const GARMENTS = {
+      blazer: [
+        { icon: '✂️', label: 'Crop estructurado', price: 'S/. 95', name: 'Blazer crop estructurado', detail: 'Costura visible · Botonadura asimétrica · Urbano' },
+        { icon: '🧵', label: 'Slim fit moderno', price: 'S/. 80', name: 'Blazer slim fit moderno', detail: 'Corte entallado · Ajuste de hombros y mangas · Casual' },
+        { icon: '🎨', label: 'Custom urbano', price: 'S/. 110', name: 'Blazer custom urbano', detail: 'Parches de denim · Bordado en espalda · Diseño único' }
+      ],
+      jeans: [
+        { icon: '👖', label: 'Wide leg moderno', price: 'S/. 75', name: 'Jeans wide leg moderno', detail: 'Apertura lateral · Bajo deshilachado · Urbano' },
+        { icon: '✂️', label: 'Shorts deshilachados', price: 'S/. 50', name: 'Shorts denim deshilachados', detail: 'Corte veraniego · Flecos finos · Casual' },
+        { icon: '🎨', label: 'Custom parches', price: 'S/. 90', name: 'Jeans con parches Sashiko', detail: 'Parches decorativos · Costuras a mano · Estilo artesanal' }
+      ]
+    };
+
+    function renderProposals(key) {
+      const grid = document.getElementById('proposalsGrid');
+      const proposals = GARMENTS[key];
+      grid.innerHTML = proposals.map((p, idx) => `
+        <div class="proposal-chip ${idx === 0 ? 'selected' : ''}" 
+             onclick="selectProp(this)" 
+             data-icon="${p.icon}" 
+             data-name="${p.name}" 
+             data-detail="${p.detail}">
+          <span class="proposal-chip-icon">${p.icon}</span>
+          <div class="proposal-chip-name">${p.label}</div>
+          <div class="proposal-chip-price">${p.price}</div>
+        </div>
+      `).join('');
+      
+      const firstChip = grid.querySelector('.proposal-chip');
+      if (firstChip) selectProp(firstChip);
+    }
+
+    function selectProp(el) {
+      document.querySelectorAll('.proposal-chip').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      
+      document.getElementById('afterVisual').innerText = el.dataset.icon || '✂️';
+      document.getElementById('afterName').innerText = el.dataset.name || '';
+      document.getElementById('afterDetail').innerText = el.dataset.detail || '';
+    }
+
+    function triggerUpload() {
+      document.getElementById('previewUpload').click();
+    }
+
+    function handleUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      
+      const area = document.querySelector('.preview-upload-area');
+      const originalHTML = area.innerHTML;
+      
+      area.style.pointerEvents = 'none';
+      area.innerHTML = `
+        <span class="preview-upload-icon">⏳</span>
+        <div class="preview-upload-title">Analizando prenda con IA...</div>
+        <div class="preview-upload-sub">Identificando material y corte en segundos...</div>
+      `;
+      
+      setTimeout(() => {
+        area.innerHTML = `
+          <span class="preview-upload-icon">🤖</span>
+          <div class="preview-upload-title">Generando propuestas de estilo...</div>
+          <div class="preview-upload-sub">Buscando matching con diseñadores en Lima...</div>
+        `;
+      }, 1000);
+      
+      setTimeout(() => {
+        area.style.pointerEvents = 'auto';
+        area.innerHTML = `
+          <span class="preview-upload-icon">✓</span>
+          <div class="preview-upload-title">¡Prenda analizada con éxito!</div>
+          <div class="preview-upload-sub">${file.name} (Subido) · Haz clic para cambiar</div>
+        `;
+        
+        document.getElementById('beforeVisual').innerText = '👖';
+        document.getElementById('beforeName').innerText = 'Jeans Denim (Subido)';
+        document.getElementById('beforeDetail').innerText = `Denim premium · Archivo: ${file.name} · Talla estándar`;
+        
+        renderProposals('jeans');
+      }, 2200);
+    }
+
+    // Inicializar propuestas del blazer por defecto al cargar
+    renderProposals('blazer');
     const obs = new IntersectionObserver(entries => { entries.forEach((e, i) => { if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 90); }); }, { threshold: .08 });
     document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
   </script>
