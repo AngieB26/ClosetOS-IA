@@ -2872,18 +2872,18 @@
     const GARMENTS = {
       blazer: [
         { icon: '✂️', label: 'Crop estructurado', price: 'S/. 95', name: 'Blazer crop estructurado', detail: 'Costura visible · Botonadura asimétrica · Urbano', beforeImg: 'assets/blazer_before.png', afterImg: 'assets/blazer_after.png', type: 'crop' },
-        { icon: '🧵', label: 'Slim fit moderno', price: 'S/. 80', name: 'Blazer slim fit moderno', detail: 'Corte entallado · Ajuste de hombros y mangas · Casual', beforeImg: 'assets/blazer_before.png', afterImg: 'assets/blazer_after.png', type: 'slim' },
-        { icon: '🎨', label: 'Custom urbano', price: 'S/. 110', name: 'Blazer custom urbano', detail: 'Parches de denim · Bordado en espalda · Diseño único', beforeImg: 'assets/blazer_before.png', afterImg: 'assets/blazer_after.png', type: 'custom' }
+        { icon: '🧵', label: 'Slim fit moderno', price: 'S/. 80', name: 'Blazer slim fit moderno', detail: 'Corte entallado · Ajuste de hombros y mangas · Casual', beforeImg: 'assets/blazer_before.png', afterImg: 'assets/blazer_slim.png', type: 'slim' },
+        { icon: '🎨', label: 'Custom urbano', price: 'S/. 110', name: 'Blazer custom urbano', detail: 'Parches de denim · Bordado en espalda · Diseño único', beforeImg: 'assets/blazer_before.png', afterImg: 'assets/blazer_custom.png', type: 'custom' }
       ],
       jeans: [
         { icon: '👖', label: 'Wide leg moderno', price: 'S/. 75', name: 'Jeans wide leg moderno', detail: 'Apertura lateral · Bajo deshilachado · Urbano', beforeImg: 'assets/jeans_before.png', afterImg: 'assets/jeans_after.png', type: 'crop' },
-        { icon: '✂️', label: 'Shorts deshilachados', price: 'S/. 50', name: 'Shorts denim deshilachados', detail: 'Corte veraniego · Flecos finos · Casual', beforeImg: 'assets/jeans_before.png', afterImg: 'assets/jeans_after.png', type: 'slim' },
-        { icon: '🎨', label: 'Custom parches', price: 'S/. 90', name: 'Jeans con parches Sashiko', detail: 'Parches decorativos · Costuras a mano · Estilo artesanal', beforeImg: 'assets/jeans_before.png', afterImg: 'assets/jeans_after.png', type: 'custom' }
+        { icon: '✂️', label: 'Shorts deshilachados', price: 'S/. 50', name: 'Shorts denim deshilachados', detail: 'Corte veraniego · Flecos finos · Casual', beforeImg: 'assets/jeans_before.png', afterImg: 'assets/jeans_shorts.png', type: 'slim' },
+        { icon: '🎨', label: 'Custom parches', price: 'S/. 90', name: 'Jeans con parches Sashiko', detail: 'Parches decorativos · Costuras a mano · Estilo artesanal', beforeImg: 'assets/jeans_before.png', afterImg: 'assets/jeans_custom.png', type: 'custom' }
       ],
       camisa: [
         { icon: '✂️', label: 'Crop anudado', price: 'S/. 65', name: 'Camisa crop anudada', detail: 'Largo reducido · Bajo con lazo ajustable · Casual', beforeImg: 'assets/camisa_before.png', afterImg: 'assets/camisa_after.png', type: 'crop' },
-        { icon: '🧵', label: 'Slim cuello mao', price: 'S/. 55', name: 'Camisa mao slim fit', detail: 'Ajuste con pinzas traseras · Cuello mao · Estilo fresco', beforeImg: 'assets/camisa_before.png', afterImg: 'assets/camisa_after.png', type: 'slim' },
-        { icon: '👗', label: 'Vestido camisero', price: 'S/. 90', name: 'Vestido camisero de lino', detail: 'Alargue con retazos de algodón · Cinturón · Elegante', beforeImg: 'assets/camisa_before.png', afterImg: 'assets/camisa_after.png', type: 'custom' }
+        { icon: '🧵', label: 'Slim cuello mao', price: 'S/. 55', name: 'Camisa mao slim fit', detail: 'Ajuste con pinzas traseras · Cuello mao · Estilo fresco', beforeImg: 'assets/camisa_before.png', afterImg: 'assets/camisa_mao.png', type: 'slim' },
+        { icon: '👗', label: 'Vestido camisero', price: 'S/. 90', name: 'Vestido camisero de lino', detail: 'Alargue con retazos de algodón · Cinturón · Elegante', beforeImg: 'assets/camisa_before.png', afterImg: 'assets/camisa_vestido.png', type: 'custom' }
       ],
       custom: []
     };
@@ -2924,17 +2924,23 @@
       document.getElementById('afterName').innerText = name;
       document.getElementById('afterDetail').innerText = detail;
       
-      const imgURL = uploadedImgURL || el.dataset.beforeImg;
-      
-      if (imgURL) {
-        document.getElementById('beforeVisual').innerHTML = `<img src="${imgURL}" style="width:100%;height:100%;object-fit:contain;border-radius:10px;">`;
-        generateAfterCanvas(type, imgURL);
+      if (uploadedImgURL) {
+        document.getElementById('beforeVisual').innerHTML = `<img src="${uploadedImgURL}" style="width:100%;height:100%;object-fit:contain;border-radius:10px;">`;
+        generateAfterCanvas(type, uploadedImgURL);
       } else {
-        const beforeEmoji = el.dataset.beforeEmoji || '🧥';
-        const afterEmoji = el.dataset.afterEmoji || '✂️';
+        const beforeImg = el.dataset.beforeImg;
+        const afterImg = el.dataset.afterImg;
         
-        document.getElementById('beforeVisual').innerHTML = `<div style="font-size:3rem;display:flex;align-items:center;justify-content:center;height:100%;">${beforeEmoji}</div>`;
-        document.getElementById('afterVisual').innerHTML = `<div style="font-size:3rem;display:flex;align-items:center;justify-content:center;height:100%;">${afterEmoji}</div>`;
+        if (beforeImg && afterImg) {
+          document.getElementById('beforeVisual').innerHTML = `<img src="${beforeImg}" style="width:100%;height:100%;object-fit:contain;border-radius:10px;">`;
+          document.getElementById('afterVisual').innerHTML = `<img src="${afterImg}" style="width:100%;height:100%;object-fit:contain;border-radius:10px;">`;
+        } else {
+          const beforeEmoji = el.dataset.beforeEmoji || '🧥';
+          const afterEmoji = el.dataset.afterEmoji || '✂️';
+          
+          document.getElementById('beforeVisual').innerHTML = `<div style="font-size:3rem;display:flex;align-items:center;justify-content:center;height:100%;">${beforeEmoji}</div>`;
+          document.getElementById('afterVisual').innerHTML = `<div style="font-size:3rem;display:flex;align-items:center;justify-content:center;height:100%;">${afterEmoji}</div>`;
+        }
       }
     }
 
