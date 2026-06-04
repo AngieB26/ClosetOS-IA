@@ -3645,20 +3645,38 @@
     
     function probarPreviewHero() {
       const nameInp = document.getElementById('heroName');
+      const emailInp = document.getElementById('heroEmail');
       const name = nameInp ? nameInp.value.trim() : '';
+      const email = emailInp ? emailInp.value.trim() : '';
       
-      if (name) {
-        // Pre-fill the modal name input
-        const pickupNameEl = document.getElementById('pickupName');
-        if (pickupNameEl) {
-          pickupNameEl.value = name;
-        }
-        
-        // Personalize the welcome message of the chatbot
-        const firstBubble = document.querySelector('#chatMsgs .msg-bubble');
-        if (firstBubble) {
-          firstBubble.innerHTML = `¡Hola, ${name}! 👋 Soy el asistente de ClosetOS AI. Estoy aquí para ayudarte a descubrir el potencial de tu ropa acumulada.`;
-        }
+      if (!name) {
+        alert('Por favor, ingresa tu nombre primero.');
+        if (nameInp) nameInp.focus();
+        return;
+      }
+      
+      if (!email) {
+        alert('Por favor, ingresa tu correo primero.');
+        if (emailInp) emailInp.focus();
+        return;
+      }
+      
+      if (!email.includes('@')) {
+        alert('Por favor, ingresa un correo electrónico válido (ej. tuusuario@correo.com).');
+        if (emailInp) emailInp.focus();
+        return;
+      }
+      
+      // Pre-fill the modal name input
+      const pickupNameEl = document.getElementById('pickupName');
+      if (pickupNameEl) {
+        pickupNameEl.value = name;
+      }
+      
+      // Personalize the welcome message of the chatbot
+      const firstBubble = document.querySelector('#chatMsgs .msg-bubble');
+      if (firstBubble) {
+        firstBubble.innerHTML = `¡Hola, ${name}! 👋 Soy el asistente de ClosetOS AI. Estoy aquí para ayudarte a descubrir el potencial de tu ropa acumulada.`;
       }
       
       document.getElementById('preview').scrollIntoView({behavior: 'smooth'});
