@@ -2943,51 +2943,145 @@
     </div>
   </section>
 
-  <!-- CHATBOT -->
-  <button class="chat-trigger" onclick="toggleChat()" id="chatTrigger">💬<div class="chat-status"></div></button>
-  <div class="chatbox" id="chatbox">
-    <div class="chat-header">
-      <div class="chat-avatar">✨</div>
-      <div>
-        <div class="chat-hname">ClosetOS AI</div>
-        <div class="chat-hstatus">
-          <div class="chat-sdot"></div> Asistente de estilo · En línea
-        </div>
+<!-- CHATBOT -->
+<button class="chat-trigger" onclick="toggleChat()" id="chatTrigger">💬<div class="chat-status"></div></button>
+<div class="chatbox" id="chatbox">
+  <div class="chat-header">
+    <div class="chat-avatar">✨</div>
+    <div><div class="chat-hname">ClosetOS AI</div><div class="chat-hstatus"><div class="chat-sdot"></div> Asistente de estilo · En línea</div></div>
+    <button class="chat-close-btn" onclick="toggleChat()">✕</button>
+  </div>
+  <div class="chat-msgs" id="chatMsgs">
+    <div class="msg msg-bot">
+      <div class="msg-bubble">¡Hola! 👋 Soy el asistente de ClosetOS AI. Estoy aquí para ayudarte a descubrir el potencial de tu ropa acumulada.</div>
+      <div class="msg-time">Ahora</div>
+      <div class="chat-opts">
+        <button class="chat-opt" onclick="sendOpt(this,'Quiero transformar una prenda')">Transformar una prenda</button>
+        <button class="chat-opt" onclick="sendOpt(this,'¿Cómo funciona el AI Preview?')">¿Cómo funciona?</button>
+        <button class="chat-opt" onclick="sendOpt(this,'Ver los planes')">Ver planes</button>
       </div>
-      <button class="chat-close-btn" onclick="toggleChat()">✕</button>
-    </div>
-    <div class="chat-msgs" id="chatMsgs">
-      <div class="msg msg-bot">
-        <div class="msg-bubble">¡Hola! 👋 Soy el asistente de ClosetOS AI. Estoy aquí para ayudarte a descubrir el
-          potencial de tu ropa acumulada.</div>
-        <div class="msg-time">Ahora</div>
-        <div class="chat-opts">
-          <button class="chat-opt" onclick="sendOpt(this,'Quiero transformar una prenda')">Transformar una
-            prenda</button>
-          <button class="chat-opt" onclick="sendOpt(this,'¿Cómo funciona el AI Preview?')">¿Cómo funciona?</button>
-          <button class="chat-opt" onclick="sendOpt(this,'Ver los planes')">Ver planes</button>
-        </div>
-      </div>
-    </div>
-    <div class="chat-input-wrap">
-      <input class="chat-inp" id="chatInp" type="text" placeholder="Escribe tu mensaje..."
-        onkeydown="if(event.key==='Enter')sendMsg()">
-      <button class="chat-send-btn" onclick="sendMsg()">➤</button>
     </div>
   </div>
+  <div class="chat-input-wrap">
+    <input class="chat-inp" id="chatInp" type="text" placeholder="Escribe tu mensaje..." onkeydown="if(event.key==='Enter')sendMsg()">
+    <button class="chat-send-btn" onclick="sendMsg()">➤</button>
+  </div>
+</div>
 
   <script>
     const R = {
-      'quiero transformar una prenda': { text: '¡Perfecto! Para empezar solo necesitas:\n\n1️⃣ Fotografiar la prenda\n2️⃣ Subírla al AI Style Preview\n3️⃣ Elegir tu propuesta favorita\n\n¿Qué tipo de prenda tienes en mente?', opts: ['Un blazer o saco', 'Jeans o pantalón', 'Camisa o blusa', 'Otro tipo'] },
-      'un blazer o saco': { text: '¡Excelente! Los blazers tienen un potencial muy alto. Podemos hacer: crop estructurado, slim fit moderno, o custom urbano con detalles únicos.\n\n¿Hace cuánto no lo usas?', opts: ['Menos de 1 año', '1 a 2 años', 'Más de 2 años'] },
-      'más de 2 años': { text: '¡Esos son los casos más interesantes! Una prenda de calidad guardada más de 2 años casi siempre tiene una segunda vida increíble.\n\nCosto promedio: S/. 75–120. ¿Agendamos tu AI Preview gratis?', opts: ['Sí, quiero el Preview gratis', 'Ver los planes primero'] },
-      'sí, quiero el preview gratis': { text: '¡Genial! Solo regístrate con tu correo y en minutos tendrás 3 propuestas visuales.\n\n👉 Usa el formulario arriba para comenzar.', opts: ['¿Cuánto tarda?', '¿Cuánto cuesta?'] },
-      '¿cómo funciona el ai preview?': { text: 'El AI Style Preview usa IA generativa para simular cómo quedaría tu prenda:\n\n🤖 Analizamos material y corte\n✨ Generamos 3 propuestas visuales\n👀 Tú eliges antes de comprometerte\n\nEs ver el resultado antes de pagar.', opts: ['¿Cuánto cuesta?', 'Quiero probarlo', 'Ver los planes'] },
-      '¿cuánto cuesta?': { text: 'El AI Preview es gratis 🎉\n\nLas transformaciones cuestan entre S/. 60 y S/. 120 según la prenda.\n\nVs. comprar nuevo (S/. 250–600+), el ahorro es muy real.', opts: ['Ver los planes', 'Quiero empezar'] },
-      'ver los planes': { text: 'Tenemos 3 planes:\n\n🆓 Free · S/. 0 — 1 preview + 1 transformación\n⭐ Smart · S/. 49/mes — Ilimitados + 3 transf.\n💎 Pro · S/. 89/mes — Todo + Stylist AI personal', opts: ['Plan Smart', 'Plan Pro', 'Empezar gratis'] },
-      'plan smart': { text: 'El plan Smart es el favorito 🔥\n\nPreviews ilimitados, matching prioritario, 3 transformaciones al mes, tracking y dashboard de impacto ambiental.\n\nS/. 49/mes sin permanencia.', opts: ['Activar Smart', '¿Puedo cancelar?'] },
-      '¿puedo cancelar?': { text: 'Sí, absolutamente. Sin permanencia ni penalidades. Cancelas cuando quieras desde tu perfil.\n\nEmpezar con Free también es una opción válida.', opts: ['Empezar con Free', 'Activar Smart'] },
-      'default': { text: 'Entiendo tu consulta 🙌 Para la mejor respuesta, te recomiendo probar el AI Preview gratis desde el formulario arriba, o escríbenos directamente por WhatsApp.', opts: ['Ir al preview', 'Ver planes', 'WhatsApp'] }
+      'quiero transformar una prenda': {
+        text: '¡Acaurazo! 🧥 ClosetOS AI te ayuda a revivir esa ropa que tienes guardada hace tiempo. Para empezar solo necesitas:\n\n1️⃣ Subir una foto de tu prenda en la sección de arriba.\n2️⃣ Ver el preview con IA al toque.\n3️⃣ Elegir tu transformación favorita y agendar el recojo.\n\n¿Qué prenda quieres transformar hoy?',
+        opts: ['Un blazer o saco', 'Jeans o pantalón', 'Camisa o blusa', 'Preguntar por recojo', 'Ver garantías']
+      },
+      'un blazer o saco': {
+        text: '¡Fino! 🧥 Los blazers y sacos son perfectos para hacerles un crop estructurado, un slim fit moderno para el diario, o meterle parches customizados recontra urbanos.\n\n¿Hace cuánto no te lo pones?',
+        opts: ['Menos de 1 año', 'Más de 1 año', 'Preguntar por recojo']
+      },
+      'jeans o pantalón': {
+        text: '¡Buenazo! 👖 Con tus jeans podemos hacer un wide leg moderno con aberturas, cortarlos para shorts deshilachados urbanos, o meterles parches Sashiko hechos a mano.\n\n¿Hace cuánto los tienes guardados?',
+        opts: ['Menos de 1 año', 'Más de 1 año', 'Preguntar por recojo']
+      },
+      'camisa o blusa': {
+        text: '¡Excelente! 👔 Con camisas y blusas hacemos crop anudado, slim con cuello mao súper fresco, o incluso convertirlas en vestido camisero uniendo retazos.\n\n¿Qué estilo prefieres?',
+        opts: ['Estilo casual', 'Estilo urbano', 'Preguntar por recojo']
+      },
+      'otro tipo': {
+        text: '¡Dale! Escríbenos directamente o sube la foto de tu prenda arriba para que nuestra IA te dé propuestas personalizadas al toque. ¿Quieres que hablemos por WhatsApp?',
+        opts: ['Escribir por WhatsApp', 'Ver los planes']
+      },
+      'menos de 1 año': {
+        text: '¡Buenísimo! Todavía está fresca. Dale un giro antes de que se quede en el olvido. El AI Style Preview es gratis y al toque. ¿Quieres probarlo?',
+        opts: ['Sí, quiero el Preview gratis', 'Ver los planes']
+      },
+      'más de 1 año': {
+        text: '¡Ya es hora de revivirla! 🚀 Esas prendas guardadas tienen la mejor calidad y quedan bravazas tras la transformación. El costo va de S/. 55 a S/. 110 según el trabajo. ¿Te pinta ver el preview?',
+        opts: ['Sí, quiero el Preview gratis', 'Ver los planes']
+      },
+      'sí, quiero el preview gratis': {
+        text: '¡Genial! 🚀 Sube la foto de tu prenda en la sección "AI Style Preview" arriba, elige el estilo y verás el resultado al instante. Es gratis y sin tarjetas.\n\n¿Qué pasa si no te convence?',
+        opts: ['¿Qué pasa si no me gusta?', '¿Cuánto cuesta la entrega?']
+      },
+      'ver los planes': {
+        text: 'Tenemos 3 planes para ti en Lima:\n\nCompartido de la siguiente manera:\n🆓 Free (S/. 0): 1 preview al mes + 1 transformación.\n🔥 Smart (S/. 49/mes): Previews ilimitados + 3 transformaciones al mes + tracking en vivo + eco-tokens.\n💎 Pro (S/. 89/mes): Transformaciones ilimitadas + Stylist AI personal 24/7.\n\n¿Cuál te llama la atención?',
+        opts: ['Plan Smart', 'Plan Pro', 'Empezar gratis']
+      },
+      'plan smart': {
+        text: 'El plan Smart es el favorito de Lima 🌟 Previews ilimitados para probar todo tu clóset, 3 transformaciones mensuales (recojo incluido) y dashboard de impacto ambiental.\n\nS/. 49 al mes, cancelas cuando quieras. ¿Te convence?',
+        opts: ['Activar Smart', '¿Puedo cancelar?', 'Preguntas sobre garantías']
+      },
+      'plan pro': {
+        text: 'El plan Pro es para los que viven la moda circular al 100% 💎 Incluye transformaciones ilimitadas, matching prioritario con diseñadores top de Lima y un estilista IA dedicado.\n\nS/. 89 al mes. ¿Te gustaría activarlo?',
+        opts: ['Activar Pro', '¿Puedo cancelar?', 'Ver garantías']
+      },
+      'empezar gratis': {
+        text: '¡Excelente decisión! Empieza con el plan Free (S/. 0). Tienes 1 preview de IA gratis al mes para ver el potencial de tu ropa.\n\nSube tu foto en la sección de arriba para comenzar.',
+        opts: ['Quiero probarlo', 'Preguntar por recojo']
+      },
+      'activar smart': {
+        text: '¡Buenazo! Dale clic al botón "Activar plan Smart" en la sección de planes arriba para registrarte y empezar a transformar tu clóset.',
+        opts: ['¿Cómo es el recojo?', 'Preguntas sobre garantías']
+      },
+      'activar pro': {
+        text: '¡Perfecto! Sube en la sección de precios y dale clic a "Activar plan Pro". En unos minutos coordinaremos tu primera transformación.',
+        opts: ['¿Cómo es el recojo?', 'Preguntas sobre garantías']
+      },
+      '¿puedo cancelar?': {
+        text: '¡Claro que sí, cero amarras! Cancelas con un solo clic desde tu perfil cuando quieras, sin trabas ni cobros sorpresa.',
+        opts: ['Ver los planes', 'Quiero probarlo']
+      },
+      'recojo': {
+        text: '¡Cero estrés con eso! 🚚 Nosotros nos encargamos de todo. Recogemos tu prenda en la puerta de tu casa u oficina en Lima Metropolitana (Miraflores, San Isidro, Surco, San Borja, Lince, etc.) y te la devolvemos como nueva en 2 a 3 días.\n\nEl servicio de delivery express está incluido en los planes de suscripción.',
+        opts: ['¿Tiene garantía?', 'Agendar una llamada', 'Escribir por WhatsApp']
+      },
+      'garantía': {
+        text: '¡Tu ropa está segura con nosotros! 🛡️ Si no te gusta cómo quedó el resultado final, nuestro equipo de control de calidad lo revisa sin costo adicional. Además, todos los diseñadores de ClosetOS están súper verificados con portafolio y calificaciones de la comunidad.\n\n¿Quieres agendar una llamada con un estilista?',
+        opts: ['Agendar una llamada', 'Escribir por WhatsApp', 'Ver los planes']
+      },
+      'no me gusta': {
+        text: '¡No te preocupes! 🛡️ Contamos con Garantía de Ajuste ClosetOS. Si la prenda no queda exactamente como la propuesta de IA que confirmaste, el rediseñador la ajustará sin costo adicional hasta que estés 100% conforme.\n\n¿Quieres hablar con un asesor?',
+        opts: ['Escribir por WhatsApp', 'Agendar una llamada']
+      },
+      'agendar una llamada': {
+        text: '¡Listo! 📞 Deja tu número por aquí o haz clic para coordinar una llamada de 5 minutos con un estilista de nuestro equipo para despejar todas tus dudas.',
+        opts: ['Escribir por WhatsApp', 'Volver al inicio']
+      },
+      'whatsapp': {
+        text: '¡Chatea con nosotros al toque! 📱 Escríbenos al WhatsApp +51 987 654 321. Estamos en línea para ayudarte a cotizar o resolver cualquier duda sobre tu prenda.',
+        opts: ['Volver al inicio', 'Ver los planes']
+      },
+      'probarlo': {
+        text: '¡Buenazo! Sube tu foto en la sección de arriba ("AI Style Preview"). La IA procesará tu prenda y te mostrará 3 opciones urbanas increíbles en segundos. ¡Pruébalo!',
+        opts: ['¿Cómo funciona?', 'Preguntar por recojo']
+      },
+      'cómo funciona': {
+        text: 'El AI Style Preview usa IA generativa para simular cómo quedaría tu prenda:\n\n🤖 Analizamos material y corte\n✨ Generamos 3 propuestas visuales\n👀 Tú eliges antes de comprometerte\n\nEs ver el resultado antes de pagar.',
+        opts: ['¿Cuánto cuesta?', 'Quiero probarlo', 'Ver los planes']
+      },
+      'estilo casual': {
+        text: '¡Excelente elección! El estilo casual mantiene un look relajado pero arreglado, ideal para usarlo en la oficina o salir el fin de semana. ¿Te gustaría ver el preview gratis?',
+        opts: ['Sí, quiero el Preview gratis', 'Ver los planes']
+      },
+      'estilo urbano': {
+        text: '¡Buenazo! El estilo urbano tiene más actitud, parches, asimetría y ese toque street que destaca en Lima. ¿Probamos el preview gratis?',
+        opts: ['Sí, quiero el Preview gratis', 'Ver los planes']
+      },
+      'entrega': {
+        text: 'El delivery y recojo está 100% coordinado por nosotros en Lima Metropolitana. En planes de pago es gratis. ¿Quieres saber sobre las garantías?',
+        opts: ['Ver garantías', 'Escribir por WhatsApp']
+      },
+      'cuánto cuesta': {
+        text: 'El AI Preview es totalmente gratis 🎉\n\nLas transformaciones físicas van desde S/. 55 a S/. 110 según la complejidad de la prenda y el rediseñador.\n\nComparado con comprar algo nuevo de S/. 250–600+, el ahorro es gigante.',
+        opts: ['Ver los planes', 'Quiero probarlo']
+      },
+      'volver al inicio': {
+        text: '¡De vuelta al inicio! ¿En qué más puedo ayudarte hoy?',
+        opts: ['Quiero transformar una prenda', 'Preguntar por recojo', 'Ver los planes']
+      },
+      'default': {
+        text: 'Entiendo tu consulta 🙌 Para darte la mejor respuesta, te recomiendo probar el AI Preview gratis desde el formulario arriba, o elegir una de estas opciones para chatear conmigo:',
+        opts: ['Quiero transformar una prenda', 'Preguntar por recojo', 'Ver garantías', 'Escribir por WhatsApp']
+      }
     };
     let open = false;
     function toggleChat() { open = !open; document.getElementById('chatbox').classList.toggle('open', open); document.getElementById('chatTrigger').innerHTML = open ? '✕<div class="chat-status"></div>' : '💬<div class="chat-status"></div>'; }
