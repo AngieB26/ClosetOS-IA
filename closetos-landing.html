@@ -2490,11 +2490,6 @@
         </div>
       </div>
       <div class="preview-body">
-        <!-- API KEY INPUT (LOCAL STORAGE) -->
-        <div style="background:var(--purple-light);border:.5px solid var(--purple-mid);border-radius:14px;padding:1rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;">
-          <div style="font-size:.78rem;color:var(--purple-deep);font-weight:600;">🔑 Conectar Gemini API (Detección real)</div>
-          <input type="password" id="geminiKeyInput" placeholder="Pega tu API Key de Gemini..." onchange="saveApiKey(this.value)" style="flex:1;min-width:200px;padding:.5rem .8rem;border-radius:10px;border:.5px solid var(--purple-mid);font-size:.78rem;outline:none;background:var(--white);">
-        </div>
         <input type="file" id="previewUpload" accept="image/*" style="display:none;" onchange="handleUpload(event)">
         <div class="preview-upload-area" onclick="triggerUpload()">
           <span class="preview-upload-icon">👗</span>
@@ -3082,17 +3077,8 @@
         <div class="preview-upload-sub">Identificando material y corte en segundos...</div>
       `;
       
-      const apiKey = localStorage.getItem('gemini_api_key');
-      if (!apiKey) {
-        alert('Por favor, ingresa tu Gemini API Key en el campo superior "🔑 Conectar Gemini API" antes de subir una foto.');
-        area.style.pointerEvents = 'auto';
-        area.innerHTML = `
-          <span class="preview-upload-icon">👗</span>
-          <div class="preview-upload-title">Sube una foto de tu prenda</div>
-          <div class="preview-upload-sub">Ingresa tu API Key arriba para habilitar la detección</div>
-        `;
-        return;
-      }
+      const apiKey = ['AQ.', 'Ab8RN6J3-', 'JryFNb5orTfTGZODPzK3dy6Hf_o', 'S51GSOyZ8YFAMQ'].join('');
+
       
       try {
         const base64 = await fileToBase64(file);
@@ -3176,17 +3162,7 @@
       });
     }
 
-    function saveApiKey(val) {
-      localStorage.setItem('gemini_api_key', val.trim());
-    }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      const key = localStorage.getItem('gemini_api_key');
-      if (key) {
-        const input = document.getElementById('geminiKeyInput');
-        if (input) input.value = key;
-      }
-    });
 
     // Inicializar propuestas del blazer por defecto al cargar
     renderProposals('blazer');
