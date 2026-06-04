@@ -3010,36 +3010,67 @@
           
           // 3. Parches o detalles de personalización
           if (text.includes('parche') || text.includes('bordado') || text.includes('toque') || text.includes('distintivo') || (!text.includes('ribete') && !text.includes('botón') && !text.includes('vestido') && !text.includes('alargue'))) {
-            const patchX = canvas.width * 0.32;
-            const patchY = canvas.height * 0.32;
-            const patchRadius = Math.max(10, canvas.width * 0.045);
+            const isPants = text.includes('jeans') || text.includes('pantalón') || text.includes('pantalon') || text.includes('denim');
             
-            ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
-            ctx.shadowBlur = Math.max(4, canvas.width * 0.008);
-            ctx.shadowOffsetX = Math.max(1, canvas.width * 0.003);
-            ctx.shadowOffsetY = Math.max(2, canvas.width * 0.005);
-            
-            ctx.fillStyle = '#26215C';
-            ctx.beginPath();
-            ctx.arc(patchX, patchY, patchRadius, 0, 2 * Math.PI);
-            ctx.fill();
-            
-            ctx.shadowColor = 'transparent';
-            ctx.shadowBlur = 0;
-            ctx.shadowOffsetX = 0;
-            ctx.shadowOffsetY = 0;
-            
-            ctx.strokeStyle = '#9FE1CB';
-            ctx.lineWidth = Math.max(2, canvas.width * 0.006);
-            ctx.beginPath();
-            ctx.arc(patchX, patchY, patchRadius - (ctx.lineWidth / 2), 0, 2 * Math.PI);
-            ctx.stroke();
-            
-            ctx.fillStyle = '#9FE1CB';
-            ctx.font = `bold ${Math.max(10, canvas.width * 0.035)}px 'DM Sans', sans-serif`;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText('✨', patchX, patchY);
+            if (isPants) {
+              // Dibujar parches Sashiko en las rodillas/piernas
+              const drawSashikoPatch = (x, y, w, h) => {
+                ctx.fillStyle = '#26215C';
+                ctx.fillRect(x, y, w, h);
+                
+                ctx.strokeStyle = '#9FE1CB';
+                ctx.lineWidth = Math.max(1.5, canvas.width * 0.005);
+                ctx.setLineDash([4, 4]);
+                ctx.strokeRect(x, y, w, h);
+                ctx.setLineDash([]);
+                
+                ctx.strokeStyle = '#FFFFFF';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(x + w * 0.3, y + h * 0.3); ctx.lineTo(x + w * 0.7, y + h * 0.7);
+                ctx.moveTo(x + w * 0.7, y + h * 0.3); ctx.lineTo(x + w * 0.3, y + h * 0.7);
+                ctx.moveTo(x + w * 0.5, y + h * 0.2); ctx.lineTo(x + w * 0.5, y + h * 0.8);
+                ctx.moveTo(x + w * 0.2, y + h * 0.5); ctx.lineTo(x + w * 0.8, y + h * 0.5);
+                ctx.stroke();
+              };
+              
+              const patchW = canvas.width * 0.14;
+              const patchH = canvas.height * 0.1;
+              drawSashikoPatch(canvas.width * 0.3, canvas.height * 0.62, patchW, patchH);
+              drawSashikoPatch(canvas.width * 0.56, canvas.height * 0.62, patchW, patchH);
+            } else {
+              // Dibujar parche circular en el pecho
+              const patchX = canvas.width * 0.32;
+              const patchY = canvas.height * 0.32;
+              const patchRadius = Math.max(10, canvas.width * 0.045);
+              
+              ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+              ctx.shadowBlur = Math.max(4, canvas.width * 0.008);
+              ctx.shadowOffsetX = Math.max(1, canvas.width * 0.003);
+              ctx.shadowOffsetY = Math.max(2, canvas.width * 0.005);
+              
+              ctx.fillStyle = '#26215C';
+              ctx.beginPath();
+              ctx.arc(patchX, patchY, patchRadius, 0, 2 * Math.PI);
+              ctx.fill();
+              
+              ctx.shadowColor = 'transparent';
+              ctx.shadowBlur = 0;
+              ctx.shadowOffsetX = 0;
+              ctx.shadowOffsetY = 0;
+              
+              ctx.strokeStyle = '#9FE1CB';
+              ctx.lineWidth = Math.max(2, canvas.width * 0.006);
+              ctx.beginPath();
+              ctx.arc(patchX, patchY, patchRadius - (ctx.lineWidth / 2), 0, 2 * Math.PI);
+              ctx.stroke();
+              
+              ctx.fillStyle = '#9FE1CB';
+              ctx.font = `bold ${Math.max(10, canvas.width * 0.035)}px 'DM Sans', sans-serif`;
+              ctx.textAlign = 'center';
+              ctx.textBaseline = 'middle';
+              ctx.fillText('✨', patchX, patchY);
+            }
           }
           
           // 4. Vestido o alargue largo
@@ -3125,7 +3156,7 @@
             contents: [
               {
                 parts: [
-                  { text: "Analyze this garment image. Identify the garment type (e.g., shirt, dress, jacket, pants) and return a JSON object with: 1) 'detectedGarment': { 'name': 'Garment name in Spanish (e.g. Jeans denim clásico)', 'detail': 'Short material details in Spanish (e.g. Algodón premium · Usado)' }, 2) 'proposals': an array of exactly 3 redesign proposals in Spanish. Each proposal must have: 'label' (short title, e.g. Crop estructurado), 'price' (format S/. XX, between 60 and 120), 'name' (descriptive name), 'detail' (2-3 tags separated by middots, e.g. Costuras vistas · Estilo urbano), and 'transformationType' (one of: 'crop', 'slim', 'custom'). Keep values in Spanish. Return ONLY the JSON object." },
+                  { text: "Analyze this garment image. Identify the garment type (e.g., shirt, dress, jacket, pants) and return a JSON object with: 1) 'detectedGarment': { 'name': 'Garment name in Spanish (e.g. Jeans denim clásico)', 'detail': 'Short material details in Spanish (e.g. Algodón premium · Usado)' }, 2) 'proposals': an array of exactly 3 redesign proposals in Spanish that are highly specific and realistic for this type of garment (e.g., if it's pants, propose turning them into shorts or adding Sashiko patches; if it's a shirt, propose a crop or mandarin collar; if it's a jacket/cardigan, propose custom embroidery or design buttons). Each proposal must have: 'label' (short title, e.g. Crop estructurado), 'price' (format S/. XX, between 60 and 120), 'name' (descriptive name), 'detail' (2-3 tags separated by middots, e.g. Costuras vistas · Estilo urbano), and 'transformationType' (one of: 'crop', 'slim', 'custom'). Keep values in Spanish. Return ONLY the JSON object." },
                   {
                     inlineData: {
                       mimeType: file.type,
