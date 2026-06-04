@@ -3084,13 +3084,88 @@
       }
     };
     let open = false;
-    function toggleChat() { open = !open; document.getElementById('chatbox').classList.toggle('open', open); document.getElementById('chatTrigger').innerHTML = open ? '✕<div class="chat-status"></div>' : '💬<div class="chat-status"></div>'; }
+    function playChatSound(type) {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        if (ctx.state === 'suspended') ctx.resume();
+        
+        if (type === 'open') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(350, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(700, ctx.currentTime + 0.15);
+          gain.gain.setValueAtTime(0.05, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
+          osc.start(); osc.stop(ctx.currentTime + 0.15);
+        } else if (type === 'send') {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.connect(gain); gain.connect(ctx.destination);
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(450, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + 0.08);
+          gain.gain.setValueAtTime(0.08, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
+          osc.start(); osc.stop(ctx.currentTime + 0.08);
+        } else if (type === 'receive') {
+          const osc1 = ctx.createOscillator();
+          const gain1 = ctx.createGain();
+          osc1.connect(gain1); gain1.connect(ctx.destination);
+          osc1.type = 'triangle';
+          osc1.frequency.setValueAtTime(550, ctx.currentTime);
+          gain1.gain.setValueAtTime(0.05, ctx.currentTime);
+          gain1.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.1);
+          osc1.start(); osc1.stop(ctx.currentTime + 0.1);
+          
+          setTimeout(() => {
+            try {
+              const ctx2 = new (window.AudioContext || window.webkitAudioContext)();
+              const osc2 = ctx2.createOscillator();
+              const gain2 = ctx2.createGain();
+              osc2.connect(gain2); gain2.connect(ctx2.destination);
+              osc2.type = 'triangle';
+              osc2.frequency.setValueAtTime(800, ctx2.currentTime);
+              gain2.gain.setValueAtTime(0.06, ctx2.currentTime);
+              gain2.gain.exponentialRampToValueAtTime(0.001, ctx2.currentTime + 0.15);
+              osc2.start(); osc2.stop(ctx2.currentTime + 0.15);
+            } catch (e) {}
+          }, 65);
+        }
+      } catch (e) {
+        console.warn("AudioContext error/blocked:", e);
+      }
+    }
+    function toggleChat() { 
+      open = !open; 
+      document.getElementById('chatbox').classList.toggle('open', open); 
+      document.getElementById('chatTrigger').innerHTML = open ? '✕<div class="chat-status"></div>' : '💬<div class="chat-status"></div>'; 
+      if (open) playChatSound('open');
+    }
     function sendOpt(btn, text) { const o = btn.closest('.chat-opts'); if (o) o.remove(); addUser(text); setTimeout(showTyping, 350); setTimeout(() => { removeTyping(); addBot(getR(text)); }, 1300); }
     function sendMsg() { const el = document.getElementById('chatInp'); const t = el.value.trim(); if (!t) return; el.value = ''; addUser(t); setTimeout(showTyping, 350); setTimeout(() => { removeTyping(); addBot(getR(t)); }, 1300); }
     function getR(t) { const k = t.toLowerCase(); for (const key in R) { if (k.includes(key)) return R[key]; } return R['default']; }
     function now() { return new Date().toLocaleTimeString('es', { hour: '2-digit', minute: '2-digit' }); }
-    function addUser(t) { const m = document.getElementById('chatMsgs'); const d = document.createElement('div'); d.className = 'msg msg-user'; d.innerHTML = `<div class="msg-bubble">${t}</div><div class="msg-time">${now()}</div>`; m.appendChild(d); m.scrollTop = m.scrollHeight; }
-    function addBot(r) { const m = document.getElementById('chatMsgs'); const opts = (r.opts || []).map(o => `<button class="chat-opt" onclick="sendOpt(this,'${o}')">${o}</button>`).join(''); const d = document.createElement('div'); d.className = 'msg msg-bot'; d.innerHTML = `<div class="msg-bubble">${r.text.replace(/\n/g, '<br>')}</div><div class="msg-time">${now()}</div>${opts ? `<div class="chat-opts">${opts}</div>` : ''}`; m.appendChild(d); m.scrollTop = m.scrollHeight; }
+    function addUser(t) { 
+      playChatSound('send');
+      const m = document.getElementById('chatMsgs'); 
+      const d = document.createElement('div'); 
+      d.className = 'msg msg-user'; 
+      d.innerHTML = `<div class="msg-bubble">${t}</div><div class="msg-time">${now()}</div>`; 
+      m.appendChild(d); 
+      m.scrollTop = m.scrollHeight; 
+    }
+    function addBot(r) { 
+      playChatSound('receive');
+      const m = document.getElementById('chatMsgs'); 
+      const opts = (r.opts || []).map(o => `<button class="chat-opt" onclick="sendOpt(this,'${o}')">${o}</button>`).join(''); 
+      const d = document.createElement('div'); 
+      d.className = 'msg msg-bot'; 
+      d.innerHTML = `<div class="msg-bubble">${r.text.replace(/\n/g, '<br>')}</div><div class="msg-time">${now()}</div>${opts ? `<div class="chat-opts">${opts}</div>` : ''}`; 
+      m.appendChild(d); 
+      m.scrollTop = m.scrollHeight; 
+    }
     function showTyping() { const m = document.getElementById('chatMsgs'); const d = document.createElement('div'); d.id = 'typing'; d.className = 'typing'; d.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>'; m.appendChild(d); m.scrollTop = m.scrollHeight; }
     function removeTyping() { const t = document.getElementById('typing'); if (t) t.remove(); }
     let uploadedImgURL = null;
